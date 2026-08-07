@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ladder — sportbike lineups, ranked</title>
+<meta name="description" content="Every sportbike lineup on sale in Europe in 2026, ranked rung by rung — by power, acceleration, top speed, weight and power to weight.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/components.css">
+<link rel="stylesheet" href="styles/responsive.css">
+</head>
+<body>
+
+<div class="kerb" aria-hidden="true"></div>
+
+<!-- ===================== PICKER ===================== -->
+<div id="pickerView">
+  <header>
+    <div class="head-inner">
+      <p class="eyebrow">Sportbike lineups &middot; 2026 &middot; EU market</p>
+      <h1 class="display">The <em>Ladder</em></h1>
+      <p class="lede">Every manufacturer sells a staircase: a learner bike at the bottom, a superbike at the top, and a set of compromises in between. <strong>Pick a brand to see how its rungs are spaced</strong> — and which ones your licence actually reaches.</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Six manufacturers</p>
+        <h2 class="display">Choose a lineup</h2>
+      </div>
+      <div class="brands" id="brandGrid"></div>
+      <div class="brands" style="margin-top:26px">
+        <div class="cmp-tile" role="button" tabindex="0" data-cmp="1">
+          <span class="stripe"></span>
+          <span class="inner">
+            <h3>Compare</h3>
+            <span class="sub">Put every model from all six brands on one ladder, or pick the handful you actually care about. Filter by licence class, sort by any metric.</span>
+            <span class="go">Open the comparison &rarr;</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="notes">
+    <div class="wrap">
+      <p class="eyebrow" style="color:#8D96A2">Before you use the numbers</p>
+      <h2 class="display">How to read this</h2>
+      <div class="grid">
+        <div>
+          <h4>Power is at the crank</h4>
+          <p>Every figure is the manufacturer's claimed output measured at the crankshaft. Expect roughly 10&ndash;15% less at the rear wheel once the gearbox and chain have taken their cut.</p>
+        </div>
+        <div>
+          <h4>Acceleration is approximate</h4>
+          <p>0&ndash;100 km/h times are converted from published 0&ndash;60 mph tests or estimated from power-to-weight. Treat them as a ranking, not a stopwatch. Small-capacity figures are the least reliable of all.</p>
+        </div>
+        <div>
+          <h4>Licence classes are European</h4>
+          <p>A1 covers 125cc and 11 kW. A2 caps at 35 kW with a power-to-weight limit, which is why several mid-size bikes are sold in a restricted version. A is unrestricted.</p>
+        </div>
+        <div>
+          <h4>Availability shifts by market</h4>
+          <p>Euro 5+ has pushed several inline-fours off European roads while they continue elsewhere. Where a bike is track-only or no longer sold new in Europe, it is marked as such.</p>
+        </div>
+      </div>
+      <footer>Compiled August 2026 &middot; figures are manufacturer claims unless noted</footer>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== BRAND ===================== -->
+<div id="brandView" class="hidden">
+  <header>
+    <div class="head-inner">
+      <button class="back" id="backBtn">&larr; All brands</button>
+      <p class="eyebrow" id="bEyebrow"></p>
+      <h1 class="display" id="bTitle"></h1>
+      <p class="lede" id="bLede"></p>
+    </div>
+  </header>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">The ladder</p>
+        <h2 class="display">Rank them yourself</h2>
+        <p class="sec-note" id="metricNote"></p>
+      </div>
+      <div class="metrics" role="group" aria-label="Choose a metric">
+        <button class="metric" data-m="power" aria-pressed="true">Power</button>
+        <button class="metric" data-m="accel" aria-pressed="false">0&ndash;100 km/h</button>
+        <button class="metric" data-m="top" aria-pressed="false">Top speed</button>
+        <button class="metric" data-m="weight" aria-pressed="false">Weight</button>
+        <button class="metric" data-m="ptw" aria-pressed="false">PS per kg</button>
+      </div>
+      <div class="ladder" id="ladder"></div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">The lineup</p>
+        <h2 class="display">What each one is for</h2>
+      </div>
+      <div class="cards" id="cards"></div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Everything at once</p>
+        <h2 class="display">Full spec sheet</h2>
+      </div>
+      <div class="scroller">
+        <table>
+          <thead><tr>
+            <th>Model</th><th>Engine</th><th>Power</th><th>Torque</th><th>Wet</th>
+            <th>PS/kg</th><th>0&ndash;100</th><th>Top</th><th>Seat</th><th>Licence</th>
+          </tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="notes">
+    <div class="wrap">
+      <p class="eyebrow" style="color:#8D96A2">Worth knowing</p>
+      <h2 class="display">Caveats</h2>
+      <div class="grid" id="bNotes"></div>
+      <footer>Compiled August 2026 &middot; EU specifications &middot; figures are manufacturer claims unless noted</footer>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== COMPARE ===================== -->
+<div id="cmpView" class="hidden">
+  <header>
+    <div class="head-inner">
+      <button class="back" id="cmpBack">&larr; All brands</button>
+      <p class="eyebrow">Cross-brand &middot; 2026 &middot; EU market</p>
+      <h1 class="display">Compare</h1>
+      <p class="lede">Every sport model from all six manufacturers on a single ladder. Untick anything you do not want to see, or use a licence filter to show only what you can legally ride.</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Step one</p>
+        <h2 class="display">Choose your bikes</h2>
+      </div>
+      <div class="quick">
+        <button class="qbtn" data-q="all">Select all</button>
+        <button class="qbtn" data-q="none">Clear</button>
+        <button class="qbtn" data-q="A1">A1 only</button>
+        <button class="qbtn" data-q="A2">A2-legal</button>
+        <button class="qbtn" data-q="road">Road legal</button>
+        <button class="qbtn" data-q="track">Track only</button>
+      </div>
+      <div class="picker-grid" id="pickerGrid"></div>
+
+      <div class="sec-head" style="margin-top:44px">
+        <p class="eyebrow">Step two</p>
+        <h2 class="display">Rank them</h2>
+        <p class="sec-note" id="cmpNote"></p>
+      </div>
+      <div class="metrics" role="group" aria-label="Choose a metric">
+        <button class="metric cm" data-m="power" aria-pressed="true">Power</button>
+        <button class="metric cm" data-m="accel" aria-pressed="false">0&ndash;100 km/h</button>
+        <button class="metric cm" data-m="top" aria-pressed="false">Top speed</button>
+        <button class="metric cm" data-m="weight" aria-pressed="false">Weight</button>
+        <button class="metric cm" data-m="ptw" aria-pressed="false">PS per kg</button>
+      </div>
+      <p class="count" id="cmpCount"></p>
+      <div class="ladder" id="cmpLadder"></div>
+      <div class="empty hidden" id="cmpEmpty">Nothing selected &mdash; tick a few bikes above to build the ladder.</div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Side by side</p>
+        <h2 class="display">Spec sheet</h2>
+      </div>
+      <div class="scroller">
+        <table>
+          <thead><tr>
+            <th>Model</th><th>Brand</th><th>Engine</th><th>Power</th><th>Torque</th><th>Wet</th>
+            <th>PS/kg</th><th>0&ndash;100</th><th>Top</th><th>Seat</th><th>Licence</th>
+          </tr></thead>
+          <tbody id="cmpBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="notes">
+    <div class="wrap">
+      <p class="eyebrow" style="color:#8D96A2">Reading a cross-brand ladder</p>
+      <h2 class="display">Caveats</h2>
+      <div class="grid">
+        <div><h4>Bars are coloured by brand</h4><p>Length shows the value, colour shows the manufacturer. Sorting by power to weight is usually the most revealing view — it clusters bikes that feel similar regardless of capacity.</p></div>
+        <div><h4>Same claims, different labs</h4><p>Every manufacturer measures crank power to the same standard, but wet weight definitions vary slightly in how much fuel is included. Differences under about 3 kg are noise.</p></div>
+        <div><h4>Track-only bikes distort everything</h4><p>The H2R, R1 and R6 Race are not road machines in Europe. Use the road-legal filter if you want a ladder you could actually buy and ride here.</p></div>
+        <div><h4>Sport-tourers are excluded</h4><p>Models like the Ninja 1100SX and H2 SX share engines with bikes listed here but are built for distance rather than lap times, so they are outside the scope of this comparison.</p></div>
+      </div>
+      <footer>Compiled August 2026 &middot; EU specifications &middot; figures are manufacturer claims unless noted</footer>
+    </div>
+  </div>
+</div>
+
+<script src="scripts/data.js"></script>
+<script src="scripts/metrics.js"></script>
+<script src="scripts/ladder.js"></script>
+<script src="scripts/brand-view.js"></script>
+<script src="scripts/compare-view.js"></script>
+<script src="scripts/app.js"></script>
+</body>
+</html>
