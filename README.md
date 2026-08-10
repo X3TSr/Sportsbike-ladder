@@ -37,10 +37,24 @@ Sorting all 102 at once is mostly a novelty — a Gold Wing and a Panigale V4 R 
 a ladder because they are both motorcycles, not because the comparison means
 anything. The category filter is where the useful comparisons live.
 
+## Model photos
+
+Photos are convention over configuration — drop a file at `images/<brand>/<id>.jpg`
+and it appears on that model's card. Nothing else to change. `images/MANIFEST.txt`
+lists the expected path for all 102 models, and `images/README.md` covers formats,
+licensing and sources.
+
+**The folder ships empty.** Official press photos could not be fetched (the build
+environment blocks all outbound network access) and they are copyrighted in any case,
+so bundling them is a licensing decision for whoever owns this project. A missing file
+is not an error: the card drops the `<img>` and shows a kerb-patterned placeholder
+carrying the brand and engine, so the layout is intact at zero, some, or all photos.
+
 ## Layout
 
 ```
 index.html              markup for all three views
+images/                 model photos, by brand — empty, see images/README.md
 styles/
   base.css              design tokens, reset, header, notes, footer
   components.css        chips, brand tiles, ladder, cards, spec table, compare picker

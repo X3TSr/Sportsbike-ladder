@@ -38,6 +38,17 @@ h1 em{font-style:normal;color:var(--accent);transition:color .4s}
 .lede{max-width:58ch;margin-top:20px;font-size:17px;color:var(--ink-soft)}
 .lede strong{color:var(--ink);font-weight:600}
 
+/* ---- logo ---- */
+.masthead{margin-bottom:22px}
+.mark{width:42px;height:42px;display:block;color:var(--ink)}
+.home{display:inline-flex;align-items:center;gap:11px;background:none;border:0;padding:0;
+  cursor:pointer;color:var(--ink)}
+.home .mark{width:28px;height:28px}
+.home .wordmark{font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 112,"wght" 900;
+  text-transform:uppercase;font-size:18px;letter-spacing:-.01em;line-height:1}
+.home:hover .wordmark{text-decoration:underline;text-underline-offset:3px}
+.home:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+
 .back{display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;
   font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink-soft);text-decoration:none;

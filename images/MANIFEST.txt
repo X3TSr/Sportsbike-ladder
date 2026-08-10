@@ -1,0 +1,102 @@
+images/yamaha/r125-0.jpg                      # Yamaha R125
+images/yamaha/r3-1.jpg                        # Yamaha R3
+images/yamaha/r7-2.jpg                        # Yamaha R7
+images/yamaha/r9-3.jpg                        # Yamaha R9
+images/yamaha/r6-race-4.jpg                   # Yamaha R6 Race
+images/yamaha/r1-5.jpg                        # Yamaha R1
+images/yamaha/mt-125-6.jpg                    # Yamaha MT-125
+images/yamaha/mt-03-7.jpg                     # Yamaha MT-03
+images/yamaha/mt-07-8.jpg                     # Yamaha MT-07
+images/yamaha/mt-09-9.jpg                     # Yamaha MT-09
+images/yamaha/mt-10-10.jpg                    # Yamaha MT-10
+images/yamaha/tracer-7-11.jpg                 # Yamaha Tracer 7
+images/yamaha/tracer-9-12.jpg                 # Yamaha Tracer 9
+images/yamaha/t-n-r-700-13.jpg                # Yamaha Ténéré 700
+images/yamaha/xsr125-14.jpg                   # Yamaha XSR125
+images/yamaha/xsr700-15.jpg                   # Yamaha XSR700
+images/yamaha/xsr900-16.jpg                   # Yamaha XSR900
+images/yamaha/xsr900-gp-17.jpg                # Yamaha XSR900 GP
+images/kawasaki/ninja-125-0.jpg               # Kawasaki Ninja 125
+images/kawasaki/ninja-500-1.jpg               # Kawasaki Ninja 500
+images/kawasaki/ninja-650-2.jpg               # Kawasaki Ninja 650
+images/kawasaki/zx-4rr-3.jpg                  # Kawasaki ZX-4RR
+images/kawasaki/zx-6r-4.jpg                   # Kawasaki ZX-6R
+images/kawasaki/zx-10r-5.jpg                  # Kawasaki ZX-10R
+images/kawasaki/ninja-h2-6.jpg                # Kawasaki Ninja H2
+images/kawasaki/ninja-h2r-7.jpg               # Kawasaki Ninja H2R
+images/kawasaki/z125-8.jpg                    # Kawasaki Z125
+images/kawasaki/z500-9.jpg                    # Kawasaki Z500
+images/kawasaki/z650-10.jpg                   # Kawasaki Z650
+images/kawasaki/z900-11.jpg                   # Kawasaki Z900
+images/kawasaki/z-h2-12.jpg                   # Kawasaki Z H2
+images/kawasaki/ninja-1100sx-13.jpg           # Kawasaki Ninja 1100SX
+images/kawasaki/ninja-h2-sx-14.jpg            # Kawasaki Ninja H2 SX
+images/kawasaki/versys-x-300-15.jpg           # Kawasaki Versys-X 300
+images/kawasaki/versys-650-16.jpg             # Kawasaki Versys 650
+images/kawasaki/versys-1100-17.jpg            # Kawasaki Versys 1100
+images/kawasaki/eliminator-500-18.jpg         # Kawasaki Eliminator 500
+images/kawasaki/vulcan-s-19.jpg               # Kawasaki Vulcan S
+images/kawasaki/w230-20.jpg                   # Kawasaki W230
+images/kawasaki/meguro-s1-21.jpg              # Kawasaki Meguro S1
+images/kawasaki/z650rs-22.jpg                 # Kawasaki Z650RS
+images/kawasaki/z900rs-23.jpg                 # Kawasaki Z900RS
+images/kawasaki/w800-24.jpg                   # Kawasaki W800
+images/honda/cbr500r-0.jpg                    # Honda CBR500R
+images/honda/cbr650r-1.jpg                    # Honda CBR650R
+images/honda/cbr600rr-2.jpg                   # Honda CBR600RR
+images/honda/cbr1000rr-r-fireblade-3.jpg      # Honda CBR1000RR-R Fireblade
+images/honda/cb125r-4.jpg                     # Honda CB125R
+images/honda/cb500-hornet-5.jpg               # Honda CB500 Hornet
+images/honda/cb650r-6.jpg                     # Honda CB650R
+images/honda/cb750-hornet-7.jpg               # Honda CB750 Hornet
+images/honda/cb1000-hornet-8.jpg              # Honda CB1000 Hornet
+images/honda/cb1000gt-9.jpg                   # Honda CB1000GT
+images/honda/nt1100-10.jpg                    # Honda NT1100
+images/honda/gold-wing-11.jpg                 # Honda Gold Wing
+images/honda/nx500-12.jpg                     # Honda NX500
+images/honda/xl750-transalp-13.jpg            # Honda XL750 Transalp
+images/honda/nc750x-14.jpg                    # Honda NC750X
+images/honda/crf1100l-africa-twin-15.jpg      # Honda CRF1100L Africa Twin
+images/honda/cmx500-rebel-16.jpg              # Honda CMX500 Rebel
+images/honda/cmx1100-rebel-17.jpg             # Honda CMX1100 Rebel
+images/honda/cb1000f-18.jpg                   # Honda CB1000F
+images/honda/cl500-19.jpg                     # Honda CL500
+images/aprilia/rs-125-0.jpg                   # Aprilia RS 125
+images/aprilia/rs-457-1.jpg                   # Aprilia RS 457
+images/aprilia/rs-660-2.jpg                   # Aprilia RS 660
+images/aprilia/rsv4-3.jpg                     # Aprilia RSV4
+images/aprilia/tuono-125-4.jpg                # Aprilia Tuono 125
+images/aprilia/tuono-457-5.jpg                # Aprilia Tuono 457
+images/aprilia/tuono-660-6.jpg                # Aprilia Tuono 660
+images/aprilia/tuono-v4-7.jpg                 # Aprilia Tuono V4
+images/aprilia/tuareg-660-8.jpg               # Aprilia Tuareg 660
+images/ducati/panigale-v2-0.jpg               # Ducati Panigale V2
+images/ducati/panigale-v4-1.jpg               # Ducati Panigale V4
+images/ducati/panigale-v4-r-2.jpg             # Ducati Panigale V4 R
+images/ducati/superleggera-v4-3.jpg           # Ducati Superleggera V4
+images/ducati/monster-4.jpg                   # Ducati Monster
+images/ducati/streetfighter-v2-5.jpg          # Ducati Streetfighter V2
+images/ducati/streetfighter-v4-6.jpg          # Ducati Streetfighter V4
+images/ducati/hypermotard-v2-7.jpg            # Ducati Hypermotard V2
+images/ducati/multistrada-v2-8.jpg            # Ducati Multistrada V2
+images/ducati/multistrada-v4-9.jpg            # Ducati Multistrada V4
+images/ducati/desertx-10.jpg                  # Ducati DesertX
+images/ducati/diavel-v4-11.jpg                # Ducati Diavel V4
+images/ducati/xdiavel-v4-12.jpg               # Ducati XDiavel V4
+images/ducati/scrambler-800-13.jpg            # Ducati Scrambler 800
+images/suzuki/gsx-r125-0.jpg                  # Suzuki GSX-R125
+images/suzuki/gsx-8r-1.jpg                    # Suzuki GSX-8R
+images/suzuki/gsx-r1000r-2.jpg                # Suzuki GSX-R1000R
+images/suzuki/hayabusa-3.jpg                  # Suzuki Hayabusa
+images/suzuki/gsx-s125-4.jpg                  # Suzuki GSX-S125
+images/suzuki/sv650-5.jpg                     # Suzuki SV650
+images/suzuki/gsx-8s-6.jpg                    # Suzuki GSX-8S
+images/suzuki/gsx-s1000-7.jpg                 # Suzuki GSX-S1000
+images/suzuki/katana-8.jpg                    # Suzuki Katana
+images/suzuki/gsx-s1000gt-9.jpg               # Suzuki GSX-S1000GT
+images/suzuki/gsx-s1000gx-10.jpg              # Suzuki GSX-S1000GX
+images/suzuki/sv-7gx-11.jpg                   # Suzuki SV-7GX
+images/suzuki/v-strom-800-12.jpg              # Suzuki V-Strom 800
+images/suzuki/v-strom-1050-13.jpg             # Suzuki V-Strom 1050
+images/suzuki/gsx-8t-14.jpg                   # Suzuki GSX-8T
+images/suzuki/sv650x-15.jpg                   # Suzuki SV650X

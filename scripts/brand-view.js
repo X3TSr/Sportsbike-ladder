@@ -113,6 +113,15 @@
   function renderCards(bikes){
     document.getElementById("cards").innerHTML = bikes.map(function(bike){
       return '<article class="card" id="' + bike.id + '">' +
+        /* The caption is the no-photo state, so it carries the brand and engine
+           rather than repeating the model name printed directly beneath it. */
+        '<figure class="shot">' +
+          '<figcaption><span class="shot-name">' + current.name + '</span>' +
+            '<span class="shot-meta">' + bike.es + ' &middot; ' +
+            SBL.CATEGORIES[bike.cat].name + '</span></figcaption>' +
+          '<img src="' + SBL.imageFor(bike) + '" loading="lazy" decoding="async"' +
+            ' alt="' + current.name + ' ' + bike.n + '">' +
+        '</figure>' +
         '<div class="card-top">' +
           '<h3>' + bike.n + '</h3>' +
           '<span class="lic ' + (SBL.isTrackOnly(bike) ? "track-only" : "") + '">' + bike.l + '</span>' +
@@ -132,6 +141,16 @@
         '<p class="verdict">' + bike.v + '</p>' +
       '</article>';
     }).join("");
+
+    /* No photo on disk yet? Drop the <img> so the patterned caption behind it
+       shows through, rather than leaving a broken-image icon in the card.
+       The complete/naturalWidth check catches images that already failed
+       before this listener was attached; the listener catches the lazy ones
+       that have not tried to load yet. */
+    document.querySelectorAll("#cards .shot img").forEach(function(img){
+      img.addEventListener("error", function(){ img.remove() });
+      if(img.complete && img.naturalWidth === 0) img.remove();
+    });
   }
 
   /* Wraps a spec-sheet cell when the figure is derived rather than published. */
