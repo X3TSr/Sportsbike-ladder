@@ -1,0 +1,83 @@
+SBL.registerBrand("yamaha", {
+name:"Yamaha", series:"Full range", accent:"#1039A8",
+lede:"The most complete staircase in motorcycling, and the only one where every rung shares the same design language. Two of the six R models no longer reach European roads, but the CP2 and CP3 engines underneath the rest turn up in four different categories.",
+bikes:[
+
+/* ---------------- SPORT ---------------- */
+{n:"R125",cat:"sport",e:"125cc single, VVA",es:"125 single",p:15,t:11.5,w:141,a:11,ts:135,s:820,l:"A1",est:"a,ts",
+ r:"<b>The entry point, built like the rest.</b> Deltabox frame, 41 mm KYB upside-down forks, traction control, slipper clutch and a quickshifter-ready harness — none of which is normal at 125cc.",
+ v:"Capped at 11 kW by licence law rather than engineering. <span>It runs on momentum and gearbox work</span>, which is why it teaches corner speed better than anything above it."},
+{n:"R3",cat:"sport",e:"321cc parallel-twin",es:"321 twin",p:42,t:30,w:169,a:5.4,ts:180,s:780,l:"A2",est:"a,ts",
+ r:"<b>The natural next step.</b> Same R-series ergonomics and styling as its bigger siblings, with a 780 mm seat and near 50/50 weight balance that make it forgiving to learn on.",
+ v:"Three times the power of the R125 for a modest step in price. <span>The obvious first A2 bike</span> — more speed without changing how the machine behaves."},
+{n:"R7",cat:"sport",e:"689cc CP2 parallel-twin",es:"689 CP2",p:73,t:67,w:188,a:3.5,ts:224,s:835,l:"A / A2 kit",est:"a,ts",
+ r:"<b>The one you can actually use.</b> MT-07 engine, sportbike chassis, fully adjustable KYB forks and Brembo master cylinders. Extensively updated for 2026 with sharper geometry and new electronics.",
+ v:"Strong pull from 3,000 rpm means you are rarely in the wrong gear. <span>The most sensible fast bike Yamaha makes</span>, and one an A2 licence can grow into."},
+{n:"R9",cat:"sport",e:"890cc CP3 inline-triple",es:"890 I3",p:119,t:93,w:195,a:3.1,ts:260,s:831,l:"A",est:"a,ts",
+ r:"<b>The new middle.</b> The MT-09 triple in a dedicated supersport chassis with launch control, slide control, adjustable wheelie control and cornering ABS.",
+ v:"Gearing about 5% shorter than the MT-09 puts the engine in its strongest band exactly where road riding happens. <span>Fast without literbike consequences.</span>"},
+{n:"R6 Race",cat:"sport",e:"599cc inline-four",es:"599 I4",p:118,t:62,w:190,a:3.5,ts:257,s:850,l:"Track only",est:"a,ts",
+ x:"R6 GYTR available as a full factory race kit",
+ r:"<b>The purist's choice.</b> A 14,500 rpm inline-four sold with no lights and no registration, kept alive for club racers after emissions ended its road career.",
+ v:"Almost nothing happens below 8,000 rpm. <span>Brilliant on a circuit, miserable in traffic</span> — which is why it stopped pretending otherwise."},
+{n:"R1",cat:"sport",e:"998cc CP4 inline-four",es:"998 I4",p:200,t:113,w:203,a:3.1,ts:299,s:855,l:"Track only (EU)",est:"a,ts",
+ x:"Also sold as R1M with Öhlins electronic suspension and carbon bodywork",
+ r:"<b>The flagship.</b> MotoGP-derived crossplane crank, six-axis IMU, carbon winglets. Euro 5+ pushed it off European roads, so here it is a circuit machine that happens to have a headlight.",
+ v:"The crossplane torque pulses reward precise throttle inputs and punish sloppy ones. <span>Not a step up from an R7 — a different animal.</span>"},
+
+/* ---------------- NAKED ---------------- */
+{n:"MT-125",cat:"naked",e:"125cc single, VVA",es:"125 single",p:15,t:11.5,w:142,a:11.2,ts:125,s:810,l:"A1",est:"a,ts",
+ r:"<b>The R125 with the fairing removed and the bars raised.</b> Same engine, frame and forks, a more upright reach to the bars, and the aggressive nose that scales the MT look down to learner size.",
+ v:"Marginally slower than the R125 on top speed because it pushes more air. <span>Easier to live with in every other respect</span>, and the better first bike for most people."},
+{n:"MT-03",cat:"naked",e:"321cc parallel-twin",es:"321 twin",p:42,t:29.6,w:169,a:5.5,ts:180,s:780,l:"A2",est:"a,ts",
+ r:"<b>The A2 naked with the low seat.</b> R3 running gear under naked bodywork, with 37 mm upside-down forks and a 780 mm seat that suits shorter riders better than almost anything in the class.",
+ v:"Revvy rather than torquey — it wants to be worked. <span>A2 riders after low-speed shove should look at the MT-07 instead</span>, but this is the friendlier machine in town."},
+{n:"MT-07",cat:"naked",e:"689cc CP2 parallel-twin",es:"689 CP2",p:73.4,t:67,w:184,a:3.6,ts:215,s:805,l:"A / A2 kit",est:"a,ts",
+ r:"<b>Europe's best-selling naked, and not by accident.</b> The 270° CP2 twin, a light steel frame and a price that undercuts nearly every rival. Refined switchgear and a new colour for 2026.",
+ v:"The whole lineup's centre of gravity — this engine also powers the R7, XSR700 and Tracer 7. <span>The default answer for a first big bike</span>, and an A2 kit makes it legal earlier."},
+{n:"MT-09",cat:"naked",e:"890cc CP3 inline-triple",es:"890 I3",p:119,t:93,w:193,a:3.2,ts:230,s:825,l:"A",est:"a,ts",
+ x:"MT-09 SP adds Öhlins rear shock, Brembo Stylema calipers and cruise control; Y-AMT automated gearbox optional",
+ r:"<b>The triple that defines the middle of the range.</b> 890cc CP3, six-axis IMU, three-mode traction control and a back-torque limiter, in a bike that weighs 193 kg with fuel.",
+ v:"More power than an R7 and 5 kg lighter, for less money. <span>The most bike-per-euro Yamaha sells</span> — the R9 costs more and does less on the road."},
+{n:"MT-10",cat:"naked",e:"998cc CP4 inline-four",es:"998 I4",p:166,t:112,w:212,a:3,ts:250,s:835,l:"A",est:"a,ts",
+ x:"MT-10 SP adds Öhlins semi-active suspension and a race-pattern quickshifter",
+ r:"<b>The R1 engine in a streetfighter.</b> The crossplane CP4 detuned for midrange, an aluminium Deltabox frame, and enough electronics to keep 166 PS pointed the right way.",
+ v:"Confirmed for a Euro 5+ update after looking like it would die with the road-going R1. <span>The only way to buy a new crossplane four in Europe</span>, now the R1 is track-only."},
+
+/* ---------------- SPORT-TOURER ---------------- */
+{n:"Tracer 7",cat:"sportTour",e:"689cc CP2 parallel-twin",es:"689 CP2",p:73.4,t:67,w:196,a:3.8,ts:210,s:835,l:"A / A2 kit",est:"a,ts",
+ x:"Tracer 7 GT adds panniers, a comfort seat and adjustable screen; Y-AMT automated gearbox new for 2026",
+ r:"<b>The MT-07 with a screen and a longer swingarm.</b> Same engine and price bracket, plus wind protection, luggage mounts and a 17-litre tank that turns it into a genuine two-up weekend bike.",
+ v:"12 kg heavier than the MT-07 and worth every one of them past 100 km/h. <span>The cheapest way into real touring</span>, and still A2-legal with a kit."},
+{n:"Tracer 9",cat:"sportTour",e:"890cc CP3 inline-triple",es:"890 I3",p:119,t:93,w:213,a:3.3,ts:230,s:810,l:"A",est:"a,ts",
+ x:"Tracer 9 GT and GT+ add semi-active KYB suspension, panniers and radar-linked cruise control",
+ r:"<b>The CP3 triple in touring dress.</b> Adjustable screen and seat, cornering lights, cruise control, and on the GT+ a radar system that maintains distance to the vehicle ahead.",
+ v:"20 kg up on the MT-09 for a bike that will cross a country without complaint. <span>The most complete thing Yamaha builds</span>, if not the most exciting."},
+
+/* ---------------- ADVENTURE ---------------- */
+{n:"Ténéré 700",cat:"adventure",e:"689cc CP2 parallel-twin",es:"689 CP2",p:72.4,t:68,w:205,a:4.2,ts:190,s:875,l:"A / A2 kit",est:"a,ts",
+ x:"Also sold as Ténéré 700 Rally, World Raid (23-litre twin tanks) and a Lowered version with an 850 mm seat",
+ r:"<b>The one that brought back proper rally bikes.</b> A 21-inch front wheel, 210 mm of front travel, a steel double-cradle frame and — deliberately — no electronic rider aids beyond switchable ABS.",
+ v:"The 875 mm seat is the barrier, not the weight. <span>The most capable dirt bike here by a wide margin</span>, and the least happy on a motorway."},
+
+/* ---------------- RETRO ---------------- */
+{n:"XSR125",cat:"retro",e:"125cc single, VVA",es:"125 single",p:15,t:11.5,w:140,a:11.2,ts:125,s:815,l:"A1",est:"a,ts",
+ r:"<b>Round headlight, flat seat, same 15 PS.</b> The MT-125 platform under retro bodywork, with spoked-look wheels and a brushed aluminium tank strip.",
+ v:"Identical performance to the MT-125 and the R125 — the licence sees to that. <span>Pick it on looks alone</span>, because nothing else separates the three."},
+{n:"XSR700",cat:"retro",e:"689cc CP2 parallel-twin",es:"689 CP2",p:73.4,t:67,w:188,a:3.7,ts:210,s:835,l:"A / A2 kit",est:"a,ts",
+ r:"<b>The MT-07 in a tweed jacket.</b> The same 270° twin and steel frame, with a rounded tank, a flat bench seat and enough aftermarket support to build almost anything from it.",
+ v:"4 kg heavier than the MT-07 and slightly less sharp for it. <span>The standard starting point for a custom build</span>, and a perfectly good bike if you never touch it."},
+{n:"XSR900",cat:"retro",e:"890cc CP3 inline-triple",es:"890 I3",p:119,t:93,w:193,a:3.2,ts:230,s:810,l:"A",est:"a,ts",
+ r:"<b>1980s Yamaha racing livery over 2020s hardware.</b> The MT-09's triple, frame and electronics, restyled around a boxy tank and a flat tail, with clip-on-style bars set lower than the MT's.",
+ v:"Mechanically an MT-09 with different ergonomics and a 15 mm lower seat. <span>The best-looking bike Yamaha currently sells</span>, which is the entire argument for it."},
+{n:"XSR900 GP",cat:"retro",e:"890cc CP3 inline-triple",es:"890 I3",p:119,t:93,w:200,a:3.2,ts:235,s:835,l:"A",est:"a,ts",
+ x:"New Legend Yellow livery for 2026 alongside Legend Red",
+ r:"<b>A 1980s grand prix replica with a modern triple inside.</b> Half fairing, single round headlight, clip-ons below the yoke and a solo seat cowl, styled after Yamaha's early-eighties GP machines.",
+ v:"7 kg and a much more committed riding position over the XSR900. <span>The closest thing to a modern R9 you can buy with retro bodywork</span> — and the bars will hurt in traffic."}],
+
+notes:[["Both inline-fours left EU roads, one is coming back","Yamaha confirmed no Euro 5+ R1 or R1M — it survives here as a track-only machine. The MT-10 looked like it would follow, but Yamaha Motor Europe has since confirmed a Euro 5+ compliant version, so the CP4 stays on sale in naked form."],
+       ["Even the R6 Race is ending","Yamaha opened two final order windows in Japan during July and August 2026, with the last bikes delivered in February 2027. Road-legal R6s are 2020 or earlier."],
+       ["Four categories, two engines","The CP2 twin powers the R7, MT-07, XSR700, Tracer 7 and Ténéré 700; the CP3 triple powers the R9, MT-09, XSR900, XSR900 GP and Tracer 9. Choosing a Yamaha is mostly choosing bodywork and ergonomics."],
+       ["A2 riders have plenty of routes","The R3, MT-03 and both 125s qualify as they come. Every CP2 model is sold in a 35 kW version that can be derestricted once you hold a full A."],
+       ["No cruiser in Europe","The XV950 and its relatives left the European range and have not been replaced, so Yamaha is the only brand here with nothing in the cruiser column."]]
+});
