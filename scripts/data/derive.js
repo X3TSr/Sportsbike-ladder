@@ -15,6 +15,7 @@
 
     brand.bikes.forEach(function(bike, i){
       bike.ptw   = bike.p / bike.w;
+      bike.bkey  = brandKey;
       bike.id    = bike.n.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + i;
       bike.uid   = brandKey + "__" + bike.id;
       bike.estOf = new Set((bike.est || "").split(",").filter(Boolean));
@@ -58,6 +59,13 @@
     return bikes.slice().sort(function(a, b){
       return licenceRank(a.l) - licenceRank(b.l);
     })[0].l.split(" ")[0];
+  };
+
+  /* Where a bike's photo lives. Convention over configuration: drop a file at
+     images/<brand>/<id>.jpg and it appears, no data edit needed. Set `img` on
+     a bike to override the path or point at a different extension. */
+  SBL.imageFor = function(bike){
+    return bike.img || "images/" + bike.bkey + "/" + bike.id + ".jpg";
   };
 
   /* Bikes in a category, optionally within one brand. cat === null = all. */

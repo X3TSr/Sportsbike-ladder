@@ -66,6 +66,11 @@
   document.getElementById("backBtn").addEventListener("click", function(){ show(null) });
   document.getElementById("cmpBack").addEventListener("click", function(){ show(null) });
 
+  /* The logo lockup in the brand and compare headers goes home. */
+  document.addEventListener("click", function(e){
+    if(e.target.closest("[data-home]")) show(null);
+  });
+
   /* --row-h changes at the 620px breakpoint, so both ladders need to be
      re-laid out after a resize. */
   var resizeTimer;
