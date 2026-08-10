@@ -1,8 +1,9 @@
 /* ==========================================================================
    COMPARE VIEW — every model from every brand on one ladder.
 
-   Selection lives in a Set of uids. The checkbox grid, the quick filters and
-   the per-brand toggles all write to that Set and then ask for a redraw.
+   Selection lives in a Set of uids. The checkbox grid, the category filters,
+   the licence filters and the per-brand toggles all write to that Set and
+   then ask for a redraw.
    ========================================================================== */
 
 (function(SBL){
@@ -26,15 +27,29 @@
   });
   ladder.build(SBL.ALL);
 
-  /* ---------- checkbox grid ---------- */
+  /* ---------- category filter buttons ---------- */
+  document.getElementById("cmpCats").innerHTML = SBL.CATEGORY_ORDER.map(function(cat){
+    return '<button class="qbtn" data-cat="' + cat + '">' + SBL.CATEGORIES[cat].name +
+      ' <span class="cat-n">' + SBL.countIn(SBL.ALL, cat) + '</span></button>';
+  }).join("");
+
+  /* ---------- checkbox grid, grouped by category within each brand ---------- */
   pickerGrid.innerHTML = Object.keys(SBL.DATA).map(function(key){
     var brand = SBL.DATA[key];
+
+    var groups = brand.cats.map(function(cat){
+      var bikes = brand.bikes.filter(function(b){ return b.cat === cat });
+      return '<p class="pcat">' + SBL.CATEGORIES[cat].name + '</p>' +
+        bikes.map(function(bike){
+          return '<label><input type="checkbox" checked data-uid="' + bike.uid + '"> ' +
+            bike.n + '</label>';
+        }).join("");
+    }).join("");
+
     return '<div class="pcol">' +
       '<h4><span class="dot" style="background:' + brand.accent + '"></span>' + brand.name +
         '<button class="all" data-allb="' + key + '">toggle</button></h4>' +
-      brand.bikes.map(function(bike){
-        return '<label><input type="checkbox" checked data-uid="' + bike.uid + '"> ' + bike.n + '</label>';
-      }).join("") +
+      groups +
     '</div>';
   }).join("");
 
@@ -56,11 +71,20 @@
 
     var sorted = ladder.render(metric, list);
     document.getElementById("cmpBody").innerHTML = sorted.map(function(bike){
-      return '<tr><th>' + bike.n + '</th><td>' + bike.brand + '</td><td>' + bike.es + '</td>' +
-        '<td>' + bike.p + ' PS</td><td>' + bike.t + ' Nm</td><td>' + bike.w + ' kg</td>' +
-        '<td>' + bike.ptw.toFixed(2) + '</td><td>~' + bike.a + ' s</td><td>~' + bike.ts + '</td>' +
+      return '<tr><th>' + bike.n + '</th><td>' + bike.brand + '</td>' +
+        '<td>' + SBL.CATEGORIES[bike.cat].name + '</td>' +
+        '<td>' + bike.es + '</td><td>' + bike.p + ' PS</td><td>' + bike.t + ' Nm</td>' +
+        '<td>' + bike.w + ' kg</td><td>' + bike.ptw.toFixed(2) + '</td>' +
+        '<td>' + cell(bike, "a", "~" + bike.a + " s") + '</td>' +
+        '<td>' + cell(bike, "ts", "~" + bike.ts) + '</td>' +
         '<td>' + bike.s + ' mm</td><td>' + bike.l + '</td></tr>';
     }).join("");
+  }
+
+  function cell(bike, key, text){
+    return SBL.isEstimated(bike, key)
+      ? '<span class="est" title="Estimated, not a published figure">' + text + '</span>'
+      : text;
   }
 
   /* ---------- selection ---------- */
@@ -82,6 +106,13 @@
     draw();
   });
 
+  function selectWhere(matches){
+    selected.clear();
+    SBL.ALL.forEach(function(bike){ if(matches(bike)) selected.add(bike.uid) });
+    syncBoxes();
+    draw();
+  }
+
   var FILTERS = {
     all:   function(){ return true },
     none:  function(){ return false },
@@ -91,14 +122,17 @@
     track: function(bike){ return SBL.isTrackOnly(bike) }
   };
 
-  view.querySelectorAll(".qbtn").forEach(function(button){
+  view.querySelectorAll(".qbtn[data-q]").forEach(function(button){
     button.addEventListener("click", function(){
-      var matches = FILTERS[button.dataset.q] || FILTERS.none;
-      selected.clear();
-      SBL.ALL.forEach(function(bike){ if(matches(bike)) selected.add(bike.uid) });
-      syncBoxes();
-      draw();
+      selectWhere(FILTERS[button.dataset.q] || FILTERS.none);
     });
+  });
+
+  document.getElementById("cmpCats").addEventListener("click", function(e){
+    var button = e.target.closest("[data-cat]");
+    if(!button) return;
+    var cat = button.dataset.cat;
+    selectWhere(function(bike){ return bike.cat === cat });
   });
 
   SBL.bindMetricButtons(view, function(metricId){ metric = metricId; draw() });

@@ -43,6 +43,16 @@
      "Track only (EU)". Used for the card badge and the compare filters. */
   SBL.isTrackOnly = function(bike){ return /track/i.test(bike.l) };
 
+  /* Format a bike's value for a metric, wrapping it if the figure is derived
+     rather than published so the reader can tell the two apart. */
+  SBL.formatValue = function(bike, metricId){
+    var metric = SBL.METRICS[metricId];
+    var html = metric.fmt(bike[metric.key]);
+    return SBL.isEstimated(bike, metric.key)
+      ? '<span class="est" title="Estimated from power-to-weight, not a published figure">' + html + '</span>'
+      : html;
+  };
+
   /* Wire a group of aria-pressed metric buttons to a callback. Only one
      button in the group reads as pressed at a time. */
   SBL.bindMetricButtons = function(scope, onPick){

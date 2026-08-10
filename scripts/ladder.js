@@ -68,7 +68,7 @@
         row.style.display = "";
         row.style.transform = "translateY(" + (i * h) + "px)";
         row.querySelector(".bar").style.width = (bike[metric.key] / max * 100) + "%";
-        row.querySelector(".lval").innerHTML = metric.fmt(bike[metric.key]);
+        row.querySelector(".lval").innerHTML = SBL.formatValue(bike, metricId);
       });
 
       return sorted;
