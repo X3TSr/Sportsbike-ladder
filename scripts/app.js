@@ -68,9 +68,8 @@
 
   /* Counts written into the copy, so adding a brand never leaves stale prose.
      Brand counts read better spelled out at this scale. */
-  var WORDS = ["zero","one","two","three","four","five","six","seven","eight","nine","ten"];
   var COUNTS = {
-    brands: WORDS[Object.keys(SBL.DATA).length] || Object.keys(SBL.DATA).length,
+    brands: SBL.spellOut(SBL.BRAND_COUNT),
     models: SBL.ALL.length
   };
   document.querySelectorAll("[data-count]").forEach(function(el){

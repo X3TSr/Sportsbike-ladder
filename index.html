@@ -50,6 +50,9 @@
         <p class="sec-note" id="catNote"></p>
       </div>
       <div class="cats" id="pickerCats" role="group" aria-label="Choose a category"></div>
+      <p class="filter-label" style="margin-top:20px">Model year</p>
+      <div class="cats" id="pickerYears" role="group" aria-label="Choose a model year"></div>
+      <p class="year-note" id="pickerYearNote"></p>
 
       <div class="sec-head" style="margin-top:40px">
         <p class="eyebrow">Step two</p>
@@ -87,6 +90,10 @@
           <p>A1 covers 125cc and 11 kW. A2 caps at 35 kW with a power-to-weight limit, which is why several mid-size bikes are sold in a restricted version. A is unrestricted.</p>
         </div>
         <div>
+          <h4>The year selector is a partial archive</h4>
+          <p>Picking a year rewinds the page to that model year: models not yet launched drop out, and where an earlier generation is on record its specs replace the current ones. That archive covers 36 of the 125 models. The rest stay at today's figures, and the line under the chips always says how many of each you are looking at.</p>
+        </div>
+        <div>
           <h4>Availability shifts by market</h4>
           <p>Euro 5+ has pushed several inline-fours off European roads while they continue elsewhere. Where a bike is track-only or no longer sold new in Europe, it is marked as such.</p>
         </div>
@@ -120,6 +127,8 @@
         <h2 class="display">Rank them yourself</h2>
       </div>
       <div class="cats" id="brandCats" role="group" aria-label="Filter by category"></div>
+      <div class="cats" id="brandYears" role="group" aria-label="Choose a model year"></div>
+      <p class="year-note" id="brandYearNote"></p>
       <p class="sec-note" id="metricNote" style="margin:0 0 22px"></p>
       <div class="metrics" role="group" aria-label="Choose a metric">
         <button class="metric" data-m="power" aria-pressed="true">Power</button>
@@ -193,6 +202,9 @@
         <p class="eyebrow">Step one</p>
         <h2 class="display">Choose your bikes</h2>
       </div>
+      <p class="filter-label">Model year</p>
+      <div class="cats" id="cmpYears" role="group" aria-label="Choose a model year"></div>
+      <p class="year-note" id="cmpYearNote"></p>
       <p class="filter-label">By category</p>
       <div class="quick" id="cmpCats"></div>
       <p class="filter-label">By licence, or everything at once</p>
@@ -265,6 +277,7 @@
 <script src="scripts/data/ducati.js"></script>
 <script src="scripts/data/suzuki.js"></script>
 <script src="scripts/data/bmw.js"></script>
+<script src="scripts/data/years.js"></script>
 <script src="scripts/data/derive.js"></script>
 <script src="scripts/metrics.js"></script>
 <script src="scripts/categories.js"></script>

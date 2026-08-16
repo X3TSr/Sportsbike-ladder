@@ -16,6 +16,7 @@
 
   var selected = new Set(SBL.ALL.map(function(b){ return b.uid }));
   var metric   = "power";
+  var year     = null;
 
   var ladder = SBL.createLadder(ladderEl, {
     nameCell: function(bike){
@@ -26,6 +27,12 @@
     barStyle: function(bike){ return "background:" + bike.accent }
   });
   ladder.build(SBL.ALL);
+
+  /* ---------- year chips ---------- */
+  var yearChips = SBL.buildYearChips(document.getElementById("cmpYears"), {
+    count:  function(y){ return SBL.specsFor(SBL.ALL, y).length },
+    onPick: function(y){ year = y; draw() }
+  });
 
   /* ---------- category filter buttons ---------- */
   document.getElementById("cmpCats").innerHTML = SBL.CATEGORY_ORDER.map(function(cat){
@@ -61,17 +68,23 @@
 
   /* ---------- draw ---------- */
   function draw(){
-    var list = SBL.ALL.filter(function(bike){ return selected.has(bike.uid) });
+    yearChips.render(year);
+    document.getElementById("cmpYearNote").innerHTML = SBL.yearNote(SBL.ALL, year);
+
+    var list = SBL.specsFor(
+      SBL.ALL.filter(function(bike){ return selected.has(bike.uid) }), year);
 
     emptyState.classList.toggle("hidden", list.length > 0);
     ladderEl.classList.toggle("hidden", list.length === 0);
     document.getElementById("cmpCount").textContent =
-      list.length + " of " + SBL.ALL.length + " models shown";
+      list.length + " of " + SBL.ALL.length + " models shown" +
+      (year === null ? "" : " · " + year + " model year");
     document.getElementById("cmpNote").textContent = SBL.METRICS[metric].note;
 
     var sorted = ladder.render(metric, list);
     document.getElementById("cmpBody").innerHTML = sorted.map(function(bike){
-      return '<tr><th>' + bike.n + '</th><td>' + bike.brand + '</td>' +
+      return '<tr class="' + (bike.isHistoric ? "historic-row" : "") + '">' +
+        '<th>' + bike.n + '</th><td>' + bike.brand + '</td>' +
         '<td>' + SBL.CATEGORIES[bike.cat].name + '</td>' +
         '<td>' + bike.es + '</td><td>' + bike.p + ' PS</td><td>' + bike.t + ' Nm</td>' +
         '<td>' + bike.w + ' kg</td><td>' + bike.ptw.toFixed(2) + '</td>' +

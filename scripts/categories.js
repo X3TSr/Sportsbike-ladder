@@ -51,4 +51,33 @@
     return bikes.filter(function(b){ return b.cat === cat }).length;
   };
 
+  /* ---------- year chips ----------
+     Same shape as the category chips. "Current" (null) is the default and
+     shows today's spec; picking a year rewinds the whole page to that
+     model year. Years with no models at all are still offered, so the empty
+     state can explain itself rather than the chip silently vanishing. */
+  SBL.buildYearChips = function(el, opts){
+    function render(active){
+      var chips = ['<button class="cat yr" data-yr="" aria-pressed="' +
+        (active === null ? "true" : "false") + '">Current</button>'];
+
+      SBL.YEAR_LIST.forEach(function(y){
+        var n = opts.count(y);
+        chips.push('<button class="cat yr" data-yr="' + y + '"' +
+          ' aria-pressed="' + (active === y ? "true" : "false") + '">' + y +
+          '<span class="cat-n">' + n + '</span></button>');
+      });
+
+      el.innerHTML = chips.join("");
+    }
+
+    el.addEventListener("click", function(e){
+      var button = e.target.closest("[data-yr]");
+      if(!button) return;
+      opts.onPick(button.dataset.yr ? parseInt(button.dataset.yr, 10) : null);
+    });
+
+    return { render: render };
+  };
+
 })(window.SBL);

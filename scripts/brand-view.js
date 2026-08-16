@@ -15,7 +15,9 @@
   var brandGrid  = document.getElementById("brandGrid");
   var current    = null;
   var pickerCat  = null;
+  var pickerYear = null;
   var brandCat   = null;
+  var brandYear  = null;
 
   var ladder = SBL.createLadder(document.getElementById("ladder"), {
     nameCell: function(bike){
@@ -34,18 +36,25 @@
     onPick:     function(cat){ pickerCat = cat; renderPicker() }
   });
 
+  var pickerYearChips = SBL.buildYearChips(document.getElementById("pickerYears"), {
+    count:  function(y){ return SBL.specsFor(SBL.ALL, y).length },
+    onPick: function(y){ pickerYear = y; renderPicker() }
+  });
+
   function renderPicker(){
     pickerChips.render(pickerCat);
+    pickerYearChips.render(pickerYear);
+    document.getElementById("pickerYearNote").innerHTML = SBL.yearNote(SBL.ALL, pickerYear);
     document.getElementById("catNote").textContent = pickerCat
       ? SBL.CATEGORIES[pickerCat].blurb
-      : "Everything the six of them sell on European roads, in one place. Narrow it down, or leave it wide and see how far the spread goes.";
+      : "Everything all " + SBL.spellOut(SBL.BRAND_COUNT) + " of them sell on European roads, in one place. Narrow it down, or leave it wide and see how far the spread goes.";
     renderBrandGrid();
   }
 
   function renderBrandGrid(){
     brandGrid.innerHTML = Object.keys(SBL.DATA).map(function(key){
       var brand = SBL.DATA[key];
-      var bikes = SBL.inCategory(brand.bikes, pickerCat);
+      var bikes = SBL.specsFor(SBL.inCategory(brand.bikes, pickerCat), pickerYear);
       if(!bikes.length) return "";
 
       var power = bikes.map(function(b){ return b.p });
@@ -76,8 +85,14 @@
     onPick:     function(cat){ brandCat = cat; refreshBrandBody() }
   });
 
+  var brandYearChips = SBL.buildYearChips(document.getElementById("brandYears"), {
+    count:  function(y){ return current ? SBL.specsFor(current.bikes, y).length : 0 },
+    onPick: function(y){ brandYear = y; refreshBrandBody() }
+  });
+
+  /* Bikes for the current category, resolved to the selected model year. */
   function visibleBikes(){
-    return SBL.inCategory(current.bikes, brandCat);
+    return SBL.specsFor(SBL.inCategory(current.bikes, brandCat), brandYear);
   }
 
   function open(key){
@@ -87,7 +102,8 @@
 
     /* A brand may not sell into the category the picker was showing —
        fall back to everything rather than opening an empty page. */
-    brandCat = (pickerCat && SBL.countIn(brand.bikes, pickerCat)) ? pickerCat : null;
+    brandCat  = (pickerCat && SBL.countIn(brand.bikes, pickerCat)) ? pickerCat : null;
+    brandYear = pickerYear;
 
     document.documentElement.style.setProperty("--accent", brand.accent);
     document.getElementById("bEyebrow").textContent = brand.series + " · 2026 · EU market";
@@ -104,6 +120,9 @@
   /* Everything below the header that depends on the category filter. */
   function refreshBrandBody(){
     brandChips.render(brandCat);
+    brandYearChips.render(brandYear);
+    document.getElementById("brandYearNote").innerHTML =
+      SBL.yearNote(SBL.inCategory(current.bikes, brandCat), brandYear);
     var bikes = visibleBikes();
     renderCards(bikes);
     renderTable(bikes);
@@ -112,7 +131,8 @@
 
   function renderCards(bikes){
     document.getElementById("cards").innerHTML = bikes.map(function(bike){
-      return '<article class="card" id="' + bike.id + '">' +
+      return '<article class="card' + (bike.isHistoric ? " historic" : "") +
+        '" id="' + bike.id + '">' +
         /* The caption is the no-photo state, so it carries the brand and engine
            rather than repeating the model name printed directly beneath it. */
         '<figure class="shot">' +
@@ -126,7 +146,13 @@
           '<h3>' + bike.n + '</h3>' +
           '<span class="lic ' + (SBL.isTrackOnly(bike) ? "track-only" : "") + '">' + bike.l + '</span>' +
         '</div>' +
-        '<p class="cat-tag">' + SBL.CATEGORIES[bike.cat].name + '</p>' +
+        '<p class="cat-tag">' + SBL.CATEGORIES[bike.cat].name +
+          (bike.isHistoric ? ' <span class="hist-badge">' + brandYear + ' spec</span>' : "") + '</p>' +
+        (bike.isHistoric && bike.why ? '<p class="gen-note">' + bike.why + '</p>' : "") +
+        /* The role and verdict copy is written for the current model, so when
+           an archived spec is on screen it has to be labelled as such rather
+           than left to read as a description of the older bike. */
+        (bike.isHistoric ? '<p class="prose-label">Written about the current model</p>' : "") +
         '<p class="role">' + bike.r + '</p>' +
         '<dl class="kv">' +
           '<div><dt>Engine</dt><dd>' + bike.e + '</dd></div>' +

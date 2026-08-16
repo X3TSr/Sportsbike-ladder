@@ -5,7 +5,7 @@ the top, and a set of compromises in between. This is an interactive look at how
 seven manufacturers space their rungs — and which ones a given European licence
 actually reaches.
 
-Seven manufacturers, 125 model lines, six categories, 2026 EU specifications.
+Seven manufacturers, 125 model lines, six categories, model years 2020–2026.
 
 ## Using it
 
@@ -18,8 +18,8 @@ Three views:
 | View | What it does |
 | --- | --- |
 | **Picker** | Category chips first, then the seven lineups. Each brand tile summarises whichever category is selected. |
-| **Brand** | One manufacturer, filterable by category, with a re-sortable ladder, a card per model and a full spec table. |
-| **Compare** | All 125 models on one ladder, coloured by brand, with per-model checkboxes plus category and licence filters. |
+| **Brand** | One manufacturer, filterable by category and year, with a re-sortable ladder, a card per model and a full spec table. |
+| **Compare** | All 125 models on one ladder, coloured by brand, with per-model checkboxes plus year, category and licence filters. |
 
 Both ladders sort by power, 0–100 km/h, top speed, weight or power-to-weight. Rows
 slide to their new positions rather than jumping, so you can see what moved.
@@ -32,6 +32,24 @@ The category selector sits above the brand choice — pick a category on the pic
 and it carries into the brand page you open. If a brand doesn't sell into the
 selected category, its tile is hidden, and opening a brand that lacks it falls back
 to showing everything rather than an empty page.
+
+### Model years
+
+`Current · 2026 · 2025 · 2024 · 2023 · 2022 · 2021 · 2020`
+
+Picking a year rewinds the page: models that had not launched drop out, discontinued
+ones reappear, and where an earlier generation is on record its specs replace the
+current ones. A card showing archived specs is badged with the year and carries a
+note on what changed.
+
+**Coverage is deliberately uneven, and the UI says so.** Launch years are set for all
+125 models, but prior-generation *specs* exist for 36 of them — the ones where the
+figures are actually known, like the 955cc Panigale V2, the Ninja 400 before it became
+the 500, and the R 1250 GS. Every other model shows its current figures for each year
+it was on sale. The line under the year chips always reports both numbers, so a bike
+shown at today's specs is never mistaken for one that genuinely did not change. The
+alternative — inventing seven years of numbers for 125 bikes — would make the whole
+spec sheet untrustworthy.
 
 Sorting all 125 at once is mostly a novelty — a Gold Wing and a Panigale V4 R share
 a ladder because they are both motorcycles, not because the comparison means
@@ -63,9 +81,10 @@ scripts/
   data/
     index.js            category definitions + the registry brands fill
     yamaha.js …         one file per brand (7 brands), 9–25 model lines each
-    derive.js           ptw, id, uid, estimate sets, entry-licence ranking
+    years.js            launch years for all models, prior generations for 36
+    derive.js           ptw, id, uid, estimate sets, licence ranking, year resolver
   metrics.js            the five sort metrics; metric-button wiring
-  categories.js         the category chip component, shared by all three views
+  categories.js         the category and year chip components, shared by all views
   ladder.js             the animated bar chart, shared by both ladders
   brand-view.js         picker (chips + brand grid) and the brand page
   compare-view.js       cross-brand selection, filters and ladder
@@ -89,8 +108,9 @@ a 150 ms debounce.
 ### Adding a bike
 
 Add an entry to the relevant `bikes` array in `scripts/data/<brand>.js`, including a
-`cat` key from `SBL.CATEGORIES`. `ptw`, `id`, `uid` and the estimate set are derived
-at load, and the chips, ladders, cards, spec tables and compare checkboxes all build
+`cat` key from `SBL.CATEGORIES`, and a `"<brand>|<name>"` entry in
+`scripts/data/years.js` giving at least its `from` year. `ptw`, `id`, `uid` and the
+estimate set are derived at load, and the chips, ladders, cards, spec tables and compare checkboxes all build
 themselves from that array — nothing else needs touching.
 
 ### Adding a brand
@@ -119,6 +139,11 @@ cards and the spec tables. Manufacturers publish power, torque, weight and seat
 height for nearly everything, but rarely 0–100 km/h or top speed outside the sport
 class — those two fields are derived from power-to-weight for almost every model
 here and should be read as a ranking, not a stopwatch.
+
+Model years are the launch or redesign year of the generation currently on sale, good
+to about ±1 year; a colour change is not treated as a new generation. A generation
+whose range runs into the current entry's `from` year can never be selected, so
+`derive.js` warns about that in the console rather than dropping it silently.
 
 Weights are kerb/wet **with** fuel. Ducati publishes weight with the tank empty, so
 those figures are converted at 0.75 kg per litre of tank capacity; expect a 1–2 kg
