@@ -7,7 +7,7 @@ appears on that model's card. No code or data change is needed.
 images/<brand>/<id>.jpg
 ```
 
-`MANIFEST.txt` lists the exact expected path for all 102 models. To override a path
+`MANIFEST.txt` lists the exact expected path for all 125 models. To override a path
 or use a different extension, set `img` on the bike in `scripts/data/<brand>.js`:
 
 ```js
@@ -15,7 +15,7 @@ or use a different extension, set `img` on the bike in `scripts/data/<brand>.js`
 ```
 
 A missing file is not an error. The card removes the `<img>` and shows a kerb-patterned
-placeholder carrying the model name and engine instead, so the layout stays intact
+placeholder carrying the brand and engine instead, so the layout stays intact
 whether you fill in none, some, or all of them.
 
 ## Why this folder is empty

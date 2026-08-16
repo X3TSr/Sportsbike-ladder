@@ -36,7 +36,7 @@
       <div class="masthead">
         <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#ladder-mark"/></svg>
       </div>
-      <p class="eyebrow">Six manufacturers &middot; 2026 &middot; EU market</p>
+      <p class="eyebrow"><span data-count="brands"></span> manufacturers &middot; 2026 &middot; EU market</p>
       <h1 class="display">The <em>Ladder</em></h1>
       <p class="lede">Every manufacturer sells a staircase: a learner bike at the bottom, a flagship at the top, and a set of compromises in between. <strong>Pick a category, then a brand, to see how the rungs are spaced</strong> — and which ones your licence actually reaches.</p>
     </div>
@@ -61,7 +61,7 @@
           <span class="stripe"></span>
           <span class="inner">
             <h3>Compare</h3>
-            <span class="sub">Put every model from all six brands on one ladder, or pick the handful you actually care about. Filter by licence class, sort by any metric.</span>
+            <span class="sub">Put all <span data-count="models"></span> models from every brand on one ladder, or pick the handful you actually care about. Filter by category and licence class, sort by any metric.</span>
             <span class="go">Open the comparison &rarr;</span>
           </span>
         </div>
@@ -183,7 +183,7 @@
       <button class="back" id="cmpBack">&larr; All brands</button>
       <p class="eyebrow">Cross-brand &middot; 2026 &middot; EU market</p>
       <h1 class="display">Compare</h1>
-      <p class="lede">Every road model from all six manufacturers on a single ladder — sport, naked, sport-tourer, adventure, cruiser and retro together. Untick anything you do not want to see, or filter by category and licence to show only what you can legally ride.</p>
+      <p class="lede">Every road model from all <span data-count="brands"></span> manufacturers on a single ladder — sport, naked, sport-tourer, adventure, cruiser and retro together. Untick anything you do not want to see, or filter by category and licence to show only what you can legally ride.</p>
     </div>
   </header>
 
@@ -250,7 +250,7 @@
         <div><h4>Bars are coloured by brand</h4><p>Length shows the value, colour shows the manufacturer. Sorting by power to weight is usually the most revealing view — it clusters bikes that feel similar regardless of capacity.</p></div>
         <div><h4>Same claims, different labs</h4><p>Every manufacturer measures crank power to the same standard, but wet weight definitions vary slightly in how much fuel is included. Differences under about 3 kg are noise.</p></div>
         <div><h4>Track-only bikes distort everything</h4><p>The H2R, R1 and R6 Race are not road machines in Europe. Use the road-legal filter if you want a ladder you could actually buy and ride here.</p></div>
-        <div><h4>Categories are not a fair fight</h4><p>A Gold Wing and a Panigale V4 R appear on the same ladder because they are both motorcycles, not because the comparison means anything. Sorting all 102 at once is a novelty; the category filter is where the useful comparisons live.</p></div>
+        <div><h4>Categories are not a fair fight</h4><p>A Gold Wing and a Panigale V4 R appear on the same ladder because they are both motorcycles, not because the comparison means anything. Sorting all <span data-count="models"></span> at once is a novelty; the category filter is where the useful comparisons live.</p></div>
       </div>
       <footer>Compiled August 2026 &middot; EU specifications &middot; figures are manufacturer claims unless noted</footer>
     </div>
@@ -264,6 +264,7 @@
 <script src="scripts/data/aprilia.js"></script>
 <script src="scripts/data/ducati.js"></script>
 <script src="scripts/data/suzuki.js"></script>
+<script src="scripts/data/bmw.js"></script>
 <script src="scripts/data/derive.js"></script>
 <script src="scripts/metrics.js"></script>
 <script src="scripts/categories.js"></script>

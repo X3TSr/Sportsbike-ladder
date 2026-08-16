@@ -100,3 +100,26 @@ images/suzuki/v-strom-800-12.jpg              # Suzuki V-Strom 800
 images/suzuki/v-strom-1050-13.jpg             # Suzuki V-Strom 1050
 images/suzuki/gsx-8t-14.jpg                   # Suzuki GSX-8T
 images/suzuki/sv650x-15.jpg                   # Suzuki SV650X
+images/bmw/s-1000-rr-0.jpg                    # BMW S 1000 RR
+images/bmw/m-1000-rr-1.jpg                    # BMW M 1000 RR
+images/bmw/g-310-r-2.jpg                      # BMW G 310 R
+images/bmw/f-900-r-3.jpg                      # BMW F 900 R
+images/bmw/r-1300-r-4.jpg                     # BMW R 1300 R
+images/bmw/s-1000-r-5.jpg                     # BMW S 1000 R
+images/bmw/m-1000-r-6.jpg                     # BMW M 1000 R
+images/bmw/f-900-xr-7.jpg                     # BMW F 900 XR
+images/bmw/r-1300-rs-8.jpg                    # BMW R 1300 RS
+images/bmw/s-1000-xr-9.jpg                    # BMW S 1000 XR
+images/bmw/m-1000-xr-10.jpg                   # BMW M 1000 XR
+images/bmw/r-1300-rt-11.jpg                   # BMW R 1300 RT
+images/bmw/k-1600-gt-12.jpg                   # BMW K 1600 GT
+images/bmw/g-310-gs-13.jpg                    # BMW G 310 GS
+images/bmw/f-450-gs-14.jpg                    # BMW F 450 GS
+images/bmw/f-800-gs-15.jpg                    # BMW F 800 GS
+images/bmw/f-900-gs-16.jpg                    # BMW F 900 GS
+images/bmw/r-1300-gs-17.jpg                   # BMW R 1300 GS
+images/bmw/r-18-18.jpg                        # BMW R 18
+images/bmw/r-12-19.jpg                        # BMW R 12
+images/bmw/r-12-ninet-20.jpg                  # BMW R 12 nineT
+images/bmw/r-12-g-s-21.jpg                    # BMW R 12 G/S
+images/bmw/r-12-s-22.jpg                      # BMW R 12 S

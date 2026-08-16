@@ -66,6 +66,17 @@
   document.getElementById("backBtn").addEventListener("click", function(){ show(null) });
   document.getElementById("cmpBack").addEventListener("click", function(){ show(null) });
 
+  /* Counts written into the copy, so adding a brand never leaves stale prose.
+     Brand counts read better spelled out at this scale. */
+  var WORDS = ["zero","one","two","three","four","five","six","seven","eight","nine","ten"];
+  var COUNTS = {
+    brands: WORDS[Object.keys(SBL.DATA).length] || Object.keys(SBL.DATA).length,
+    models: SBL.ALL.length
+  };
+  document.querySelectorAll("[data-count]").forEach(function(el){
+    el.textContent = COUNTS[el.dataset.count];
+  });
+
   /* The logo lockup in the brand and compare headers goes home. */
   document.addEventListener("click", function(e){
     if(e.target.closest("[data-home]")) show(null);

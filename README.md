@@ -2,10 +2,10 @@
 
 Every manufacturer sells a staircase: a learner bike at the bottom, a flagship at
 the top, and a set of compromises in between. This is an interactive look at how
-six manufacturers space their rungs — and which ones a given European licence
+seven manufacturers space their rungs — and which ones a given European licence
 actually reaches.
 
-Six manufacturers, 102 model lines, six categories, 2026 EU specifications.
+Seven manufacturers, 125 model lines, six categories, 2026 EU specifications.
 
 ## Using it
 
@@ -17,9 +17,9 @@ Three views:
 
 | View | What it does |
 | --- | --- |
-| **Picker** | Category chips first, then the six lineups. Each brand tile summarises whichever category is selected. |
+| **Picker** | Category chips first, then the seven lineups. Each brand tile summarises whichever category is selected. |
 | **Brand** | One manufacturer, filterable by category, with a re-sortable ladder, a card per model and a full spec table. |
-| **Compare** | All 102 models on one ladder, coloured by brand, with per-model checkboxes plus category and licence filters. |
+| **Compare** | All 125 models on one ladder, coloured by brand, with per-model checkboxes plus category and licence filters. |
 
 Both ladders sort by power, 0–100 km/h, top speed, weight or power-to-weight. Rows
 slide to their new positions rather than jumping, so you can see what moved.
@@ -33,7 +33,7 @@ and it carries into the brand page you open. If a brand doesn't sell into the
 selected category, its tile is hidden, and opening a brand that lacks it falls back
 to showing everything rather than an empty page.
 
-Sorting all 102 at once is mostly a novelty — a Gold Wing and a Panigale V4 R share
+Sorting all 125 at once is mostly a novelty — a Gold Wing and a Panigale V4 R share
 a ladder because they are both motorcycles, not because the comparison means
 anything. The category filter is where the useful comparisons live.
 
@@ -41,7 +41,7 @@ anything. The category filter is where the useful comparisons live.
 
 Photos are convention over configuration — drop a file at `images/<brand>/<id>.jpg`
 and it appears on that model's card. Nothing else to change. `images/MANIFEST.txt`
-lists the expected path for all 102 models, and `images/README.md` covers formats,
+lists the expected path for all 125 models, and `images/README.md` covers formats,
 licensing and sources.
 
 **The folder ships empty.** Official press photos could not be fetched (the build
@@ -62,7 +62,7 @@ styles/
 scripts/
   data/
     index.js            category definitions + the registry brands fill
-    yamaha.js …         one file per brand, 9–25 model lines each
+    yamaha.js …         one file per brand (7 brands), 9–25 model lines each
     derive.js           ptw, id, uid, estimate sets, entry-licence ranking
   metrics.js            the five sort metrics; metric-button wiring
   categories.js         the category chip component, shared by all three views
@@ -92,6 +92,21 @@ Add an entry to the relevant `bikes` array in `scripts/data/<brand>.js`, includi
 `cat` key from `SBL.CATEGORIES`. `ptw`, `id`, `uid` and the estimate set are derived
 at load, and the chips, ladders, cards, spec tables and compare checkboxes all build
 themselves from that array — nothing else needs touching.
+
+### Adding a brand
+
+Two steps: write `scripts/data/<brand>.js` calling `SBL.registerBrand()`, and add a
+`<script>` tag for it in `index.html` between `data/index.js` and `data/derive.js`.
+Everything else — picker tile, category chips and their counts, brand page, compare
+column, spec tables, image folder convention — derives from the registry.
+
+Counts in the page copy are written from the data at runtime via `[data-count]`, so
+prose like "seven manufacturers" and "125 models" updates itself.
+
+Pick the accent colour for **distinguishability**, not just brand fidelity: bars in the
+compare ladder are colour-coded, and the existing palette's closest pair sits at about
+ΔE 16 in Lab space. BMW Motorrad's own blue measured ΔE 8.7 against Suzuki — too close
+to read — so BMW uses its M dark blue at ΔE 31 instead.
 
 ## About the numbers
 
