@@ -105,13 +105,14 @@ tbody tr.historic-row th::after{content:"";position:absolute;left:0;top:8px;bott
 /* ---- model cards ---- */
 .cards{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
 @media(min-width:760px){.cards{grid-template-columns:1fr 1fr}}
-.card{background:var(--card);padding:28px 26px;scroll-margin-top:20px}
+.card{background:var(--card);padding:var(--card-py) var(--card-px);scroll-margin-top:20px}
 
 /* ---- model photo ----
    The figcaption sits underneath and the image covers it. If the file is
    missing the <img> is removed, revealing the kerb-patterned caption, which
    is a deliberate placeholder rather than a hole in the layout. */
-.shot{position:relative;aspect-ratio:16/9;margin:-28px -26px 22px;overflow:hidden;
+.shot{position:relative;aspect-ratio:16/9;overflow:hidden;
+  margin:calc(var(--card-py) * -1) calc(var(--card-px) * -1) 22px;
   background:#EDF0F4;border-bottom:1px solid var(--rule)}
 .shot::before{content:"";position:absolute;inset:0;
   background:repeating-linear-gradient(115deg,var(--accent) 0 15px,transparent 15px 30px);
@@ -183,9 +184,18 @@ tbody th{font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 108,"wg
 @media(min-width:700px){.picker-grid{grid-template-columns:1fr 1fr}}
 @media(min-width:1000px){.picker-grid{grid-template-columns:1fr 1fr 1fr}}
 .pcol{background:var(--card);padding:16px 18px 18px}
-.pcol h4{display:flex;align-items:center;gap:8px;font-family:"Archivo",sans-serif;
+.pcol > summary{display:flex;align-items:center;gap:8px;font-family:"Archivo",sans-serif;
   font-variation-settings:"wdth" 112,"wght" 800;text-transform:uppercase;font-size:16px;
-  padding-bottom:9px;margin-bottom:9px;border-bottom:1px solid var(--rule)}
+  padding-bottom:9px;margin-bottom:9px;border-bottom:1px solid var(--rule);
+  cursor:pointer;list-style:none}
+.pcol > summary::-webkit-details-marker{display:none}
+.pcol > summary::after{content:"+";margin-left:auto;font-family:"IBM Plex Mono",monospace;
+  font-size:15px;color:var(--steel)}
+.pcol[open] > summary::after{content:"\2212"}
+.pcol > summary:hover{color:var(--accent)}
+.pcol > summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.pcount{font-family:"IBM Plex Mono",monospace;font-size:11px;font-variation-settings:normal;
+  font-weight:400;color:var(--steel)}
 .dot{width:11px;height:11px;flex:0 0 11px;display:inline-block}
 .pcat{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--steel);margin:12px 0 4px;
@@ -194,9 +204,9 @@ tbody th{font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 108,"wg
 .pcol label{display:flex;align-items:center;gap:9px;padding:4px 0;font-size:13px;cursor:pointer}
 .pcol label:hover{color:var(--ink)}
 .pcol input{accent-color:var(--ink);width:15px;height:15px;cursor:pointer;flex:0 0 auto}
-.pcol .all{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--steel);margin-left:auto;background:none;border:0;
-  cursor:pointer;padding:2px 4px}
+.pcol .all{display:block;font-family:"IBM Plex Mono",monospace;font-size:10px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--steel);background:none;
+  border:0;cursor:pointer;padding:4px 0;margin-bottom:2px}
 .pcol .all:hover{color:var(--ink);text-decoration:underline}
 .count{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);
   margin-bottom:16px}

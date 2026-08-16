@@ -11,6 +11,10 @@
   --accent:#0E1216;
 
   --row-h:64px; --wrap:1120px;
+
+  /* Card padding is a variable because .shot bleeds to the card edge with
+     negative margins and the two must not drift apart. */
+  --card-py:28px; --card-px:26px;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}

@@ -1,17 +1,130 @@
 /* ==========================================================================
    RESPONSIVE + MOTION overrides
    Loaded last so these win over the component defaults.
+
+   The desktop layout assumes room for a 1,120px grid, two-up cards and a
+   seven-column checkbox grid. None of that survives a phone, and the page
+   is content-dense: a brand page carries up to 25 model cards and the
+   compare view carries 125 checkboxes. The rules below are mostly about
+   height — cutting a 26,000px brand page down to something scrollable —
+   rather than about width.
    ========================================================================== */
 
-/* Narrow screens: the ladder drops the third column and stacks the value
-   under the name, so the row grows to accommodate it. --row-h is read by
-   the ladder JS, which is why the height change lives in a custom property. */
+/* ---------- tablets and below ---------- */
+@media(max-width:900px){
+  .wrap,.head-inner{padding-left:20px;padding-right:20px}
+  section{padding:44px 0}
+  .notes{padding:38px 0 42px}
+}
+
+/* ---------- phones ---------- */
 @media(max-width:620px){
-  :root{--row-h:78px}
-  .lrow{grid-template-columns:106px 1fr;grid-template-rows:auto auto;gap:4px 12px}
-  .lval{grid-column:2;text-align:left}
-  .track{grid-column:2}
-  .lname{grid-row:1/3}
+  :root{
+    /* Row content measures 36px once the name, tag and bar share two lines.
+       64px leaves room for a name that wraps to two lines with the real
+       Archivo loaded, without the 78px of dead space the old layout needed. */
+    --row-h:64px;
+    --card-py:20px; --card-px:18px;
+  }
+
+  /* Header: the biggest single win. At 320px the masthead, eyebrow, display
+     title and lede filled the entire first screen, pushing the filters out
+     of sight and making them look absent. */
+  .head-inner{padding:22px 20px 24px}
+  .masthead{margin-bottom:14px}
+  .mark{width:32px;height:32px}
+  h1{font-size:clamp(38px,12vw,54px)}
+  .eyebrow{font-size:10px;letter-spacing:.12em}
+  .lede{margin-top:14px;font-size:15px;line-height:1.5}
+  .back{margin-bottom:14px;padding:7px 11px}
+  .home .wordmark{font-size:16px}
+
+  section{padding:34px 0}
+  .sec-head{margin-bottom:18px}
+  h2{font-size:clamp(23px,7vw,30px)}
+  .sec-note{font-size:14px;margin-top:8px}
+
+  /* Chips: these wrapped into four rows of large buttons, which is what
+     buried the year selector. Smaller type and tighter padding, while
+     keeping every target at least 40px tall for a fingertip. */
+  .cats{gap:6px;margin-bottom:18px}
+  .cat{font-size:13px;padding:0 12px;min-height:40px;gap:6px}
+  .cat.yr{font-size:12px;padding:0 11px;min-height:40px}
+  .cat-n{font-size:10px}
+  .year-note{margin:-8px 0 18px;font-size:10.5px;line-height:1.55}
+  .filter-label{font-size:9px;margin-bottom:6px}
+  .metrics{gap:6px;margin-bottom:18px}
+  .metric{font-size:11px;padding:0 12px;min-height:38px;
+    display:inline-flex;align-items:center}
+
+  /* Ladder: the name takes a full-width row of its own and the bar sits
+     under it with its value. A fixed name column cannot hold
+     "CBR1000RR-R Fireblade" or "Superleggera V4" at this width — they
+     overflowed into the bar. --row-h above keeps the JS in step. */
+  .lrow{grid-template-columns:1fr auto;grid-template-rows:auto auto;
+    gap:7px 10px;align-content:center}
+  .lname{grid-column:1/-1;grid-row:1;font-size:15px;line-height:1.15;
+    overflow-wrap:anywhere}
+  .lname .tag{display:inline;margin-left:7px;font-size:9px}
+  .cbrand{display:inline;margin-right:7px;font-size:9px}
+  .track{grid-column:1;grid-row:2;height:13px}
+  .lval{grid-column:2;grid-row:2;text-align:right;font-size:13px}
+
+  /* Brand tiles */
+  .brand .inner{padding:20px 18px 18px}
+  .brand h3{font-size:28px}
+  .brand .sub{min-height:0;font-size:13px}
+  .cmp-tile h3{font-size:28px}
+  .cmp-tile .inner{padding:20px 18px 18px}
+
+  /* Model cards. An empty photo slot is a placeholder for a file that does
+     not exist yet; at 25 cards it was adding roughly 5,500px of nothing to
+     the page. Cards that do have a photo keep the full band. */
+  .shot{aspect-ratio:auto;height:0;margin:0;border-bottom:0}
+  .shot.has-shot{aspect-ratio:16/9;height:auto;border-bottom:1px solid var(--rule);
+    margin:calc(var(--card-py) * -1) calc(var(--card-px) * -1) 16px}
+  .card h3{font-size:24px}
+  .role{font-size:14px}
+  .verdict{font-size:13px}
+  .kv div{font-size:12px;padding:6px 0}
+  .kv dt{font-size:10px}
+  .gen-note{font-size:12px}
+
+  /* Compare: the checkbox grid is collapsed per brand by compare-view.js,
+     so this is only about the closed state reading as a tappable row. */
+  .picker-grid{margin-bottom:20px}
+  .pcol{padding:0 16px}
+  .pcol > summary{padding:15px 0;margin-bottom:0;min-height:52px;border-bottom:0}
+  .pcol[open] > summary{border-bottom:1px solid var(--rule);margin-bottom:8px}
+  .pcol[open]{padding-bottom:14px}
+  .pcol label{padding:7px 0;font-size:14px}
+  .pcol input{width:18px;height:18px}
+  .quick{gap:6px;margin-bottom:14px}
+  /* gap, not the markup's space: a flex container drops whitespace-only
+     text nodes, which would run the label into its count. */
+  .qbtn{font-size:10px;padding:0 11px;min-height:38px;
+    display:inline-flex;align-items:center;gap:5px}
+
+  /* Spec tables stay wide and scroll sideways; say so, since a table that
+     silently clips looks broken rather than scrollable. */
+  .scroller{position:relative}
+  .scroller::after{content:"Scroll sideways for the rest →";
+    position:sticky;left:0;display:block;padding:7px 14px;
+    font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--steel);border-top:1px solid var(--rule)}
+  th,td{padding:9px 11px}
+
+  .notes{padding:32px 0 36px}
+  .notes .grid{gap:18px}
+  footer{padding:18px 0}
+}
+
+/* ---------- very narrow ---------- */
+@media(max-width:360px){
+  .wrap,.head-inner{padding-left:16px;padding-right:16px}
+  .lrow{grid-template-columns:92px 1fr}
+  .lname{font-size:14px}
+  .cat{font-size:12px;padding:0 10px}
 }
 
 @media(prefers-reduced-motion:reduce){

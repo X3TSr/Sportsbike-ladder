@@ -174,8 +174,20 @@
        before this listener was attached; the listener catches the lazy ones
        that have not tried to load yet. */
     document.querySelectorAll("#cards .shot img").forEach(function(img){
+      var figure = img.parentNode;
+
+      /* has-shot is added only once a photo has actually decoded. Narrow
+         screens give the slot no height until then, so the common case —
+         no file on disk — costs nothing, and lazy images further down the
+         page cannot collapse the layout under the reader's thumb as they
+         fail one by one. */
+      img.addEventListener("load", function(){ figure.classList.add("has-shot") });
       img.addEventListener("error", function(){ img.remove() });
-      if(img.complete && img.naturalWidth === 0) img.remove();
+
+      if(img.complete){
+        if(img.naturalWidth === 0) img.remove();
+        else figure.classList.add("has-shot");
+      }
     });
   }
 

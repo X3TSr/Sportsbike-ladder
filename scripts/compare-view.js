@@ -53,12 +53,24 @@
         }).join("");
     }).join("");
 
-    return '<div class="pcol">' +
-      '<h4><span class="dot" style="background:' + brand.accent + '"></span>' + brand.name +
-        '<button class="all" data-allb="' + key + '">toggle</button></h4>' +
+    /* <details> so narrow screens can collapse 125 checkboxes into seven
+       headings. Opened on wide screens below, where the space exists. */
+    return '<details class="pcol" data-brand="' + key + '">' +
+      '<summary><span class="dot" style="background:' + brand.accent + '"></span>' +
+        brand.name + '<span class="pcount">' + brand.bikes.length + '</span></summary>' +
+      '<button class="all" data-allb="' + key + '">toggle all</button>' +
       groups +
-    '</div>';
+    '</details>';
   }).join("");
+
+  /* Open by default where there is room; collapsed on phones. Re-evaluated on
+     resize so rotating a tablet does not leave every group shut. */
+  var wide = window.matchMedia("(min-width:700px)");
+  function syncOpen(){
+    pickerGrid.querySelectorAll(".pcol").forEach(function(d){ d.open = wide.matches });
+  }
+  syncOpen();
+  wide.addEventListener("change", syncOpen);
 
   function syncBoxes(){
     pickerGrid.querySelectorAll("input").forEach(function(input){
