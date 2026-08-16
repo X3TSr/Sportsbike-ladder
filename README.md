@@ -96,6 +96,22 @@ must come after `data/index.js` and before `data/derive.js`, and `app.js` runs l
 The stylesheets must stay in the order above, since `responsive.css` overrides the
 component defaults.
 
+### Deploying: bump the asset version
+
+```
+./bump-assets.sh    # then commit index.html with your change
+```
+
+Every local CSS and JS reference in `index.html` carries a `?v=` stamp. This is not
+cosmetic. The host serves `index.html` with `max-age=0` but scripts and styles with
+`max-age=14400`, so a browser can hold four-hour-old assets while the HTML updates
+immediately — new markup wired to old JavaScript. That is precisely how the year
+selector once shipped as an empty row on a phone: the `MODEL YEAR` heading rendered
+from fresh HTML while the script that fills it came from cache.
+
+Run the script whenever you touch `styles/` or `scripts/`. Nothing enforces it, so if
+a deploy ever looks half-applied, check this first.
+
 ### How the ladder animates
 
 Rows are built into the DOM once and never reordered. Sorting only rewrites each
