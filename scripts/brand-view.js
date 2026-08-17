@@ -162,6 +162,12 @@
           '<div><dt>0–100 km/h</dt><dd>' + cell(bike, "a", "~" + bike.a + " s") + '</dd></div>' +
           '<div><dt>Top speed</dt><dd>' + cell(bike, "ts", "~" + bike.ts + " km/h") + '</dd></div>' +
           '<div><dt>Seat height</dt><dd>' + bike.s + ' mm</dd></div>' +
+          /* Which generation these figures belong to. Without this, two years
+             showing identical specs looks like the year filter is broken,
+             when it usually means the model simply did not change. */
+          '<div><dt>Generation</dt><dd>' +
+            SBL.genLabel(bike.genFrom || bike.from, bike.genTo || bike.to) +
+          '</dd></div>' +
         '</dl>' +
         (bike.x ? '<p class="variant">' + bike.x + '</p>' : "") +
         '<p class="verdict">' + bike.v + '</p>' +

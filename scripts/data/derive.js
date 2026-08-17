@@ -97,10 +97,47 @@
     });
     if(!gen) return null;
 
+    return SBL.asGeneration(bike, gen);
+  };
+
+  /* Label for a span of model years. "now" rather than the current year,
+     because a generation still on sale has no known end. */
+  SBL.genLabel = function(from, to){
+    return from + "–" + (to || "now");
+  };
+
+  /* Merge a generation's overrides onto the bike. Fields the generation does
+     not mention fall through, so an entry that only changed weight lists only
+     weight. ptw is recomputed because p or w may have moved. */
+  SBL.asGeneration = function(bike, gen){
     var spec = Object.assign({}, bike, gen);
-    spec.ptw = spec.p / spec.w;
+    spec.ptw        = spec.p / spec.w;
     spec.isHistoric = true;
+    spec.genFrom    = gen.from;
+    spec.genTo      = gen.to;
+    spec.gLabel     = SBL.genLabel(gen.from, gen.to);
     return spec;
+  };
+
+  /* Every generation of a bike as its own spec, newest first. Used by the
+     compare view's generation mode, where one model occupies several rows.
+     uid is suffixed so the ladder can key them apart; baseUid keeps the link
+     back to the model the checkbox controls. */
+  SBL.generationsOf = function(bike){
+    var current = Object.assign({}, bike, {
+      genFrom: bike.from,
+      genTo:   bike.to,
+      gLabel:  SBL.genLabel(bike.from, bike.to),
+      baseUid: bike.uid,
+      uid:     bike.uid + "@" + bike.from
+    });
+
+    return [current].concat(bike.gens.map(function(gen){
+      var spec = SBL.asGeneration(bike, gen);
+      spec.baseUid = bike.uid;
+      spec.uid     = bike.uid + "@" + gen.from;
+      return spec;
+    }));
   };
 
   /* Resolve a list of bikes to a given year, dropping those not on sale. */

@@ -51,6 +51,19 @@ shown at today's specs is never mistaken for one that genuinely did not change. 
 alternative — inventing seven years of numbers for 125 bikes — would make the whole
 spec sheet untrustworthy.
 
+#### Comparing a model against its own earlier self
+
+The year chips show one year at a time, so a bike can never sit beside another
+version of itself. **Every generation** in the compare view does that instead: each
+selected model contributes one row per generation on record, labelled with its year
+span, so the 955cc Panigale V2 lines up directly against the 890cc one.
+
+A model showing a single row is one whose earlier specs are *not recorded* — not
+necessarily one that never changed. The Yamaha R125 is the clearest example: it has a
+launch year of 2023 and no archive entry, so 2023–2026 are genuinely identical and it
+vanishes before 2023. Every model card now carries a **Generation** row giving the
+span its figures belong to, which is what makes that legible at the point of use.
+
 Sorting all 125 at once is mostly a novelty — a Gold Wing and a Panigale V4 R share
 a ladder because they are both motorcycles, not because the comparison means
 anything. The category filter is where the useful comparisons live.

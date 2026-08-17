@@ -77,4 +77,7 @@ h2{font-size:clamp(26px,4.6vw,40px);margin-top:6px}
 footer{padding:24px 0;font-size:12px;color:var(--ink-soft);
   font-family:"IBM Plex Mono",monospace}
 
-.hidden{display:none}
+/* Utility, so it must beat component display rules regardless of source
+   order — .cats{display:flex} in components.css would otherwise win by
+   coming later at equal specificity. */
+.hidden{display:none !important}

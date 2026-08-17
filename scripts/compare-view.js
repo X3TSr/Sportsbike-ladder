@@ -17,11 +17,20 @@
   var selected = new Set(SBL.ALL.map(function(b){ return b.uid }));
   var metric   = "power";
   var year     = null;
+  var genMode  = false;
+
+  /* Every generation of every model, flattened. Built once; the ladder is
+     rebuilt from this list when generation mode is switched on, because the
+     rows are keyed by uid and a model contributes several of them here. */
+  var GENERATIONS = SBL.ALL.reduce(function(acc, bike){
+    return acc.concat(SBL.generationsOf(bike));
+  }, []);
 
   var ladder = SBL.createLadder(ladderEl, {
     nameCell: function(bike){
       return '<div class="lname" style="cursor:default">' +
         '<span class="cbrand">' + bike.brand + '</span>' + bike.n +
+        (bike.gLabel ? ' <span class="gyr">' + bike.gLabel + '</span>' : "") +
         '<span class="tag">' + bike.es + '</span></div>';
     },
     barStyle: function(bike){ return "background:" + bike.accent }
@@ -32,6 +41,19 @@
   var yearChips = SBL.buildYearChips(document.getElementById("cmpYears"), {
     count:  function(y){ return SBL.specsFor(SBL.ALL, y).length },
     onPick: function(y){ year = y; draw() }
+  });
+
+  /* ---------- generation mode ----------
+     Answers "how does this bike compare with its own earlier self", which a
+     single global year cannot: the year selector shows one year at a time,
+     so a model can never sit beside another version of itself. */
+  var genToggle = document.getElementById("cmpGenToggle");
+  genToggle.addEventListener("click", function(){
+    genMode = !genMode;
+    genToggle.setAttribute("aria-pressed", genMode ? "true" : "false");
+    document.getElementById("cmpYears").classList.toggle("hidden", genMode);
+    ladder.build(genMode ? GENERATIONS : SBL.ALL);
+    draw();
   });
 
   /* ---------- category filter buttons ---------- */
@@ -81,22 +103,34 @@
   /* ---------- draw ---------- */
   function draw(){
     yearChips.render(year);
-    document.getElementById("cmpYearNote").innerHTML = SBL.yearNote(SBL.ALL, year);
+    document.getElementById("cmpYearNote").innerHTML = genMode
+      ? "Each selected model appears once per generation on record, so you can " +
+        "put a bike beside its own earlier self. A model with a single row is " +
+        "one whose earlier specs are not recorded — not necessarily one that " +
+        "never changed."
+      : SBL.yearNote(SBL.ALL, year);
 
-    var list = SBL.specsFor(
-      SBL.ALL.filter(function(bike){ return selected.has(bike.uid) }), year);
+    var list = genMode
+      ? GENERATIONS.filter(function(g){ return selected.has(g.baseUid) })
+      : SBL.specsFor(
+          SBL.ALL.filter(function(bike){ return selected.has(bike.uid) }), year);
 
     emptyState.classList.toggle("hidden", list.length > 0);
     ladderEl.classList.toggle("hidden", list.length === 0);
-    document.getElementById("cmpCount").textContent =
-      list.length + " of " + SBL.ALL.length + " models shown" +
-      (year === null ? "" : " · " + year + " model year");
+    var models = genMode
+      ? new Set(list.map(function(g){ return g.baseUid })).size : 0;
+    document.getElementById("cmpCount").textContent = genMode
+      ? plural(list.length, "generation") + " across " + plural(models, "model")
+      : list.length + " of " + SBL.ALL.length + " models shown" +
+        (year === null ? "" : " · " + year + " model year");
     document.getElementById("cmpNote").textContent = SBL.METRICS[metric].note;
 
     var sorted = ladder.render(metric, list);
     document.getElementById("cmpBody").innerHTML = sorted.map(function(bike){
       return '<tr class="' + (bike.isHistoric ? "historic-row" : "") + '">' +
-        '<th>' + bike.n + '</th><td>' + bike.brand + '</td>' +
+        '<th>' + bike.n +
+          (bike.gLabel ? ' <span class="gyr">' + bike.gLabel + '</span>' : "") +
+        '</th><td>' + bike.brand + '</td>' +
         '<td>' + SBL.CATEGORIES[bike.cat].name + '</td>' +
         '<td>' + bike.es + '</td><td>' + bike.p + ' PS</td><td>' + bike.t + ' Nm</td>' +
         '<td>' + bike.w + ' kg</td><td>' + bike.ptw.toFixed(2) + '</td>' +
@@ -105,6 +139,8 @@
         '<td>' + bike.s + ' mm</td><td>' + bike.l + '</td></tr>';
     }).join("");
   }
+
+  function plural(n, word){ return n + " " + word + (n === 1 ? "" : "s") }
 
   function cell(bike, key, text){
     return SBL.isEstimated(bike, key)
