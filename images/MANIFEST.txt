@@ -93,15 +93,17 @@ images/suzuki/hayabusa-3.jpg                  # Suzuki Hayabusa
 images/suzuki/gsx-s125-4.jpg                  # Suzuki GSX-S125
 images/suzuki/sv650-5.jpg                     # Suzuki SV650
 images/suzuki/gsx-8s-6.jpg                    # Suzuki GSX-8S
-images/suzuki/gsx-s1000-7.jpg                 # Suzuki GSX-S1000
-images/suzuki/katana-8.jpg                    # Suzuki Katana
-images/suzuki/gsx-s1000gt-9.jpg               # Suzuki GSX-S1000GT
-images/suzuki/gsx-s1000gx-10.jpg              # Suzuki GSX-S1000GX
-images/suzuki/sv-7gx-11.jpg                   # Suzuki SV-7GX
-images/suzuki/v-strom-800-12.jpg              # Suzuki V-Strom 800
-images/suzuki/v-strom-1050-13.jpg             # Suzuki V-Strom 1050
-images/suzuki/gsx-8t-14.jpg                   # Suzuki GSX-8T
-images/suzuki/sv650x-15.jpg                   # Suzuki SV650X
+images/suzuki/gsx-s950-7.jpg                  # Suzuki GSX-S950
+images/suzuki/gsx-s1000-8.jpg                 # Suzuki GSX-S1000
+images/suzuki/katana-9.jpg                    # Suzuki Katana
+images/suzuki/gsx-s1000gt-10.jpg              # Suzuki GSX-S1000GT
+images/suzuki/gsx-s1000gx-11.jpg              # Suzuki GSX-S1000GX
+images/suzuki/sv-7gx-12.jpg                   # Suzuki SV-7GX
+images/suzuki/v-strom-650-13.jpg              # Suzuki V-Strom 650
+images/suzuki/v-strom-800-14.jpg              # Suzuki V-Strom 800
+images/suzuki/v-strom-1050-15.jpg             # Suzuki V-Strom 1050
+images/suzuki/gsx-8t-16.jpg                   # Suzuki GSX-8T
+images/suzuki/sv650x-17.jpg                   # Suzuki SV650X
 images/bmw/s-1000-rr-0.jpg                    # BMW S 1000 RR
 images/bmw/m-1000-rr-1.jpg                    # BMW M 1000 RR
 images/bmw/g-310-r-2.jpg                      # BMW G 310 R
