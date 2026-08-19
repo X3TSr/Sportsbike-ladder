@@ -60,8 +60,8 @@ bikes:[
  v:"The classic do-everything Kawasaki. <span>Fast enough to embarrass sportbikes and comfortable enough for a week away</span> — the single most versatile bike in this range."},
 {n:"Ninja H2 SX",cat:"sportTour",e:"998cc supercharged inline-four",es:"998 SC I4",p:200,t:137.3,w:266,a:3.1,ts:270,s:835,l:"A",src:"https://www.kawasaki.eu/en/Motorcycles/Sport_Tourer/Ninja_H2_SX_2026.html",est:"a,ts",
  x:"SE version adds Showa Skyhook semi-active suspension, cornering lights and radar-based blind spot detection",
- r:"<b>A supercharged tourer, which should not exist.</b> 200 PS, panniers, heated grips, radar cruise control and a 19-litre tank, at 267 kg fully fuelled.",
- v:"The heaviest bike in this entire comparison, and the supercharger makes the weight irrelevant on any road. <span>Absurd, brilliant, and priced like a car.</span>"},
+ r:"<b>A supercharged tourer, which should not exist.</b> 200 PS, panniers, heated grips, radar cruise control and a 19-litre tank, at 266 kg fully fuelled.",
+ v:"The heaviest Kawasaki here, and the supercharger makes the weight irrelevant on any road. <span>Absurd, brilliant, and priced like a car.</span>"},
 
 /* ---------------- ADVENTURE ---------------- */
 {n:"Versys-X 300",cat:"adventure",e:"296cc parallel-twin",es:"296 twin",p:40,t:25.7,w:175,a:6.4,ts:160,s:815,l:"A2 (EU: discontinued)",src:"https://www.kawasaki.eu/en/Motorcycles.html",est:"a,ts",

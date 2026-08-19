@@ -16,7 +16,7 @@
      generation currently on sale and are good to about ±1 year; a mid-cycle
      colour change is not treated as a new generation.
    - `gens` exists only where the previous generation's specs are actually
-     known. That is 46 of the 127. Every other model shows its current spec
+     known. That is 49 of the 127. Every other model shows its current spec
      for every year it was on sale, because inventing seven years of numbers
      for 127 bikes would make the whole spec sheet untrustworthy.
 
@@ -194,14 +194,18 @@ SBL.YEARS = {
 "suzuki|SV650X":{from:2018},
 
 /* ---------------- BMW ---------------- */
-"bmw|S 1000 RR":{from:2023,
- gens:[{from:2019,to:2022,p:207,t:113,w:197,why:"The 2019 ShiftCam generation, before the 2023 aero package and 3 PS increase."}]},
-"bmw|M 1000 RR":{from:2023,
- gens:[{from:2021,to:2022,p:212,w:192,ts:306,why:"First-generation M RR, before the 2023 winglet redesign raised top speed."}]},
+"bmw|S 1000 RR":{from:2025,
+ gens:[{from:2023,to:2024,w:197,why:"The 2023 aero package, a kilo lighter and peaking 250 rpm earlier than the current bike."},
+       {from:2019,to:2022,p:207,t:113,w:197,why:"The 2019 ShiftCam generation, before the 2023 aero package and 3 PS increase."}]},
+"bmw|M 1000 RR":{from:2025,
+ gens:[{from:2023,to:2024,p:212,w:193,s:832,why:"The 2023 M RR, 6 PS down and a full 33 mm lower in the seat than the 2025 revision."},
+       {from:2021,to:2022,p:212,w:192,s:832,ts:306,why:"First-generation M RR, before the 2023 winglet redesign raised top speed."}]},
 "bmw|G 310 R":{from:2021},
-"bmw|F 900 R":{from:2020},
+"bmw|F 900 R":{from:2025,
+ gens:[{from:2020,to:2024,t:92,w:211,why:"The pre-2025 F 900 R. The update found a Nm and shed 3 kg."}]},
 "bmw|R 1300 R":{from:2026},
-"bmw|S 1000 R":{from:2021},
+"bmw|S 1000 R":{from:2025,
+ gens:[{from:2021,to:2024,p:165,a:3.2,why:"The 165 PS S 1000 R, before the 2025 model year added 5 PS on the same chassis."}]},
 "bmw|M 1000 R":{from:2023},
 "bmw|F 900 XR":{from:2020},
 "bmw|R 1300 RS":{from:2026,
@@ -211,7 +215,7 @@ SBL.YEARS = {
 "bmw|R 1300 RT":{from:2026,
  gens:[{from:2021,to:2025,n:"R 1250 RT",e:"1254cc boxer twin",es:"1254 boxer",p:136,t:143,w:279,a:3.8,ts:200,s:805,why:"Sold as the R 1250 RT, replaced by the 1300 for 2026."}]},
 "bmw|K 1600 GT":{from:2022},
-"bmw|G 310 GS":{from:2021},
+"bmw|G 310 GS":{from:2021,to:2025},
 "bmw|F 450 GS":{from:2026},
 "bmw|F 800 GS":{from:2024,
  gens:[{from:2018,to:2023,n:"F 750 GS",e:"853cc parallel-twin",es:"853 twin",p:77,t:83,w:227,a:4.4,ts:180,s:815,why:"Sold as the F 750 GS on the 853cc twin, renamed and re-engined for 2024."}]},
@@ -219,10 +223,11 @@ SBL.YEARS = {
  gens:[{from:2018,to:2023,n:"F 850 GS",e:"853cc parallel-twin",es:"853 twin",p:95,t:92,w:229,a:4,ts:200,s:860,why:"Sold as the F 850 GS. The 2024 F 900 GS shed 14 kg with a plastic tank and lighter exhaust."}]},
 "bmw|R 1300 GS":{from:2024,
  gens:[{from:2019,to:2023,n:"R 1250 GS",e:"1254cc boxer twin",es:"1254 boxer",p:136,t:143,w:249,a:3.5,ts:200,s:850,why:"Sold as the R 1250 GS. The 2024 R 1300 GS is 12 kg lighter and 9 PS up, on a new sheet-metal main frame."}]},
-"bmw|R 18":{from:2020},
+"bmw|R 18":{from:2026,
+ gens:[{from:2020,to:2025,t:158,s:690,why:"The original R 18, 5 Nm down and 30 mm lower in the seat than the 2026 revision."}]},
 "bmw|R 12":{from:2024},
 "bmw|R 12 nineT":{from:2024,
- gens:[{from:2017,to:2023,n:"R nineT",p:109,t:116,w:221,s:785,why:"Sold as the R nineT before the 2024 R 12 platform update."}]},
+ gens:[{from:2017,to:2023,n:"R nineT",p:109,t:116,w:221,s:785,ts:200,why:"Sold as the R nineT before the 2024 R 12 platform update."}]},
 "bmw|R 12 G/S":{from:2025},
 "bmw|R 12 S":{from:2026}
 };

@@ -43,7 +43,7 @@ current ones. A card showing archived specs is badged with the year and carries 
 note on what changed.
 
 **Coverage is deliberately uneven, and the UI says so.** Launch years are set for all
-127 models, but prior-generation *specs* exist for 46 of them — the ones where the
+127 models, but prior-generation *specs* exist for 49 of them — the ones where the
 figures are actually known, like the 955cc Panigale V2, the Ninja 400 before it became
 the 500, and the R 1250 GS. Every other model shows its current figures for each year
 it was on sale. The line under the year chips always reports both numbers, so a bike
@@ -100,7 +100,7 @@ scripts/
   data/
     index.js            category definitions + the registry brands fill
     yamaha.js …         one file per brand (7 brands), 9–25 model lines each
-    years.js            launch years for all models, prior generations for 46
+    years.js            launch years for all models, prior generations for 49
     derive.js           ptw, id, uid, estimate sets, licence ranking, year resolver
   metrics.js            the five sort metrics; metric-button wiring
   categories.js         the category and year chip components, shared by all views
@@ -180,10 +180,11 @@ each manufacturer's own European spec pages. Every model card states which it is
 | Kawasaki | 25 / 25 | done — see `src` on each entry |
 | Honda | 22 / 22 | done; two models added that were missing entirely |
 | Yamaha | 18 / 18 | done; model-year history sourced too, see below |
-| Aprilia, Ducati, Suzuki, BMW | 0 / 62 | model knowledge, not re-sourced |
+| BMW | 22 / 23 | done; the G 310 GS has no live page anywhere in the EU |
+| Aprilia, Ducati, Suzuki | 0 / 39 | model knowledge, not re-sourced |
 
-**Across the three brands checked so far, 72 of 244 fields were wrong — 70% accurate.**
-That rate is the honest prior for the four brands still unverified. Worst cases were
+**Across the four brands checked so far, 94 of 329 fields were wrong — 71% accurate.**
+That rate is the honest prior for the three brands still unverified. Worst cases were
 seat heights out by 10–35 mm, the ZX-10R (three of four figures wrong) and the Gold
 Wing, which was carrying the Tour version's 393 kg instead of the base bike's 373.
 Not every miss is equal: about a third of Yamaha's were decimal precision the old
@@ -202,16 +203,25 @@ Verification normally covers *current* specs only, and where correcting a curren
 would have changed what a generation inherits, the previous value is pinned explicitly
 so history did not move.
 
-**Yamaha is the exception, and the reason its archive is so much deeper.** Yamaha keeps
-a separate spec page per model year going back to 2019, so Yamaha's prior generations are
-sourced rather than inferred: sixteen archive entries across ten models that previously
-showed none. No other manufacturer here publishes that.
+**Yamaha and BMW are the exceptions, and the reason the archive is so much deeper than
+it was.** Yamaha keeps a separate spec page per model year going back to 2019; BMW keeps
+technical-data pages for superseded model years alongside the current ones. Between them
+that turned twenty-one archive entries across thirteen models from inference into sourced
+fact, and moved the S 1000 RR, M 1000 RR, F 900 R, S 1000 R and R 18 onto generations
+that did not previously exist here. No other manufacturer publishes either.
 
 **Estimated figures are marked with a dotted underline** in the ladder, the model
 cards and the spec tables. Manufacturers publish power, torque, weight and seat
 height for nearly everything, but rarely 0–100 km/h or top speed outside the sport
 class — those two fields are derived from power-to-weight for almost every model
 here and should be read as a ranking, not a stopwatch.
+
+BMW is the one brand that quotes real maximum speeds, so twelve of its models carry a
+measured figure rather than a derived one and are not marked as estimated. Where BMW
+says only "over 200 km/h", the estimate stands. Going the other way, BMW omits maximum
+torque for the S 1000 RR, F 800 GS and F 900 GS; the S 1000 RR's figure comes from BMW's
+own page for the previous model year and the same unchanged engine, and the two GS
+figures remain unverified even though the rest of those cards are sourced.
 
 Model years are the launch or redesign year of the generation currently on sale, good
 to about ±1 year; a colour change is not treated as a new generation. A generation
