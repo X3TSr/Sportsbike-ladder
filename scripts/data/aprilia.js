@@ -23,7 +23,7 @@ bikes:[
 {n:"Tuono 125",cat:"naked",e:"125cc single",es:"125 single",p:15,t:11,w:143,a:11,ts:125,s:810,l:"A1",est:"a,ts",
  r:"<b>The RS 125 with the fairing removed.</b> Same aluminium frame and single-cylinder engine, a wider handlebar, and a naked front end styled after the Tuono V4.",
  v:"1 kg lighter than the RS 125 and easier to ride slowly. <span>The A1 bike for people who find clip-ons tiresome</span>, and mechanically identical otherwise."},
-{n:"Tuono 457",cat:"naked",e:"457cc parallel-twin",es:"457 twin",p:47.6,t:43.5,w:175,a:4.8,ts:175,s:800,l:"A2",est:"a,ts",
+{n:"Tuono 457",cat:"naked",e:"457cc parallel-twin",es:"457 twin",p:48,t:43.5,w:175,a:4.8,ts:175,s:800,l:"A2",est:"a,ts",
  r:"<b>The RS 457 with upright bars.</b> A 457cc parallel twin making exactly 35 kW — the A2 ceiling — in a double-beam aluminium frame, with ride-by-wire, three ride modes and three-stage traction control.",
  v:"Built to the A2 limit rather than restricted down to it, which is the important distinction. <span>Nothing is switched off when you upgrade your licence</span>, because nothing was switched off to begin with."},
 {n:"Tuono 660",cat:"naked",e:"659cc parallel-twin",es:"659 twin",p:95,t:67,w:183,a:3.5,ts:220,s:820,l:"A / A2 version",est:"a,ts",
@@ -41,9 +41,10 @@ bikes:[
  r:"<b>The 660 twin retuned for dirt.</b> A 21-inch front wheel, 240 mm of travel at both ends, four ride modes including a genuinely useful off-road setting, and a 18-litre tank.",
  v:"Lighter than a Transalp and better suspended than a Ténéré 700. <span>The most underrated adventure bike here</span>, held back by Aprilia's thin dealer network."}],
 
-notes:[["Three platforms, eight bikes","The 125 single, the 457 twin, the 660 twin and the 1099 V4 each appear as both a faired sportbike and a naked. Aprilia builds fewer models than anyone here and shares more between them."],
+notes:[["Aprilia is the one brand here with no sourced figures","Every other manufacturer on this page publishes a spec table that can be read and cited. Aprilia's site renders its technical data entirely in the browser and blocks the endpoint behind it, so none of these nine models could be checked against aprilia.com. Their figures are model knowledge, and the cards say so. On the six brands that could be checked, roughly three figures in ten turned out to be wrong — read these accordingly."],
+       ["Four platforms, nine bikes","The 125 single, the 457 twin, the 660 twin and the 1099 V4 each appear as both a faired sportbike and a naked, with the Tuareg on top of the 660. Aprilia builds fewer models than anyone here and shares more between them."],
        ["The RS 660 defined a segment","Yamaha's R7, Suzuki's GSX-8R and Honda's CBR650R all exist in the shape they do partly because Aprilia got there first in 2020."],
        ["The 457s are built to the A2 limit","Both the RS 457 and Tuono 457 make 35 kW as standard rather than being restricted versions of something larger. Nothing is unlocked when you move to a full A licence."],
        ["Electronics are the selling point","At every capacity, Aprilia fits more rider aids than direct rivals. Whether you need cornering ABS and wheelie control at 48 PS is a fair question."],
-       ["Servicing costs more","Italian parts and dealer coverage in Belgium is thinner than for the Japanese brands. Worth checking before you commit — it is the most common reason people cross an Aprilia off a shortlist."]]
+       ["Servicing costs more","Italian parts, and a dealer network thinner across most of Europe than any Japanese brand's. Worth checking before you commit — it is the most common reason people cross an Aprilia off a shortlist."]]
 });

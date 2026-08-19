@@ -171,9 +171,9 @@ caps at 35 kW with a power-to-weight limit, A is unrestricted.
 
 ### Where the figures come from
 
-Power, torque, wet weight and seat height are being verified brand by brand against
-each manufacturer's own European spec pages. Every model card states which it is:
-*verified against \<source\>* with a link, or *not yet verified*.
+Power, torque, wet weight and seat height have been verified brand by brand against each
+manufacturer's own European spec pages. Every model card states which it is: *verified
+against \<source\>* with a link, or *not yet verified*.
 
 | brand | verified | notes |
 | --- | --- | --- |
@@ -183,10 +183,19 @@ each manufacturer's own European spec pages. Every model card states which it is
 | BMW | 22 / 23 | done; the G 310 GS has no live page anywhere in the EU |
 | Suzuki | 17 / 18 | done; two models added, and the SV650X has no live page |
 | Ducati | 15 / 15 | done; worst rate of the six, see the weight note below |
-| Aprilia | 0 / 9 | model knowledge, not re-sourced |
+| **Aprilia** | **0 / 9** | **cannot be verified — see below** |
 
-**Across the six brands checked so far, 134 of 445 fields were wrong — 70% accurate.**
-That rate is the honest prior for Aprilia, the one brand still unverified. Worst cases
+**Aprilia is the one brand that could not be checked, and that is a property of their
+website rather than a gap in effort.** aprilia.com renders its technical data entirely
+client-side; the page HTML contains no figures, the Magnolia endpoint behind it returns
+503 through the CDN for every path shape, and the site refuses requests carrying a JSON
+`Accept` header. Its nine models therefore keep their original figures and are marked
+*not yet verified* on every card, with a brand note saying why. What *was* checkable is
+the range itself: aprilia.com publishes a server-rendered sitemap, and it confirms all
+nine models are current and that no road model is missing.
+
+**Across the six brands that could be checked, 134 of 445 fields were wrong — 70%
+accurate.** That rate is the honest prior for Aprilia's nine. Worst cases
 were seat heights out by 10–35 mm, the ZX-10R (three of four figures wrong) and the Gold
 Wing, which was carrying the Tour version's 393 kg instead of the base bike's 373.
 Not every miss is equal: about a third of Yamaha's were decimal precision the old
