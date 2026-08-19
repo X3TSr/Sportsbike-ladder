@@ -189,6 +189,22 @@
     return note;
   };
 
+  /* ---------- provenance ----------
+     A bike with `src` has had its power, torque, weight and seat height
+     checked against that page. Everything else is model knowledge that has
+     never been re-checked, which is a materially weaker claim, so the two
+     are shown differently rather than being left to look alike. */
+  SBL.isSourced = function(bike){ return !!bike.src };
+
+  SBL.sourceHost = function(url){
+    var m = /^https?:\/\/([^/]+)/.exec(url || "");
+    return m ? m[1].replace(/^www\./, "") : "";
+  };
+
+  SBL.sourcedCount = function(bikes){
+    return (bikes || SBL.ALL).filter(SBL.isSourced).length;
+  };
+
   /* Where a bike's photo lives. Convention over configuration: drop a file at
      images/<brand>/<id>.jpg and it appears, no data edit needed. Set `img` on
      a bike to override the path or point at a different extension. */
