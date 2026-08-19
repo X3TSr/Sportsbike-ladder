@@ -12,13 +12,13 @@
 
    Coverage is deliberately uneven and that is visible in the UI:
 
-   - `from` is set for all 127 models. These are launch/redesign years for the
+   - `from` is set for all 129 models. These are launch/redesign years for the
      generation currently on sale and are good to about ±1 year; a mid-cycle
      colour change is not treated as a new generation.
    - `gens` exists only where the previous generation's specs are actually
-     known. That is 49 of the 127. Every other model shows its current spec
+     known. That is 49 of the 129. Every other model shows its current spec
      for every year it was on sale, because inventing seven years of numbers
-     for 127 bikes would make the whole spec sheet untrustworthy.
+     for 129 bikes would make the whole spec sheet untrustworthy.
 
    A generation whose `to` reaches `from` is unreachable — the current entry
    would always win. derive.js warns about that case in the console.
@@ -177,21 +177,24 @@ SBL.YEARS = {
 /* ---------------- Suzuki ---------------- */
 "suzuki|GSX-R125":{from:2017},
 "suzuki|GSX-8R":{from:2024},
-"suzuki|GSX-R1000R":{from:2017,to:2022},
+"suzuki|GSX-R1000R":{from:2025,
+ gens:[{from:2017,to:2022,p:202,t:118,why:"The pre-Euro 5 GSX-R1000R, 7 PS and 8 Nm up on the 2025 anniversary edition. Off sale in Europe for 2023 and 2024."}]},
 "suzuki|Hayabusa":{from:2021},
 "suzuki|GSX-S125":{from:2017},
 "suzuki|SV650":{from:2016},
 "suzuki|GSX-8S":{from:2023},
+"suzuki|GSX-S950":{from:2021},
 "suzuki|GSX-S1000":{from:2021},
 "suzuki|Katana":{from:2022},
 "suzuki|GSX-S1000GT":{from:2022},
 "suzuki|GSX-S1000GX":{from:2024},
 "suzuki|SV-7GX":{from:2026},
+"suzuki|V-Strom 650":{from:2017},
 "suzuki|V-Strom 800":{from:2023},
 "suzuki|V-Strom 1050":{from:2023,
  gens:[{from:2020,to:2022,p:107,w:247,why:"Pre-DE V-Strom 1050, before the 2023 update added the DE variant and revised electronics."}]},
 "suzuki|GSX-8T":{from:2026},
-"suzuki|SV650X":{from:2018},
+"suzuki|SV650X":{from:2018,to:2024},
 
 /* ---------------- BMW ---------------- */
 "bmw|S 1000 RR":{from:2025,
