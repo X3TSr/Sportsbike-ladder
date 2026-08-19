@@ -76,16 +76,17 @@ images/ducati/panigale-v2-0.jpg               # Ducati Panigale V2
 images/ducati/panigale-v4-1.jpg               # Ducati Panigale V4
 images/ducati/panigale-v4-r-2.jpg             # Ducati Panigale V4 R
 images/ducati/superleggera-v4-3.jpg           # Ducati Superleggera V4
-images/ducati/monster-4.jpg                   # Ducati Monster
-images/ducati/streetfighter-v2-5.jpg          # Ducati Streetfighter V2
-images/ducati/streetfighter-v4-6.jpg          # Ducati Streetfighter V4
-images/ducati/hypermotard-v2-7.jpg            # Ducati Hypermotard V2
-images/ducati/multistrada-v2-8.jpg            # Ducati Multistrada V2
-images/ducati/multistrada-v4-9.jpg            # Ducati Multistrada V4
-images/ducati/desertx-10.jpg                  # Ducati DesertX
-images/ducati/diavel-v4-11.jpg                # Ducati Diavel V4
-images/ducati/xdiavel-v4-12.jpg               # Ducati XDiavel V4
-images/ducati/scrambler-800-13.jpg            # Ducati Scrambler 800
+images/ducati/hypermotard-698-mono-4.jpg      # Ducati Hypermotard 698 Mono
+images/ducati/monster-5.jpg                   # Ducati Monster
+images/ducati/streetfighter-v2-6.jpg          # Ducati Streetfighter V2
+images/ducati/streetfighter-v4-7.jpg          # Ducati Streetfighter V4
+images/ducati/hypermotard-v2-8.jpg            # Ducati Hypermotard V2
+images/ducati/multistrada-v2-9.jpg            # Ducati Multistrada V2
+images/ducati/multistrada-v4-10.jpg           # Ducati Multistrada V4
+images/ducati/desertx-11.jpg                  # Ducati DesertX
+images/ducati/diavel-v4-12.jpg                # Ducati Diavel V4
+images/ducati/xdiavel-v4-13.jpg               # Ducati XDiavel V4
+images/ducati/scrambler-800-14.jpg            # Ducati Scrambler 800
 images/suzuki/gsx-r125-0.jpg                  # Suzuki GSX-R125
 images/suzuki/gsx-8r-1.jpg                    # Suzuki GSX-8R
 images/suzuki/gsx-r1000r-2.jpg                # Suzuki GSX-R1000R

@@ -5,7 +5,7 @@ the top, and a set of compromises in between. This is an interactive look at how
 seven manufacturers space their rungs — and which ones a given European licence
 actually reaches.
 
-Seven manufacturers, 129 model lines, six categories, model years 2020–2026.
+Seven manufacturers, 130 model lines, six categories, model years 2020–2026.
 
 ## Using it
 
@@ -19,7 +19,7 @@ Three views:
 | --- | --- |
 | **Picker** | Category chips first, then the seven lineups. Each brand tile summarises whichever category is selected. |
 | **Brand** | One manufacturer, filterable by category and year, with a re-sortable ladder, a card per model and a full spec table. |
-| **Compare** | All 129 models on one ladder, coloured by brand, with per-model checkboxes plus year, category and licence filters. |
+| **Compare** | All 130 models on one ladder, coloured by brand, with per-model checkboxes plus year, category and licence filters. |
 
 Both ladders sort by power, 0–100 km/h, top speed, weight or power-to-weight. Rows
 slide to their new positions rather than jumping, so you can see what moved.
@@ -43,12 +43,12 @@ current ones. A card showing archived specs is badged with the year and carries 
 note on what changed.
 
 **Coverage is deliberately uneven, and the UI says so.** Launch years are set for all
-129 models, but prior-generation *specs* exist for 49 of them — the ones where the
+130 models, but prior-generation *specs* exist for 49 of them — the ones where the
 figures are actually known, like the 955cc Panigale V2, the Ninja 400 before it became
 the 500, and the R 1250 GS. Every other model shows its current figures for each year
 it was on sale. The line under the year chips always reports both numbers, so a bike
 shown at today's specs is never mistaken for one that genuinely did not change. The
-alternative — inventing seven years of numbers for 129 bikes — would make the whole
+alternative — inventing seven years of numbers for 130 bikes — would make the whole
 spec sheet untrustworthy.
 
 #### Comparing a model against its own earlier self
@@ -70,7 +70,7 @@ rows: 142 kg in 2020, 144 kg from 2021, the seat down to 820 mm in 2023, and 141
 from 2025. The single row was a gap in this project's data, not a fact about the
 motorcycle — which is exactly what a missing archive entry always means.
 
-Sorting all 129 at once is mostly a novelty — a Gold Wing and a Panigale V4 R share
+Sorting all 130 at once is mostly a novelty — a Gold Wing and a Panigale V4 R share
 a ladder because they are both motorcycles, not because the comparison means
 anything. The category filter is where the useful comparisons live.
 
@@ -78,7 +78,7 @@ anything. The category filter is where the useful comparisons live.
 
 Photos are convention over configuration — drop a file at `images/<brand>/<id>.jpg`
 and it appears on that model's card. Nothing else to change. `images/MANIFEST.txt`
-lists the expected path for all 129 models, and `images/README.md` covers formats,
+lists the expected path for all 130 models, and `images/README.md` covers formats,
 licensing and sources.
 
 **The folder ships empty.** Official press photos could not be fetched (the build
@@ -156,7 +156,7 @@ Everything else — picker tile, category chips and their counts, brand page, co
 column, spec tables, image folder convention — derives from the registry.
 
 Counts in the page copy are written from the data at runtime via `[data-count]`, so
-prose like "seven manufacturers" and "129 models" updates itself.
+prose like "seven manufacturers" and "130 models" updates itself.
 
 Pick the accent colour for **distinguishability**, not just brand fidelity: bars in the
 compare ladder are colour-coded, and the existing palette's closest pair sits at about
@@ -182,15 +182,22 @@ each manufacturer's own European spec pages. Every model card states which it is
 | Yamaha | 18 / 18 | done; model-year history sourced too, see below |
 | BMW | 22 / 23 | done; the G 310 GS has no live page anywhere in the EU |
 | Suzuki | 17 / 18 | done; two models added, and the SV650X has no live page |
-| Aprilia, Ducati | 0 / 23 | model knowledge, not re-sourced |
+| Ducati | 15 / 15 | done; worst rate of the six, see the weight note below |
+| Aprilia | 0 / 9 | model knowledge, not re-sourced |
 
-**Across the five brands checked so far, 107 of 389 fields were wrong — 72% accurate.**
-That rate is the honest prior for the two brands still unverified. Worst cases were
-seat heights out by 10–35 mm, the ZX-10R (three of four figures wrong) and the Gold
+**Across the six brands checked so far, 134 of 445 fields were wrong — 70% accurate.**
+That rate is the honest prior for Aprilia, the one brand still unverified. Worst cases
+were seat heights out by 10–35 mm, the ZX-10R (three of four figures wrong) and the Gold
 Wing, which was carrying the Tour version's 393 kg instead of the base bike's 373.
 Not every miss is equal: about a third of Yamaha's were decimal precision the old
 figures had rounded away (113 → 113.3 Nm, 166 → 165.9 PS), while the Tracer 9 was
 wrong by six kilos and 35 mm. Treat any unsourced figure accordingly.
+
+Ducati is the outlier at 52% — 27 of 56 fields wrong — and for a structural reason rather
+than carelessness. It is the only manufacturer here that publishes weight with the tank
+empty, so every Ducati weight on this page is an arithmetic conversion rather than a
+quotation, and the conversion had been applied inconsistently. Half the brand's misses
+are that one mistake repeated. See the weight note under the Ducati brand page.
 
 A recurring cause: manufacturers list several variants per model line, or several model
 years, and the wrong one is easy to grab. Honda UK now sells the CBR500R, CB500 Hornet,
@@ -235,8 +242,11 @@ to about ±1 year; a colour change is not treated as a new generation. A generat
 whose range runs into the current entry's `from` year can never be selected, so
 `derive.js` warns about that in the console rather than dropping it silently.
 
-Weights are kerb/wet **with** fuel. Ducati publishes weight with the tank empty, so
-those figures are converted at 0.75 kg per litre of tank capacity; expect a 1–2 kg
-margin on that brand.
+Weights are kerb/wet **with** fuel. Ducati is the exception: it publishes what it calls
+"wet weight no fuel", so every Ducati figure here is its published weight plus the tank
+capacity at 0.75 kg per litre. That puts the numbers 9–17 kg above Ducati's own, which is
+the point — otherwise the brand would look artificially light against the other six. They
+are the only figures on the site that are arithmetic rather than quotation, so expect a
+1–2 kg margin on Ducati and nowhere else.
 
 Compiled August 2026.
