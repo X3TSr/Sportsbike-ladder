@@ -16,7 +16,7 @@
      generation currently on sale and are good to about ±1 year; a mid-cycle
      colour change is not treated as a new generation.
    - `gens` exists only where the previous generation's specs are actually
-     known. That is 36 of the 127. Every other model shows its current spec
+     known. That is 46 of the 127. Every other model shows its current spec
      for every year it was on sale, because inventing seven years of numbers
      for 127 bikes would make the whole spec sheet untrustworthy.
 
@@ -33,29 +33,45 @@ SBL.YEAR_MAX = 2026;
 SBL.YEARS = {
 
 /* ---------------- Yamaha ---------------- */
-"yamaha|R125":{from:2023},
-"yamaha|R3":{from:2024},
-"yamaha|R7":{from:2022},
+"yamaha|R125":{from:2025,
+ gens:[{from:2023,to:2024,w:144,why:"Same bike, three kilos heavier. The 2025 model year trimmed it back to 141 kg."},
+       {from:2021,to:2022,w:144,s:825,why:"Before the 2023 restyle, which dropped the seat 5 mm and reworked the bodywork."},
+       {from:2019,to:2020,w:142,s:825,why:"The pre-VVA R125, peaking at 9,000 rpm rather than 10,000."}]},
+"yamaha|R3":{from:2022,
+ gens:[{from:2020,to:2021,t:28.8,w:170,why:"The 2020 R3, a kilo heavier and a little softer in the midrange."}]},
+"yamaha|R7":{from:2026,
+ gens:[{from:2022,to:2025,t:67,w:188,s:835,why:"The original R7. The 2026 update sharpened the geometry, lowered the seat 5 mm and found a Nm."}]},
 "yamaha|R9":{from:2025},
-"yamaha|R6 Race":{from:2021,
- gens:[{from:2017,to:2020,l:"A",why:"Road-legal R6. Euro 5 ended registration in 2020; it continues as the track-only R6 Race."}]},
+"yamaha|R6 Race":{from:2023,
+ gens:[{from:2021,to:2022,w:190,why:"The first track-only R6, still carrying the road bike's weight before the last of that equipment came off."},
+       {from:2017,to:2020,l:"A",w:190,why:"Road-legal R6. Euro 5 ended registration in 2020; it continues as the track-only R6 Race."}]},
 "yamaha|R1":{from:2025,
  gens:[{from:2020,to:2024,l:"A",why:"Road-legal in the EU until Euro 5+. From 2025 the R1 is sold here as a track-only machine."}]},
-"yamaha|MT-125":{from:2023},
-"yamaha|MT-03":{from:2020},
+"yamaha|MT-125":{from:2021,
+ gens:[{from:2019,to:2020,w:140,why:"The pre-VVA MT-125, two kilos lighter and peaking at 9,000 rpm."}]},
+"yamaha|MT-03":{from:2024,
+ gens:[{from:2019,to:2023,t:29.6,w:168,why:"A kilo heavier and a tenth of a Nm up, before the 2024 revision."}]},
 "yamaha|MT-07":{from:2025,
- gens:[{from:2021,to:2024,w:184,a:3.6,why:"Second-generation CP2. The 2025 update brought new switchgear, a TFT dash and Euro 5+ compliance."}]},
+ gens:[{from:2021,to:2024,t:67,w:184,a:3.6,why:"Second-generation CP2. The 2025 update brought new switchgear, a TFT dash, a Nm more torque and Euro 5+ compliance."},
+       {from:2019,to:2020,p:74.8,t:68,w:182,a:3.5,why:"The Euro 4 MT-07, 1.4 PS up and the lightest version Yamaha has sold."}]},
 "yamaha|MT-09":{from:2024,
  gens:[{from:2021,to:2023,w:189,s:825,why:"Second-generation 890cc CP3, 4 kg lighter than the current bike before the 2024 restyle added bodywork and a TFT dash."},
        {from:2017,to:2020,e:"847cc CP3 inline-triple",es:"847 I3",p:115,t:87.5,w:193,a:3.3,ts:225,s:820,why:"The original 847cc triple, before the 2021 capacity increase to 890cc."}]},
-"yamaha|MT-10":{from:2022},
-"yamaha|Tracer 7":{from:2021},
-"yamaha|Tracer 9":{from:2021},
+"yamaha|MT-10":{from:2022,
+ gens:[{from:2020,to:2021,p:160.4,t:111,w:210,a:3.1,s:825,why:"The pre-2022 MT-10. The update added 5.5 PS, a Nm, an IMU and 10 mm of seat height."}]},
+"yamaha|Tracer 7":{from:2025,
+ gens:[{from:2024,to:2024,w:197,s:835,a:3.7,why:"The last of the light Tracer 7s, before the 2025 model gained 6 kg and an adjustable seat."},
+       {from:2022,to:2023,w:196,s:835,a:3.7,why:"Tracer 7 at its lightest, with the seat 5 mm below the 2021 bike."},
+       {from:2021,to:2021,w:196,s:840,a:3.7,why:"The first year under the Tracer 7 name, on the tallest seat of the run."}]},
+"yamaha|Tracer 9":{from:2025,
+ gens:[{from:2021,to:2024,w:213,s:810,a:3.2,why:"The previous Tracer 9 — 6 kg lighter and a full 35 mm lower in the seat than the 2025 restyle."}]},
 "yamaha|Ténéré 700":{from:2025,
- gens:[{from:2019,to:2024,w:204,s:875,why:"The original Ténéré 700. The 2025 update added a TFT dash, ride modes and switchable ABS."}]},
+ gens:[{from:2019,to:2024,w:205,why:"The original Ténéré 700. The 2025 update added a TFT dash, ride modes, switchable ABS and 3 kg."}]},
 "yamaha|XSR125":{from:2021},
-"yamaha|XSR700":{from:2022},
-"yamaha|XSR900":{from:2022},
+"yamaha|XSR700":{from:2022,
+ gens:[{from:2016,to:2021,p:74.8,t:68,w:186,a:3.6,why:"The Euro 4 XSR700, 1.4 PS up and 2 kg lighter than the 2022 revision."}]},
+"yamaha|XSR900":{from:2022,
+ gens:[{from:2016,to:2021,e:"847cc CP3 inline-triple",es:"847 I3",p:115,t:87.5,w:195,a:3.4,ts:225,s:830,why:"The 847cc XSR900, before the 2022 redesign brought the 890cc triple and a 20 mm lower seat."}]},
 "yamaha|XSR900 GP":{from:2024},
 
 /* ---------------- Kawasaki ---------------- */
