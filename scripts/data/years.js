@@ -12,13 +12,13 @@
 
    Coverage is deliberately uneven and that is visible in the UI:
 
-   - `from` is set for all 129 models. These are launch/redesign years for the
+   - `from` is set for all 130 models. These are launch/redesign years for the
      generation currently on sale and are good to about ±1 year; a mid-cycle
      colour change is not treated as a new generation.
    - `gens` exists only where the previous generation's specs are actually
-     known. That is 49 of the 129. Every other model shows its current spec
+     known. That is 49 of the 130. Every other model shows its current spec
      for every year it was on sale, because inventing seven years of numbers
-     for 129 bikes would make the whole spec sheet untrustworthy.
+     for 130 bikes would make the whole spec sheet untrustworthy.
 
    A generation whose `to` reaches `from` is unreachable — the current entry
    would always win. derive.js warns about that case in the console.
@@ -152,20 +152,22 @@ SBL.YEARS = {
 
 /* ---------------- Ducati ---------------- */
 "ducati|Panigale V2":{from:2025,
- gens:[{from:2020,to:2024,e:"955cc 90° V2 (desmodromic)",es:"955 V2",p:155,t:104,w:200,a:3.2,ts:270,s:840,why:"The 955cc desmodromic V2. The 2025 redesign dropped to 890cc and 120 PS, ditched desmo valves and shed 9 kg."}]},
+ gens:[{from:2020,to:2024,e:"955cc 90° V2 (desmodromic)",es:"955 V2",p:155,t:104,w:200,a:3.2,ts:270,s:840,why:"The 955cc desmodromic V2. The 2025 redesign dropped to 890cc and 120 PS, ditched desmo valves and shed 10 kg."}]},
 "ducati|Panigale V4":{from:2025,
  gens:[{from:2022,to:2024,p:215,t:123,w:198,a:2.8,why:"Sixth-generation V4, before the 2025 hollow symmetrical swingarm and revised front frame."}]},
 "ducati|Panigale V4 R":{from:2023},
-"ducati|Superleggera V4":{from:2020},
+"ducati|Superleggera V4":{from:2026,
+ gens:[{from:2020,to:2021,p:224,t:116,why:"The original Superleggera V4, a limited run of 500. Nothing wore the name between 2022 and 2025; the 2026 bike is the Centenario."}]},
 "ducati|Monster":{from:2026,
  gens:[{from:2021,to:2025,e:"937cc 90° V2",es:"937 V2",p:111,t:93,w:188,s:820,why:"The 937cc Monster. The 2026 fifth generation moved to the 890 V2 with variable intake timing and 45,000 km valve intervals."}]},
 "ducati|Streetfighter V2":{from:2025,
  gens:[{from:2022,to:2024,e:"955cc 90° V2 (desmodromic)",es:"955 V2",p:153,t:101,w:200,a:3.2,ts:265,s:845,why:"The 955cc desmodromic Streetfighter, retired alongside the Panigale V2 it was based on."}]},
 "ducati|Streetfighter V4":{from:2023},
+"ducati|Hypermotard 698 Mono":{from:2024},
 "ducati|Hypermotard V2":{from:2025,
- gens:[{from:2022,to:2024,n:"Hypermotard 950",e:"937cc 90° V2",es:"937 V2",p:114,t:96,w:200,a:3.4,ts:225,s:870,why:"Sold as the Hypermotard 950. The 2025 V2 is 10 kg lighter with a sportier riding position."}]},
+ gens:[{from:2022,to:2024,n:"Hypermotard 950",e:"937cc 90° V2",es:"937 V2",p:114,t:96,w:200,a:3.4,ts:225,s:870,why:"Sold as the Hypermotard 950. The 2025 V2 is 11 kg lighter with a sportier riding position and a 10 mm taller seat."}]},
 "ducati|Multistrada V2":{from:2025,
- gens:[{from:2022,to:2024,e:"937cc 90° V2",es:"937 V2",p:113,t:96,w:225,a:3.7,s:830,why:"The 937cc Multistrada V2, 23 kg heavier than the 2025 replacement."}]},
+ gens:[{from:2022,to:2024,e:"937cc 90° V2",es:"937 V2",p:113,t:96,w:225,a:3.7,s:830,why:"The 937cc Multistrada V2, 12 kg heavier than the 2025 replacement."}]},
 "ducati|Multistrada V4":{from:2025,
  gens:[{from:2021,to:2024,t:125,w:243,why:"First-generation V4 Multistrada, before the 2025 chassis and electronics revision."}]},
 "ducati|DesertX":{from:2026,
