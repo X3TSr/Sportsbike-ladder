@@ -43,7 +43,7 @@ current ones. A card showing archived specs is badged with the year and carries 
 note on what changed.
 
 **Coverage is deliberately uneven, and the UI says so.** Launch years are set for all
-127 models, but prior-generation *specs* exist for 36 of them — the ones where the
+127 models, but prior-generation *specs* exist for 46 of them — the ones where the
 figures are actually known, like the 955cc Panigale V2, the Ninja 400 before it became
 the 500, and the R 1250 GS. Every other model shows its current figures for each year
 it was on sale. The line under the year chips always reports both numbers, so a bike
@@ -59,10 +59,16 @@ selected model contributes one row per generation on record, labelled with its y
 span, so the 955cc Panigale V2 lines up directly against the 890cc one.
 
 A model showing a single row is one whose earlier specs are *not recorded* — not
-necessarily one that never changed. The Yamaha R125 is the clearest example: it has a
-launch year of 2023 and no archive entry, so 2023–2026 are genuinely identical and it
-vanishes before 2023. Every model card now carries a **Generation** row giving the
-span its figures belong to, which is what makes that legible at the point of use.
+necessarily one that never changed. Every model card carries a **Generation** row
+giving the span its figures belong to, which is what makes that legible at the point
+of use.
+
+The Yamaha R125 is the clearest illustration of why the distinction matters. It used
+to show one row here, on a launch year of 2023, which read as *nothing changed*.
+Yamaha publishes a spec page per model year, so the real answer turned out to be four
+rows: 142 kg in 2020, 144 kg from 2021, the seat down to 820 mm in 2023, and 141 kg
+from 2025. The single row was a gap in this project's data, not a fact about the
+motorcycle — which is exactly what a missing archive entry always means.
 
 Sorting all 127 at once is mostly a novelty — a Gold Wing and a Panigale V4 R share
 a ladder because they are both motorcycles, not because the comparison means
@@ -94,7 +100,7 @@ scripts/
   data/
     index.js            category definitions + the registry brands fill
     yamaha.js …         one file per brand (7 brands), 9–25 model lines each
-    years.js            launch years for all models, prior generations for 36
+    years.js            launch years for all models, prior generations for 46
     derive.js           ptw, id, uid, estimate sets, licence ranking, year resolver
   metrics.js            the five sort metrics; metric-button wiring
   categories.js         the category and year chip components, shared by all views
@@ -173,23 +179,33 @@ each manufacturer's own European spec pages. Every model card states which it is
 | --- | --- | --- |
 | Kawasaki | 25 / 25 | done — see `src` on each entry |
 | Honda | 22 / 22 | done; two models added that were missing entirely |
-| Yamaha, Aprilia, Ducati, Suzuki, BMW | 0 / 80 | model knowledge, not re-sourced |
+| Yamaha | 18 / 18 | done; model-year history sourced too, see below |
+| Aprilia, Ducati, Suzuki, BMW | 0 / 62 | model knowledge, not re-sourced |
 
-**Across the two brands checked so far, 49 of 172 fields were wrong — 72% accurate.**
-That rate is the honest prior for the five brands still unverified. Worst cases were
+**Across the three brands checked so far, 72 of 244 fields were wrong — 70% accurate.**
+That rate is the honest prior for the four brands still unverified. Worst cases were
 seat heights out by 10–35 mm, the ZX-10R (three of four figures wrong) and the Gold
 Wing, which was carrying the Tour version's 393 kg instead of the base bike's 373.
-Treat any unsourced figure accordingly.
+Not every miss is equal: about a third of Yamaha's were decimal precision the old
+figures had rounded away (113 → 113.3 Nm, 166 → 165.9 PS), while the Tracer 9 was
+wrong by six kilos and 35 mm. Treat any unsourced figure accordingly.
 
-A recurring cause: manufacturers list several variants per model line and the wrong
-one is easy to grab. Honda UK now sells the CBR500R, CB500 Hornet, CBR650R and NX500
-only with E-Clutch, so those four legitimately weigh a few kilos more than the manual
-bikes they replaced. Where a page offers a choice, the figures here are the standard
-model's, and the variant is described in the model's note instead.
+A recurring cause: manufacturers list several variants per model line, or several model
+years, and the wrong one is easy to grab. Honda UK now sells the CBR500R, CB500 Hornet,
+CBR650R and NX500 only with E-Clutch, so those four legitimately weigh a few kilos more
+than the manual bikes they replaced; the Tracer 9's figures here were the 2024 bike's,
+six kilos and 35 mm of seat height off the 2025 one. Where a page offers a choice, the
+figures are the standard current model's and the variant is described in the model's
+note instead.
 
-Verification covers *current* specs only. Earlier generations in `years.js` are not
-sourced, and where correcting a current figure would have changed what a generation
-inherits, the previous value is pinned explicitly so history did not move.
+Verification normally covers *current* specs only, and where correcting a current figure
+would have changed what a generation inherits, the previous value is pinned explicitly
+so history did not move.
+
+**Yamaha is the exception, and the reason its archive is so much deeper.** Yamaha keeps
+a separate spec page per model year going back to 2019, so Yamaha's prior generations are
+sourced rather than inferred: sixteen archive entries across ten models that previously
+showed none. No other manufacturer here publishes that.
 
 **Estimated figures are marked with a dotted underline** in the ladder, the model
 cards and the spec tables. Manufacturers publish power, torque, weight and seat
