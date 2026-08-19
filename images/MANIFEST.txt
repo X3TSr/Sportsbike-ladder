@@ -45,22 +45,24 @@ images/honda/cbr500r-0.jpg                    # Honda CBR500R
 images/honda/cbr650r-1.jpg                    # Honda CBR650R
 images/honda/cbr600rr-2.jpg                   # Honda CBR600RR
 images/honda/cbr1000rr-r-fireblade-3.jpg      # Honda CBR1000RR-R Fireblade
-images/honda/cb125r-4.jpg                     # Honda CB125R
-images/honda/cb500-hornet-5.jpg               # Honda CB500 Hornet
-images/honda/cb650r-6.jpg                     # Honda CB650R
-images/honda/cb750-hornet-7.jpg               # Honda CB750 Hornet
-images/honda/cb1000-hornet-8.jpg              # Honda CB1000 Hornet
-images/honda/cb1000gt-9.jpg                   # Honda CB1000GT
-images/honda/nt1100-10.jpg                    # Honda NT1100
-images/honda/gold-wing-11.jpg                 # Honda Gold Wing
-images/honda/nx500-12.jpg                     # Honda NX500
-images/honda/xl750-transalp-13.jpg            # Honda XL750 Transalp
-images/honda/nc750x-14.jpg                    # Honda NC750X
-images/honda/crf1100l-africa-twin-15.jpg      # Honda CRF1100L Africa Twin
-images/honda/cmx500-rebel-16.jpg              # Honda CMX500 Rebel
-images/honda/cmx1100-rebel-17.jpg             # Honda CMX1100 Rebel
-images/honda/cb1000f-18.jpg                   # Honda CB1000F
-images/honda/cl500-19.jpg                     # Honda CL500
+images/honda/cb125f-4.jpg                     # Honda CB125F
+images/honda/cb125r-5.jpg                     # Honda CB125R
+images/honda/cb500-hornet-6.jpg               # Honda CB500 Hornet
+images/honda/cb650r-7.jpg                     # Honda CB650R
+images/honda/cb750-hornet-8.jpg               # Honda CB750 Hornet
+images/honda/cb1000-hornet-9.jpg              # Honda CB1000 Hornet
+images/honda/cb1000gt-10.jpg                  # Honda CB1000GT
+images/honda/nt1100-11.jpg                    # Honda NT1100
+images/honda/gold-wing-12.jpg                 # Honda Gold Wing
+images/honda/nx500-13.jpg                     # Honda NX500
+images/honda/xl750-transalp-14.jpg            # Honda XL750 Transalp
+images/honda/nc750x-15.jpg                    # Honda NC750X
+images/honda/crf1100l-africa-twin-16.jpg      # Honda CRF1100L Africa Twin
+images/honda/cmx500-rebel-17.jpg              # Honda CMX500 Rebel
+images/honda/cmx1100-rebel-18.jpg             # Honda CMX1100 Rebel
+images/honda/cb1000f-19.jpg                   # Honda CB1000F
+images/honda/cl500-20.jpg                     # Honda CL500
+images/honda/gb350s-21.jpg                    # Honda GB350S
 images/aprilia/rs-125-0.jpg                   # Aprilia RS 125
 images/aprilia/rs-457-1.jpg                   # Aprilia RS 457
 images/aprilia/rs-660-2.jpg                   # Aprilia RS 660

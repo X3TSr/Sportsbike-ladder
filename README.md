@@ -5,7 +5,7 @@ the top, and a set of compromises in between. This is an interactive look at how
 seven manufacturers space their rungs — and which ones a given European licence
 actually reaches.
 
-Seven manufacturers, 125 model lines, six categories, model years 2020–2026.
+Seven manufacturers, 127 model lines, six categories, model years 2020–2026.
 
 ## Using it
 
@@ -19,7 +19,7 @@ Three views:
 | --- | --- |
 | **Picker** | Category chips first, then the seven lineups. Each brand tile summarises whichever category is selected. |
 | **Brand** | One manufacturer, filterable by category and year, with a re-sortable ladder, a card per model and a full spec table. |
-| **Compare** | All 125 models on one ladder, coloured by brand, with per-model checkboxes plus year, category and licence filters. |
+| **Compare** | All 127 models on one ladder, coloured by brand, with per-model checkboxes plus year, category and licence filters. |
 
 Both ladders sort by power, 0–100 km/h, top speed, weight or power-to-weight. Rows
 slide to their new positions rather than jumping, so you can see what moved.
@@ -43,12 +43,12 @@ current ones. A card showing archived specs is badged with the year and carries 
 note on what changed.
 
 **Coverage is deliberately uneven, and the UI says so.** Launch years are set for all
-125 models, but prior-generation *specs* exist for 36 of them — the ones where the
+127 models, but prior-generation *specs* exist for 36 of them — the ones where the
 figures are actually known, like the 955cc Panigale V2, the Ninja 400 before it became
 the 500, and the R 1250 GS. Every other model shows its current figures for each year
 it was on sale. The line under the year chips always reports both numbers, so a bike
 shown at today's specs is never mistaken for one that genuinely did not change. The
-alternative — inventing seven years of numbers for 125 bikes — would make the whole
+alternative — inventing seven years of numbers for 127 bikes — would make the whole
 spec sheet untrustworthy.
 
 #### Comparing a model against its own earlier self
@@ -64,7 +64,7 @@ launch year of 2023 and no archive entry, so 2023–2026 are genuinely identical
 vanishes before 2023. Every model card now carries a **Generation** row giving the
 span its figures belong to, which is what makes that legible at the point of use.
 
-Sorting all 125 at once is mostly a novelty — a Gold Wing and a Panigale V4 R share
+Sorting all 127 at once is mostly a novelty — a Gold Wing and a Panigale V4 R share
 a ladder because they are both motorcycles, not because the comparison means
 anything. The category filter is where the useful comparisons live.
 
@@ -72,7 +72,7 @@ anything. The category filter is where the useful comparisons live.
 
 Photos are convention over configuration — drop a file at `images/<brand>/<id>.jpg`
 and it appears on that model's card. Nothing else to change. `images/MANIFEST.txt`
-lists the expected path for all 125 models, and `images/README.md` covers formats,
+lists the expected path for all 127 models, and `images/README.md` covers formats,
 licensing and sources.
 
 **The folder ships empty.** Official press photos could not be fetched (the build
@@ -150,7 +150,7 @@ Everything else — picker tile, category chips and their counts, brand page, co
 column, spec tables, image folder convention — derives from the registry.
 
 Counts in the page copy are written from the data at runtime via `[data-count]`, so
-prose like "seven manufacturers" and "125 models" updates itself.
+prose like "seven manufacturers" and "127 models" updates itself.
 
 Pick the accent colour for **distinguishability**, not just brand fidelity: bars in the
 compare ladder are colour-coded, and the existing palette's closest pair sits at about
@@ -172,12 +172,20 @@ each manufacturer's own European spec pages. Every model card states which it is
 | brand | verified | notes |
 | --- | --- | --- |
 | Kawasaki | 25 / 25 | done — see `src` on each entry |
-| Yamaha, Honda, Aprilia, Ducati, Suzuki, BMW | 0 / 100 | model knowledge, not re-sourced |
+| Honda | 22 / 22 | done; two models added that were missing entirely |
+| Yamaha, Aprilia, Ducati, Suzuki, BMW | 0 / 80 | model knowledge, not re-sourced |
 
-**The first pass found 27 of 92 checked fields wrong — 71% accurate.** That rate is
-the honest prior for the six unverified brands. Worst cases were seat heights out by
-20–35 mm and the ZX-10R, where three of four figures were wrong. Treat any unsourced
-figure accordingly.
+**Across the two brands checked so far, 49 of 172 fields were wrong — 72% accurate.**
+That rate is the honest prior for the five brands still unverified. Worst cases were
+seat heights out by 10–35 mm, the ZX-10R (three of four figures wrong) and the Gold
+Wing, which was carrying the Tour version's 393 kg instead of the base bike's 373.
+Treat any unsourced figure accordingly.
+
+A recurring cause: manufacturers list several variants per model line and the wrong
+one is easy to grab. Honda UK now sells the CBR500R, CB500 Hornet, CBR650R and NX500
+only with E-Clutch, so those four legitimately weigh a few kilos more than the manual
+bikes they replaced. Where a page offers a choice, the figures here are the standard
+model's, and the variant is described in the model's note instead.
 
 Verification covers *current* specs only. Earlier generations in `years.js` are not
 sourced, and where correcting a current figure would have changed what a generation

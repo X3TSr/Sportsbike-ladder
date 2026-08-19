@@ -12,13 +12,13 @@
 
    Coverage is deliberately uneven and that is visible in the UI:
 
-   - `from` is set for all 125 models. These are launch/redesign years for the
+   - `from` is set for all 127 models. These are launch/redesign years for the
      generation currently on sale and are good to about ±1 year; a mid-cycle
      colour change is not treated as a new generation.
    - `gens` exists only where the previous generation's specs are actually
-     known. That is 36 of the 125. Every other model shows its current spec
+     known. That is 36 of the 127. Every other model shows its current spec
      for every year it was on sale, because inventing seven years of numbers
-     for 125 bikes would make the whole spec sheet untrustworthy.
+     for 127 bikes would make the whole spec sheet untrustworthy.
 
    A generation whose `to` reaches `from` is unreachable — the current entry
    would always win. derive.js warns about that case in the console.
@@ -99,9 +99,10 @@ SBL.YEARS = {
 "honda|CBR600RR":{from:2021},
 "honda|CBR1000RR-R Fireblade":{from:2024,
  gens:[{from:2020,to:2023,p:217,w:201,a:2.9,why:"First-generation RR-R. The 2024 revision reworked the airbox, exhaust and aero for more midrange."}]},
+"honda|CB125F":{from:2021},
 "honda|CB125R":{from:2021},
 "honda|CB500 Hornet":{from:2024,
- gens:[{from:2019,to:2023,n:"CB500F",p:48,t:43,w:189,why:"Sold as the CB500F before the 2024 Hornet restyle."}]},
+ gens:[{from:2019,to:2023,n:"CB500F",p:48,t:43,w:189,s:789,why:"Sold as the CB500F before the 2024 Hornet restyle."}]},
 "honda|CB650R":{from:2024,
  gens:[{from:2019,to:2023,p:95,t:64,w:202,why:"Pre-E-Clutch CB650R."}]},
 "honda|CB750 Hornet":{from:2023},
@@ -110,7 +111,7 @@ SBL.YEARS = {
 "honda|NT1100":{from:2022},
 "honda|Gold Wing":{from:2021},
 "honda|NX500":{from:2024,
- gens:[{from:2019,to:2023,n:"CB500X",p:48,t:43,w:199,s:830,why:"Sold as the CB500X. The 2024 NX500 shed 3 kg and was renamed into the adventure family."}]},
+ gens:[{from:2019,to:2023,n:"CB500X",p:48,t:43,w:199,s:830,why:"Sold as the CB500X. The 2024 NX500 restyled it and shed 3 kg, which the E-Clutch now sold in its place has put back."}]},
 "honda|XL750 Transalp":{from:2023},
 "honda|NC750X":{from:2021},
 "honda|CRF1100L Africa Twin":{from:2024,
@@ -119,6 +120,7 @@ SBL.YEARS = {
 "honda|CMX1100 Rebel":{from:2021},
 "honda|CB1000F":{from:2026},
 "honda|CL500":{from:2023},
+"honda|GB350S":{from:2025},
 
 /* ---------------- Aprilia ---------------- */
 "aprilia|RS 125":{from:2021},
