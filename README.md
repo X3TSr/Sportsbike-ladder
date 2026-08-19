@@ -163,6 +163,26 @@ Power figures are manufacturer claims measured at the crank; expect roughly 10�
 less at the rear wheel. Licence classes are European: A1 covers 125cc and 11 kW, A2
 caps at 35 kW with a power-to-weight limit, A is unrestricted.
 
+### Where the figures come from
+
+Power, torque, wet weight and seat height are being verified brand by brand against
+each manufacturer's own European spec pages. Every model card states which it is:
+*verified against \<source\>* with a link, or *not yet verified*.
+
+| brand | verified | notes |
+| --- | --- | --- |
+| Kawasaki | 25 / 25 | done — see `src` on each entry |
+| Yamaha, Honda, Aprilia, Ducati, Suzuki, BMW | 0 / 100 | model knowledge, not re-sourced |
+
+**The first pass found 27 of 92 checked fields wrong — 71% accurate.** That rate is
+the honest prior for the six unverified brands. Worst cases were seat heights out by
+20–35 mm and the ZX-10R, where three of four figures were wrong. Treat any unsourced
+figure accordingly.
+
+Verification covers *current* specs only. Earlier generations in `years.js` are not
+sourced, and where correcting a current figure would have changed what a generation
+inherits, the previous value is pinned explicitly so history did not move.
+
 **Estimated figures are marked with a dotted underline** in the ladder, the model
 cards and the spec tables. Manufacturers publish power, torque, weight and seat
 height for nearly everything, but rarely 0–100 km/h or top speed outside the sport

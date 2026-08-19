@@ -171,6 +171,14 @@
         '</dl>' +
         (bike.x ? '<p class="variant">' + bike.x + '</p>' : "") +
         '<p class="verdict">' + bike.v + '</p>' +
+        /* Provenance, stated per model rather than only in the page caveats.
+           A reader checking one number should be able to see where it came
+           from, or that it has not been checked at all. */
+        (SBL.isSourced(bike)
+          ? '<p class="prov sourced">Specs verified against ' +
+              '<a href="' + bike.src + '" target="_blank" rel="noopener">' +
+              SBL.sourceHost(bike.src) + '</a></p>'
+          : '<p class="prov">Specs not yet verified against a source</p>') +
       '</article>';
     }).join("");
 
