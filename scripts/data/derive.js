@@ -5,29 +5,63 @@
    id  : unique within a brand — the card anchor the ladder scrolls to
    uid : unique across all brands — the row key both ladders are built on
    estOf : Set of metric keys that are estimated for this bike
-   rimF/rimR : wheel diameter in inches, read off the published tyre size
+
+   Wheel sizes are deliberately not stored. tyreSpec() unpacks them from the
+   published tyre string at the point of use, so a generation that overrides
+   the tyres needs no other bookkeeping and nothing can fall out of sync.
    ========================================================================== */
 
 (function(SBL){
   "use strict";
 
-  /* Wheel diameter out of a tyre size. Every notation manufacturers use puts
-     the rim last — 120/70 ZR17, 90/90-21, 180/55 B18, 120/600 R17 — so the
-     final number is the answer, whatever precedes it. Returns null for the
-     fourteen models whose manufacturer publishes no tyre size at all. */
-  SBL.rimOf = function(tyre){
+  /* Tyre notation packs three unrelated measurements into one string and
+     none of them is the number a reader pictures. "190/55 ZR17" is a 190 mm
+     section width, a sidewall 55% of that width, and a 17-inch rim — so the
+     wheel you actually look at is 64 cm across, not 17 of anything. Unpack it
+     into millimetres and let the page show real sizes.
+
+       width         section width, straight out of the first number
+       rim           bead seat diameter, the inch figure everyone quotes
+       diameter      rim + a sidewall at each end: the whole round thing
+       circumference how far it travels in one revolution
+
+     Returns null for the fourteen models whose manufacturer publishes no
+     tyre size at all. */
+  SBL.tyreSpec = function(tyre){
     if(!tyre) return null;
-    var m = String(tyre).match(/(\d{2})\s*$/);
-    return m ? Number(m[1]) : null;
+    var m = String(tyre).match(/(\d{2,3})\s*\/\s*(\d{2,3})[^\d]*(\d{2})\s*$/);
+    if(!m) return null;
+
+    var width = Number(m[1]), second = Number(m[2]), rimIn = Number(m[3]);
+    var rim = rimIn * 25.4;
+
+    /* An aspect ratio is a percentage and never exceeds 100 — 80/100-18 is a
+       real size and sits right on the ceiling. Racing slicks put the overall
+       diameter in millimetres in that slot instead, which is the only thing
+       telling the two notations apart. Reading the H2R's 120/600 R17 as a
+       600% sidewall would give it a two-metre wheel. */
+    var diameter = second > 100 ? second : rim + 2 * width * second / 100;
+
+    return { width: width, rim: rim, rimIn: rimIn,
+             diameter: diameter, circumference: Math.PI * diameter };
   };
 
-  /* "21 / 18 in", or "17 in" when both ends match — which is most of them,
-     and repeating the number reads like a mistake. */
-  SBL.wheelLabel = function(bike){
-    if(!bike.rimF || !bike.rimR) return null;
-    return bike.rimF === bike.rimR
-      ? bike.rimF + " in"
-      : bike.rimF + " / " + bike.rimR + " in";
+  /* One measurement for both ends, in centimetres. Collapsed to a single
+     figure when the two match, because repeating a number reads like a
+     mistake rather than a fact. */
+  SBL.wheelPair = function(bike, field, dp){
+    var f = SBL.tyreSpec(bike.tyreF), r = SBL.tyreSpec(bike.tyreR);
+    if(!f || !r) return null;
+    var a = (f[field] / 10).toFixed(dp), b = (r[field] / 10).toFixed(dp);
+    return (a === b ? a : a + " / " + b) + " cm";
+  };
+
+  /* The rim sizes still read as "21 / 18 in" — it is the vernacular the
+     model prose uses, so the card keeps it alongside the published codes. */
+  SBL.rimLabel = function(bike){
+    var f = SBL.tyreSpec(bike.tyreF), r = SBL.tyreSpec(bike.tyreR);
+    if(!f || !r) return null;
+    return (f.rimIn === r.rimIn ? f.rimIn : f.rimIn + " / " + r.rimIn) + " in";
   };
 
   Object.keys(SBL.DATA).forEach(function(brandKey){
@@ -39,13 +73,6 @@
       bike.id    = bike.n.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + i;
       bike.uid   = brandKey + "__" + bike.id;
       bike.estOf = new Set((bike.est || "").split(",").filter(Boolean));
-
-      /* Rim diameter, read off the published tyre size rather than stored
-         separately, so the two can never drift apart. The rim is the trailing
-         number in every notation manufacturers use — 120/70 ZR17, 90/90-21,
-         180/55 B18 — so the last one- or two-digit group is it. */
-      bike.rimF = SBL.rimOf(bike.tyreF);
-      bike.rimR = SBL.rimOf(bike.tyreR);
 
       var years  = SBL.YEARS[brandKey + "|" + bike.n] || {};
       bike.from  = years.from || SBL.YEAR_MIN;
@@ -135,13 +162,11 @@
 
   /* Merge a generation's overrides onto the bike. Fields the generation does
      not mention fall through, so an entry that only changed weight lists only
-     weight. ptw and the rim sizes are recomputed because p, w or the tyre
-     sizes may have moved. */
+     weight. ptw is recomputed because p or w may have moved; wheel sizes
+     need nothing, since they are read from tyreF/tyreR at the point of use. */
   SBL.asGeneration = function(bike, gen){
     var spec = Object.assign({}, bike, gen);
     spec.ptw        = spec.p / spec.w;
-    spec.rimF       = SBL.rimOf(spec.tyreF);
-    spec.rimR       = SBL.rimOf(spec.tyreR);
     spec.isHistoric = true;
     spec.genFrom    = gen.from;
     spec.genTo      = gen.to;
