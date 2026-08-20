@@ -162,15 +162,18 @@
           '<div><dt>0–100 km/h</dt><dd>' + cell(bike, "a", "~" + bike.a + " s") + '</dd></div>' +
           '<div><dt>Top speed</dt><dd>' + cell(bike, "ts", "~" + bike.ts + " km/h") + '</dd></div>' +
           '<div><dt>Seat height</dt><dd>' + bike.s + ' mm</dd></div>' +
-          /* Diameter first, because that is the number that separates an
-             adventure bike from a road bike; the full tyre sizes sit under it
-             for anyone who wants the section widths too. */
-          '<div><dt>Wheels</dt><dd>' +
-            (SBL.wheelLabel(bike)
-              ? SBL.wheelLabel(bike) +
-                '<span class="tyres">' + bike.tyreF + ' · ' + bike.tyreR + '</span>'
-              : '<span class="unknown">not published</span>') +
-          '</dd></div>' +
+          /* Wheels, front / rear, as measurements rather than tyre code. The
+             published code is kept underneath: it is where these come from,
+             and it is what you read off the sidewall when buying tyres. */
+          (SBL.wheelPair(bike, "diameter", 1)
+            ? '<div><dt>Wheel Ø</dt><dd>' + SBL.wheelPair(bike, "diameter", 1) + '</dd></div>' +
+              '<div><dt>Tyre width</dt><dd>' + SBL.wheelPair(bike, "width", 1) + '</dd></div>' +
+              '<div><dt>Circumference</dt><dd>' +
+                SBL.wheelPair(bike, "circumference", 0) +
+                '<span class="tyres">Rims ' + SBL.rimLabel(bike) + ' &middot; ' +
+                  bike.tyreF + ' &middot; ' + bike.tyreR + '</span>' +
+              '</dd></div>'
+            : '<div><dt>Wheels</dt><dd><span class="unknown">not published</span></dd></div>') +
           /* Which generation these figures belong to. Without this, two years
              showing identical specs looks like the year filter is broken,
              when it usually means the model simply did not change. */
@@ -230,7 +233,7 @@
         '<td>' + cell(bike, "a", "~" + bike.a + " s") + '</td>' +
         '<td>' + cell(bike, "ts", "~" + bike.ts) + '</td>' +
         '<td>' + bike.s + ' mm</td>' +
-        '<td>' + (SBL.wheelLabel(bike) || "&mdash;") + '</td>' +
+        '<td>' + (SBL.wheelPair(bike, "diameter", 1) || "&mdash;") + '</td>' +
         '<td>' + bike.l + '</td></tr>';
     }).join("");
   }

@@ -137,7 +137,7 @@
         '<td>' + cell(bike, "a", "~" + bike.a + " s") + '</td>' +
         '<td>' + cell(bike, "ts", "~" + bike.ts) + '</td>' +
         '<td>' + bike.s + ' mm</td>' +
-        '<td>' + (SBL.wheelLabel(bike) || "&mdash;") + '</td>' +
+        '<td>' + (SBL.wheelPair(bike, "diameter", 1) || "&mdash;") + '</td>' +
         '<td>' + bike.l + '</td></tr>';
     }).join("");
   }
