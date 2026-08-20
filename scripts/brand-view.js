@@ -162,6 +162,15 @@
           '<div><dt>0–100 km/h</dt><dd>' + cell(bike, "a", "~" + bike.a + " s") + '</dd></div>' +
           '<div><dt>Top speed</dt><dd>' + cell(bike, "ts", "~" + bike.ts + " km/h") + '</dd></div>' +
           '<div><dt>Seat height</dt><dd>' + bike.s + ' mm</dd></div>' +
+          /* Diameter first, because that is the number that separates an
+             adventure bike from a road bike; the full tyre sizes sit under it
+             for anyone who wants the section widths too. */
+          '<div><dt>Wheels</dt><dd>' +
+            (SBL.wheelLabel(bike)
+              ? SBL.wheelLabel(bike) +
+                '<span class="tyres">' + bike.tyreF + ' · ' + bike.tyreR + '</span>'
+              : '<span class="unknown">not published</span>') +
+          '</dd></div>' +
           /* Which generation these figures belong to. Without this, two years
              showing identical specs looks like the year filter is broken,
              when it usually means the model simply did not change. */
@@ -220,7 +229,9 @@
         '<td>' + bike.t + ' Nm</td><td>' + bike.w + ' kg</td><td>' + bike.ptw.toFixed(2) + '</td>' +
         '<td>' + cell(bike, "a", "~" + bike.a + " s") + '</td>' +
         '<td>' + cell(bike, "ts", "~" + bike.ts) + '</td>' +
-        '<td>' + bike.s + ' mm</td><td>' + bike.l + '</td></tr>';
+        '<td>' + bike.s + ' mm</td>' +
+        '<td>' + (SBL.wheelLabel(bike) || "&mdash;") + '</td>' +
+        '<td>' + bike.l + '</td></tr>';
     }).join("");
   }
 

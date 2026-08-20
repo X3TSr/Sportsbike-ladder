@@ -136,7 +136,9 @@
         '<td>' + bike.w + ' kg</td><td>' + bike.ptw.toFixed(2) + '</td>' +
         '<td>' + cell(bike, "a", "~" + bike.a + " s") + '</td>' +
         '<td>' + cell(bike, "ts", "~" + bike.ts) + '</td>' +
-        '<td>' + bike.s + ' mm</td><td>' + bike.l + '</td></tr>';
+        '<td>' + bike.s + ' mm</td>' +
+        '<td>' + (SBL.wheelLabel(bike) || "&mdash;") + '</td>' +
+        '<td>' + bike.l + '</td></tr>';
     }).join("");
   }
 
