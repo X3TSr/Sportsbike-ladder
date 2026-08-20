@@ -101,7 +101,7 @@ scripts/
     index.js            category definitions + the registry brands fill
     yamaha.js …         one file per brand (7 brands), 9–25 model lines each
     years.js            launch years for all models, prior generations for 49
-    derive.js           ptw, id, uid, estimate sets, licence ranking, year resolver
+    derive.js           ptw, id, uid, rim sizes, estimates, licence ranking, years
   metrics.js            the five sort metrics; metric-button wiring
   categories.js         the category and year chip components, shared by all views
   ladder.js             the animated bar chart, shared by both ladders
@@ -144,9 +144,11 @@ a 150 ms debounce.
 
 Add an entry to the relevant `bikes` array in `scripts/data/<brand>.js`, including a
 `cat` key from `SBL.CATEGORIES`, and a `"<brand>|<name>"` entry in
-`scripts/data/years.js` giving at least its `from` year. `ptw`, `id`, `uid` and the
-estimate set are derived at load, and the chips, ladders, cards, spec tables and compare checkboxes all build
-themselves from that array — nothing else needs touching.
+`scripts/data/years.js` giving at least its `from` year. `ptw`, `id`, `uid`, the rim
+diameters and the estimate set are derived at load, and the chips, ladders, cards, spec
+tables and compare checkboxes all build themselves from that array — nothing else needs
+touching. `tyreF`/`tyreR` are optional: leave them off and the card says *not published*
+rather than showing a gap.
 
 ### Adding a brand
 
@@ -257,5 +259,24 @@ capacity at 0.75 kg per litre. That puts the numbers 9–17 kg above Ducati's ow
 the point — otherwise the brand would look artificially light against the other six. They
 are the only figures on the site that are arithmetic rather than quotation, so expect a
 1–2 kg margin on Ducati and nowhere else.
+
+### Wheels
+
+Model cards and both spec tables carry front and rear **wheel diameter**, with the full
+tyre sizes under it on the card. Only the tyre size is stored — `tyreF` and `tyreR`, as
+the manufacturer publishes it — and the diameter is read off the end of it in `derive.js`,
+so the two cannot drift apart. Every notation puts the rim last, whether it is
+`120/70 ZR17`, `90/90-21`, `180/55 B18` or the H2R's slick `120/600 R17`.
+
+Where both ends match the card says `17 in` rather than `17 / 17 in`, because repeating
+the number reads like a mistake. 87 of the 116 sourced models are on 17-inch wheels at
+both ends, which is itself the useful finding: the wheel column is near-constant through
+sport, naked and sport-tourer, and only starts moving in adventure (19/17, 21/18), cruiser
+(18/16, 19/16) and retro.
+
+**14 models have no wheel data** and show *not published* on the card and an em-dash in
+the tables — the same nine Aprilias whose site cannot be read at all, plus the five whose
+manufacturers no longer publish a spec page for them: the Ninja H2 and Versys-X 300, the
+G 310 GS, and Ducati's Panigale V4 and Superleggera V4.
 
 Compiled August 2026.

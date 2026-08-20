@@ -5,10 +5,30 @@
    id  : unique within a brand — the card anchor the ladder scrolls to
    uid : unique across all brands — the row key both ladders are built on
    estOf : Set of metric keys that are estimated for this bike
+   rimF/rimR : wheel diameter in inches, read off the published tyre size
    ========================================================================== */
 
 (function(SBL){
   "use strict";
+
+  /* Wheel diameter out of a tyre size. Every notation manufacturers use puts
+     the rim last — 120/70 ZR17, 90/90-21, 180/55 B18, 120/600 R17 — so the
+     final number is the answer, whatever precedes it. Returns null for the
+     fourteen models whose manufacturer publishes no tyre size at all. */
+  SBL.rimOf = function(tyre){
+    if(!tyre) return null;
+    var m = String(tyre).match(/(\d{2})\s*$/);
+    return m ? Number(m[1]) : null;
+  };
+
+  /* "21 / 18 in", or "17 in" when both ends match — which is most of them,
+     and repeating the number reads like a mistake. */
+  SBL.wheelLabel = function(bike){
+    if(!bike.rimF || !bike.rimR) return null;
+    return bike.rimF === bike.rimR
+      ? bike.rimF + " in"
+      : bike.rimF + " / " + bike.rimR + " in";
+  };
 
   Object.keys(SBL.DATA).forEach(function(brandKey){
     var brand = SBL.DATA[brandKey];
@@ -19,6 +39,13 @@
       bike.id    = bike.n.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + i;
       bike.uid   = brandKey + "__" + bike.id;
       bike.estOf = new Set((bike.est || "").split(",").filter(Boolean));
+
+      /* Rim diameter, read off the published tyre size rather than stored
+         separately, so the two can never drift apart. The rim is the trailing
+         number in every notation manufacturers use — 120/70 ZR17, 90/90-21,
+         180/55 B18 — so the last one- or two-digit group is it. */
+      bike.rimF = SBL.rimOf(bike.tyreF);
+      bike.rimR = SBL.rimOf(bike.tyreR);
 
       var years  = SBL.YEARS[brandKey + "|" + bike.n] || {};
       bike.from  = years.from || SBL.YEAR_MIN;
@@ -108,10 +135,13 @@
 
   /* Merge a generation's overrides onto the bike. Fields the generation does
      not mention fall through, so an entry that only changed weight lists only
-     weight. ptw is recomputed because p or w may have moved. */
+     weight. ptw and the rim sizes are recomputed because p, w or the tyre
+     sizes may have moved. */
   SBL.asGeneration = function(bike, gen){
     var spec = Object.assign({}, bike, gen);
     spec.ptw        = spec.p / spec.w;
+    spec.rimF       = SBL.rimOf(spec.tyreF);
+    spec.rimR       = SBL.rimOf(spec.tyreR);
     spec.isHistoric = true;
     spec.genFrom    = gen.from;
     spec.genTo      = gen.to;
