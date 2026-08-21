@@ -139,7 +139,7 @@
         '<td>' + cell(bike, "ts", "~" + bike.ts) + '</td>' +
         '<td>' + bike.s + ' mm</td>' +
         '<td>' + (SBL.tyrePair(bike, "rim", "in") || "&mdash;") + '</td>' +
-        '<td>' + bike.l + '</td></tr>';
+        '<td>' + SBL.licenceLabel(bike) + '</td></tr>';
     }).join("");
   }
 
@@ -180,11 +180,14 @@
     SBL.stateChanged();
   }
 
+  /* A2 here means "an A2 licence reaches it", which includes the bikes that
+     only get there restricted — the whole point of computing the class rather
+     than matching a label is that those are not a separate case. */
   var FILTERS = {
     all:   function(){ return true },
     none:  function(){ return false },
-    A1:    function(bike){ return bike.l === "A1" },
-    A2:    function(bike){ return /A2/.test(bike.l) },
+    A1:    function(bike){ return SBL.licence(bike).cls === "A1" },
+    A2:    function(bike){ var c = SBL.licence(bike).cls; return c === "A1" || c === "A2" },
     road:  function(bike){ return !SBL.isTrackOnly(bike) },
     track: function(bike){ return SBL.isTrackOnly(bike) }
   };

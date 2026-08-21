@@ -191,6 +191,18 @@
            '</span></dd></div>';
   }
 
+  /* The licence class with its working shown. The badge at the top of the
+     card gives the answer; this gives the two numbers it was reached from and
+     the limit they were measured against, because "A" and "A / A2 kit" are
+     conclusions, and a reader deciding what they can ride deserves to see
+     which line the bike falls on and by how much. */
+  function licenceBlock(bike){
+    var licence = SBL.licence(bike);
+    return '<div class="licrow"><dt>Licence</dt><dd>' + licence.label +
+      '<span class="lic-why' + (licence.onLimit ? " hedged" : "") + '">' +
+        licence.why + '</span></dd></div>';
+  }
+
   function renderCards(bikes){
     document.getElementById("cards").innerHTML = bikes.map(function(bike){
       return '<article class="card' + (bike.isHistoric ? " historic" : "") +
@@ -206,7 +218,8 @@
         '</figure>' +
         '<div class="card-top">' +
           '<h3>' + bike.n + '</h3>' +
-          '<span class="lic ' + (SBL.isTrackOnly(bike) ? "track-only" : "") + '">' + bike.l + '</span>' +
+          '<span class="lic ' + (SBL.isTrackOnly(bike) ? "track-only" : "") + '">' +
+            SBL.licenceLabel(bike) + '</span>' +
         '</div>' +
         '<p class="cat-tag">' + SBL.CATEGORIES[bike.cat].name +
           (bike.isHistoric ? ' <span class="hist-badge">' + brandYear + ' spec</span>' : "") + '</p>' +
@@ -218,13 +231,19 @@
         '<p class="role">' + bike.r + '</p>' +
         '<dl class="kv">' +
           '<div><dt>Engine</dt><dd>' + bike.e + '</dd></div>' +
-          '<div><dt>Power</dt><dd>' + bike.p + ' PS</dd></div>' +
+          /* kW alongside PS only where the manufacturer publishes it. It is
+             the unit the licence limits are written in, so a reader checking
+             the licence row against the rule needs the real figure — and a
+             converted one printed the same way would look just as solid. */
+          '<div><dt>Power</dt><dd>' + bike.p + ' PS' +
+            (bike.kw !== undefined ? ' &middot; ' + bike.kw + ' kW' : "") + '</dd></div>' +
           '<div><dt>Torque</dt><dd>' + bike.t + ' Nm</dd></div>' +
           '<div><dt>Wet weight</dt><dd>' + bike.w + ' kg</dd></div>' +
           '<div><dt>0–100 km/h</dt><dd>' + cell(bike, "a", "~" + bike.a + " s") + '</dd></div>' +
           '<div><dt>Top speed</dt><dd>' + cell(bike, "ts", "~" + bike.ts + " km/h") + '</dd></div>' +
           '<div><dt>Seat height</dt><dd>' + bike.s + ' mm</dd></div>' +
           wheelBlock(bike) +
+          licenceBlock(bike) +
           /* Which generation these figures belong to. Without this, two years
              showing identical specs looks like the year filter is broken,
              when it usually means the model simply did not change. */
@@ -285,7 +304,7 @@
         '<td>' + cell(bike, "ts", "~" + bike.ts) + '</td>' +
         '<td>' + bike.s + ' mm</td>' +
         '<td>' + (SBL.tyrePair(bike, "rim", "in") || "&mdash;") + '</td>' +
-        '<td>' + bike.l + '</td></tr>';
+        '<td>' + SBL.licenceLabel(bike) + '</td></tr>';
     }).join("");
   }
 

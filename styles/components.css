@@ -160,6 +160,16 @@ tbody tr.historic-row th::after{content:"";position:absolute;left:0;top:8px;bott
   color:var(--steel)}
 .kv .wcol{display:inline-block;min-width:74px;text-align:right}
 .kv .unknown{color:var(--steel);font-style:italic}
+/* Licence is the one row that is a conclusion rather than a measurement, so
+   it carries its reasoning underneath. Every other value is a figure that
+   reads fine flush right; this is a sentence, and a sentence set ragged-left
+   over ten lines is hard work — hence the wide cell and the left alignment.
+   `hedged` marks the handful reached from a converted power figure that lands
+   on the limit, using the same rule the variant note downstairs uses. */
+.kv .licrow dd{flex:1}
+.kv .lic-why{display:block;margin-top:6px;font-size:11px;text-align:left;
+  color:var(--steel);letter-spacing:.02em;line-height:1.55;text-wrap:pretty}
+.kv .lic-why.hedged{border-left:2px solid var(--rule);padding-left:10px}
 .variant{margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;
   line-height:1.5;color:var(--steel);border-left:2px solid var(--rule);padding-left:10px}
 .verdict{margin-top:16px;font-size:14px;line-height:1.6}
