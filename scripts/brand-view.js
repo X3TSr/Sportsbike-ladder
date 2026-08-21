@@ -129,6 +129,45 @@
     draw(metricButtons.active() || "power");
   }
 
+  /* The tyre designation split into the things printed on the tyre, in two
+     labelled columns. Every other row on the card is a single value, so a
+     bare "120 / 180" here reads as one number that needs decoding rather
+     than as two ends of the bike — hence the front/rear heading, and hence
+     both columns are always filled even when they hold the same figure. */
+  function wheelBlock(bike){
+    var f = SBL.tyreSpec(bike.tyreF), r = SBL.tyreSpec(bike.tyreR);
+    if(!f || !r){
+      return '<div><dt>Wheels</dt><dd><span class="unknown">not published</span></dd></div>';
+    }
+
+    function row(label, field, unit){
+      if(f[field] === null && r[field] === null) return "";
+      var cell = function(spec){
+        return '<span class="wcol">' +
+          (spec[field] === null ? "&mdash;" : spec[field] + (unit ? " " + unit : "")) +
+          '</span>';
+      };
+      return '<div><dt>' + label + '</dt><dd>' + cell(f) + cell(r) + '</dd></div>';
+    }
+
+    /* What the speed symbols certify, listed once however many distinct
+       ratings the two ends carry. The letter alone tells a reader nothing. */
+    var speeds = [f, r].filter(function(s){ return s.speedTo })
+      .map(function(s){ return s.speed + " = " + s.speedTo + " km/h" })
+      .filter(function(t, i, all){ return all.indexOf(t) === i });
+
+    return '<div class="whead"><dt>Wheels</dt><dd>' +
+             '<span class="wcol">front</span><span class="wcol">rear</span></dd></div>' +
+           row("Rim", "rim", "in") +
+           row("Tyre width", "width", "mm") +
+           row("Profile", "profile", "%") +
+           row("Speed rating", "speed", "") +
+           '<div><dt>Tyres</dt><dd><span class="tyres">' +
+             bike.tyreF + '<br>' + bike.tyreR +
+             (speeds.length ? '<br>' + speeds.join(" &middot; ") : "") +
+           '</span></dd></div>';
+  }
+
   function renderCards(bikes){
     document.getElementById("cards").innerHTML = bikes.map(function(bike){
       return '<article class="card' + (bike.isHistoric ? " historic" : "") +
@@ -162,21 +201,7 @@
           '<div><dt>0–100 km/h</dt><dd>' + cell(bike, "a", "~" + bike.a + " s") + '</dd></div>' +
           '<div><dt>Top speed</dt><dd>' + cell(bike, "ts", "~" + bike.ts + " km/h") + '</dd></div>' +
           '<div><dt>Seat height</dt><dd>' + bike.s + ' mm</dd></div>' +
-          /* The tyre designation split into the things printed on the tyre,
-             front / rear — nothing derived from them. The full code stays
-             underneath: it is what you read off a sidewall when buying. */
-          (SBL.tyrePair(bike, "rim", "in")
-            ? '<div><dt>Rim</dt><dd>' + SBL.tyrePair(bike, "rim", "in") + '</dd></div>' +
-              '<div><dt>Tyre width</dt><dd>' + SBL.tyrePair(bike, "width", "mm") + '</dd></div>' +
-              (SBL.tyrePair(bike, "profile", "%")
-                ? '<div><dt>Profile</dt><dd>' + SBL.tyrePair(bike, "profile", "%") + '</dd></div>'
-                : "") +
-              (SBL.speedLabel(bike)
-                ? '<div><dt>Speed rating</dt><dd>' + SBL.speedLabel(bike) + '</dd></div>'
-                : "") +
-              '<div><dt>Tyres</dt><dd><span class="tyres">' +
-                bike.tyreF + '<br>' + bike.tyreR + '</span></dd></div>'
-            : '<div><dt>Wheels</dt><dd><span class="unknown">not published</span></dd></div>') +
+          wheelBlock(bike) +
           /* Which generation these figures belong to. Without this, two years
              showing identical specs looks like the year filter is broken,
              when it usually means the model simply did not change. */

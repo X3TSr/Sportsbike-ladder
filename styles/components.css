@@ -152,8 +152,13 @@ tbody tr.historic-row th::after{content:"";position:absolute;left:0;top:8px;bott
    split out of, and what you read off a sidewall when buying tyres. */
 .kv .tyres{display:block;font-size:11px;color:var(--steel);letter-spacing:.02em;
   line-height:1.5}
-/* What a speed symbol certifies. The letter alone means nothing. */
-.kv .upto{color:var(--steel);font-size:11px}
+/* Wheels are the one block on the card with a value per end, so they get a
+   front/rear heading and two aligned columns. Without it "120 / 180" reads
+   as a single number in some notation the reader is expected to know. */
+.kv .whead dt{color:var(--ink)}
+.kv .whead dd{font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--steel)}
+.kv .wcol{display:inline-block;min-width:74px;text-align:right}
 .kv .unknown{color:var(--steel);font-style:italic}
 .variant{margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;
   line-height:1.5;color:var(--steel);border-left:2px solid var(--rule);padding-left:10px}
