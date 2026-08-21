@@ -13,6 +13,10 @@
      v   the verdict (HTML)
      x   variant note (optional)
      src the manufacturer page p/t/w/s were checked against (optional)
+     price UK list price in GBP, checked August 2026 (optional). The only
+         field here about a market rather than a machine — see PRICE_BASIS
+         in derive.js. 91 of the 130 have one; the rest are absent, not
+         guessed, and the price ladders drop them and say so.
      est comma-separated metric keys whose value is derived, not published
          (e.g. "a,ts"). The UI marks these so a reader can tell an estimate
          from a manufacturer claim.

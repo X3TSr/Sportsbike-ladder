@@ -161,12 +161,20 @@
     if(maxSeat) list = list.filter(function(spec){ return spec.s <= maxSeat });
     renderSeat(tooTall);
 
+    /* Price is published for 91 of the 130, so a ladder sorted on it holds
+       fewer rows than one sorted on power. Said in the count line rather
+       than left to look like the selection lost some bikes. */
+    var unpriced = list.length;
+    list = SBL.withMetric(list, metric);
+    unpriced -= list.length;
+
     emptyState.classList.toggle("hidden", list.length > 0);
     ladderEl.classList.toggle("hidden", list.length === 0);
     var models = genMode
       ? new Set(list.map(function(g){ return g.baseUid })).size : 0;
-    var hidden = tooTall.length
-      ? " · " + tooTall.length + " over " + maxSeat + " mm hidden" : "";
+    var hidden = (tooTall.length
+      ? " · " + tooTall.length + " over " + maxSeat + " mm hidden" : "") +
+      (unpriced ? " · " + unpriced + " without a published price" : "");
     document.getElementById("cmpCount").textContent = (genMode
       ? plural(list.length, "generation") + " across " + plural(models, "model")
       : list.length + " of " + SBL.ALL.length + " models shown" +
@@ -186,6 +194,7 @@
         '<td>' + cell(bike, "ts", "~" + bike.ts) + '</td>' +
         '<td>' + bike.s + ' mm</td>' +
         '<td>' + (SBL.tyrePair(bike, "rim", "in") || "&mdash;") + '</td>' +
+        '<td>' + (bike.price ? "&pound;" + bike.price.toLocaleString("en-GB") : "&mdash;") + '</td>' +
         '<td>' + SBL.licenceLabel(bike) + '</td></tr>';
     }).join("");
   }

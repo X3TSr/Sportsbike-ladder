@@ -36,7 +36,32 @@
       key:"ptw", dir:-1,
       fmt:function(v){ return v.toFixed(2) + " <em>PS/kg</em>" },
       note:"Power to weight — the figure that best predicts how a bike actually feels. This is where a lineup stops being a gentle progression and turns into a cliff."
+    },
+    /* The two priced metrics. `sparse` marks a metric that not every model
+       has a value for: 91 of the 130 carry a price, and a ladder sorted on
+       one has to leave the rest out rather than rank them at zero. */
+    price:{
+      key:"price", dir:1, sparse:true,
+      fmt:function(v){ return "&pound;" + v.toLocaleString("en-GB") },
+      note:"UK list price as the manufacturer publishes it, cheapest first, checked August 2026. The one figure here that goes stale on its own — treat it as this summer's shape of the market rather than a quote."
+    },
+    pricePerPs:{
+      key:"pricePerPs", dir:1, sparse:true,
+      fmt:function(v){ return "&pound;" + Math.round(v) + " <em>/PS</em>" },
+      note:"Pounds per PS, cheapest first. Not a measure of value — a 125 and a superbike are not competing for the same money — but it does show which machines charge a premium for their power and which do not."
     }
+  };
+
+  /* Whether a bike has a figure for a metric at all. Only sparse metrics can
+     answer no; everything else is published for all 130. */
+  SBL.hasMetric = function(bike, metricId){
+    return !SBL.METRICS[metricId].sparse || bike[SBL.METRICS[metricId].key] !== undefined;
+  };
+
+  SBL.withMetric = function(bikes, metricId){
+    return SBL.METRICS[metricId].sparse
+      ? bikes.filter(function(bike){ return SBL.hasMetric(bike, metricId) })
+      : bikes;
   };
 
   /* Track-only machines are not road-registered here, so no licence class
