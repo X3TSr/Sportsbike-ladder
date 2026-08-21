@@ -265,7 +265,13 @@ are the only figures on the site that are arithmetic rather than quotation, so e
 
 **Nothing here is calculated.** A tyre designation is a compressed list of separate facts,
 so the card splits it back out and labels each one, in the unit that fact is conventionally
-given in:
+given in.
+
+The block is the only one on the card with a **value per end**, so it carries a front/rear
+heading and two aligned columns, and both are always filled even when they hold the same
+figure. Everything else on a card is a single value, so an unheaded `120 / 180` reads as one
+number in a notation the reader is expected to already know — which is exactly how it was
+first shipped, and exactly the confusion this whole block exists to remove.
 
 | row | from | unit |
 | --- | --- | --- |
@@ -277,7 +283,7 @@ given in:
 
 `180/55 ZR17 73W` is a 180 mm section width, a sidewall 55% of that width, a Z-rated
 radial, a 17-inch rim and a load index of 73. Every one of those is moulded into the
-sidewall. Both spec tables carry the rim alone.
+sidewall. Both spec tables carry the rim alone, under a `Rim f/r` heading.
 
 Only the manufacturer's own string is stored, in `tyreF` and `tyreR`. `tyreSpec()` splits it
 at the point of use, so a generation that overrides the tyres needs no other bookkeeping

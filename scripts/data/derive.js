@@ -74,16 +74,6 @@
     return unit ? text + " " + unit : text;
   };
 
-  /* The speed symbol with the speed it certifies, since the letter alone
-     tells a reader nothing. Both ends usually carry the same rating. */
-  SBL.speedLabel = function(bike){
-    var letters = SBL.tyrePair(bike, "speed", null);
-    if(!letters) return null;
-    var f = SBL.tyreSpec(bike.tyreF), r = SBL.tyreSpec(bike.tyreR);
-    var to = f.speedTo === r.speedTo ? f.speedTo : null;
-    return letters + (to ? ' <span class="upto">to ' + to + ' km/h</span>' : "");
-  };
-
   Object.keys(SBL.DATA).forEach(function(brandKey){
     var brand = SBL.DATA[brandKey];
 
