@@ -167,6 +167,11 @@ tbody tr.historic-row th::after{content:"";position:absolute;left:0;top:8px;bott
   color:var(--steel)}
 .kv .wcol{display:inline-block;min-width:74px;text-align:right}
 .kv .unknown{color:var(--steel);font-style:italic}
+/* Where the figure above places among every machine of its kind. Set under
+   the value rather than beside it: three of these on a card have to stay
+   quiet enough that the numbers still read as the numbers. */
+.kv .rank{display:block;margin-top:3px;font-size:11px;color:var(--steel);
+  letter-spacing:.02em;line-height:1.4}
 /* Licence is the one row that is a conclusion rather than a measurement, so
    it carries its reasoning underneath. Every other value is a figure that
    reads fine flush right; this is a sentence, and a sentence set ragged-left

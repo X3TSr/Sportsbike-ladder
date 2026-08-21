@@ -131,7 +131,11 @@
     document.getElementById("brandYearNote").innerHTML =
       SBL.yearNote(SBL.inCategory(current.bikes, brandCat), brandYear);
     var bikes = visibleBikes();
-    renderCards(bikes);
+    /* The whole field, resolved to the year on screen, so a card can say
+       where its bike sits among every machine of its kind rather than only
+       among the ones the category filter has left showing. Built once per
+       render because each card asks it three questions. */
+    renderCards(bikes, SBL.specsFor(SBL.ALL, brandYear));
     renderTable(bikes);
     draw(metricButtons.active() || "power");
   }
@@ -203,7 +207,13 @@
         licence.why + '</span></dd></div>';
   }
 
-  function renderCards(bikes){
+  /* A figure and where it places among every machine of the same kind. */
+  function ranked(bike, field, peers, value){
+    var place = SBL.rankIn(bike, field, peers);
+    return value + (place ? '<span class="rank">' + place + '</span>' : "");
+  }
+
+  function renderCards(bikes, peers){
     document.getElementById("cards").innerHTML = bikes.map(function(bike){
       return '<article class="card' + (bike.isHistoric ? " historic" : "") +
         '" id="' + bike.id + '">' +
@@ -235,10 +245,16 @@
              the unit the licence limits are written in, so a reader checking
              the licence row against the rule needs the real figure — and a
              converted one printed the same way would look just as solid. */
-          '<div><dt>Power</dt><dd>' + bike.p + ' PS' +
-            (bike.kw !== undefined ? ' &middot; ' + bike.kw + ' kW' : "") + '</dd></div>' +
+          '<div><dt>Power</dt><dd>' + ranked(bike, "p", peers, bike.p + ' PS' +
+            (bike.kw !== undefined ? ' &middot; ' + bike.kw + ' kW' : "")) + '</dd></div>' +
           '<div><dt>Torque</dt><dd>' + bike.t + ' Nm</dd></div>' +
-          '<div><dt>Wet weight</dt><dd>' + bike.w + ' kg</dd></div>' +
+          '<div><dt>Wet weight</dt><dd>' +
+            ranked(bike, "w", peers, bike.w + ' kg') + '</dd></div>' +
+          /* The spec table has carried power-to-weight all along and the card
+             never has, which left the one figure that best predicts how a
+             bike feels visible only in a table nobody scrolls to. */
+          '<div><dt>Power to weight</dt><dd>' +
+            ranked(bike, "ptw", peers, bike.ptw.toFixed(2) + ' PS/kg') + '</dd></div>' +
           '<div><dt>0–100 km/h</dt><dd>' + cell(bike, "a", "~" + bike.a + " s") + '</dd></div>' +
           '<div><dt>Top speed</dt><dd>' + cell(bike, "ts", "~" + bike.ts + " km/h") + '</dd></div>' +
           '<div><dt>Seat height</dt><dd>' + bike.s + ' mm</dd></div>' +
