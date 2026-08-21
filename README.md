@@ -24,6 +24,25 @@ Three views:
 Both ladders sort by power, 0–100 km/h, top speed, weight or power-to-weight. Rows
 slide to their new positions rather than jumping, so you can see what moved.
 
+### Links
+
+Everything on screen is in the address bar, so any view can be sent to someone else:
+
+```
+#/                                 the picker
+#/ducati?cat=sport&m=ptw           a brand page, filtered and sorted
+#/compare?y=2021&m=weight&sel=…    the compare view, in a past model year
+```
+
+Changing view pushes a history entry, so Back returns where you came from; changing a
+filter replaces it, so Back does not step through every chip you touched on the way.
+
+The compare selection is a bitmask over the model list, six bits per character — 130
+checkboxes in 22 characters. The model count rides along as a prefix (`130.…`) because
+adding a bike shifts every index after it: on a mismatch the selection falls back to
+"everything" rather than silently selecting the wrong machines. Anything else unparseable
+in the hash is ignored rather than trusted, since the address bar is user-editable.
+
 ### Categories
 
 `sport · naked · sport-tourer · adventure · cruiser · retro`
@@ -107,11 +126,13 @@ scripts/
   ladder.js             the animated bar chart, shared by both ladders
   brand-view.js         picker (chips + brand grid) and the brand page
   compare-view.js       cross-brand selection, filters and ladder
-  app.js                view routing, delegated clicks/keyboard, resize
+  router.js             view state <-> the address bar
+  app.js                view switching, delegated clicks/keyboard, resize
 ```
 
 Load order matters: each script hangs off a shared `SBL` global, the brand files
-must come after `data/index.js` and before `data/derive.js`, and `app.js` runs last.
+must come after `data/index.js` and before `data/derive.js`, `router.js` needs both
+views to exist, and `app.js` runs last.
 The stylesheets must stay in the order above, since `responsive.css` overrides the
 component defaults.
 

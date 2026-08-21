@@ -40,7 +40,7 @@
   /* ---------- year chips ---------- */
   var yearChips = SBL.buildYearChips(document.getElementById("cmpYears"), {
     count:  function(y){ return SBL.specsFor(SBL.ALL, y).length },
-    onPick: function(y){ year = y; draw() }
+    onPick: function(y){ year = y; draw(); SBL.stateChanged() }
   });
 
   /* ---------- generation mode ----------
@@ -54,6 +54,7 @@
     document.getElementById("cmpYears").classList.toggle("hidden", genMode);
     ladder.build(genMode ? GENERATIONS : SBL.ALL);
     draw();
+    SBL.stateChanged();
   });
 
   /* ---------- category filter buttons ---------- */
@@ -156,6 +157,7 @@
     if(!uid) return;
     if(e.target.checked) selected.add(uid); else selected.delete(uid);
     draw();
+    SBL.stateChanged();
   });
 
   /* per-brand "toggle": clears the brand if it is fully selected, else selects it */
@@ -167,6 +169,7 @@
     mine.forEach(function(b){ allOn ? selected.delete(b.uid) : selected.add(b.uid) });
     syncBoxes();
     draw();
+    SBL.stateChanged();
   });
 
   function selectWhere(matches){
@@ -174,6 +177,7 @@
     SBL.ALL.forEach(function(bike){ if(matches(bike)) selected.add(bike.uid) });
     syncBoxes();
     draw();
+    SBL.stateChanged();
   }
 
   var FILTERS = {
@@ -198,11 +202,40 @@
     selectWhere(function(bike){ return bike.cat === cat });
   });
 
-  SBL.bindMetricButtons(view, function(metricId){ metric = metricId; draw() });
+  var metricButtons = SBL.bindMetricButtons(view, function(metricId){
+    metric = metricId;
+    draw();
+    SBL.stateChanged();
+  });
 
   SBL.compareView = {
     draw: draw,
-    isOpen: function(){ return !view.classList.contains("hidden") }
+    isOpen: function(){ return !view.classList.contains("hidden") },
+
+    /* ---------- router ---------- */
+    state: function(){
+      return { metric: metric, year: year, gen: genMode, selected: selected };
+    },
+
+    /* A selection of null means the URL carried none, which is the common
+       case and means everything — not nothing. */
+    setState: function(s){
+      metric  = s.metric;
+      year    = s.year;
+      genMode = s.gen;
+
+      if(s.selected){
+        selected = s.selected;
+      }else{
+        selected = new Set(SBL.ALL.map(function(b){ return b.uid }));
+      }
+
+      metricButtons.reset(metric);
+      genToggle.setAttribute("aria-pressed", genMode ? "true" : "false");
+      document.getElementById("cmpYears").classList.toggle("hidden", genMode);
+      ladder.build(genMode ? GENERATIONS : SBL.ALL);
+      syncBoxes();
+    }
   };
 
 })(window.SBL);

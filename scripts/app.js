@@ -9,10 +9,12 @@
   var brandView  = document.getElementById("brandView");
   var cmpView    = document.getElementById("cmpView");
 
-  var COMPARE = "__cmp";
+  var COMPARE = "compare";
   var INK     = "#0E1216";
 
-  /* key: a brand key, COMPARE, or null for the picker */
+  /* key: a brand key, COMPARE, or null for the picker.
+     Renders only — the hash is written by the caller, so applying a URL can
+     reuse this without writing the hash straight back. */
   function show(key){
     if(key === COMPARE){
       pickerView.classList.add("hidden");
@@ -40,8 +42,8 @@
   /* Delegated so it also covers the tiles and ladder rows built at runtime.
      data-cmp opens compare, data-b opens a brand, data-t jumps to a card. */
   function activate(el){
-    if(el.dataset.cmp){ show(COMPARE); return }
-    if(el.dataset.b){ show(el.dataset.b); return }
+    if(el.dataset.cmp){ go(COMPARE); return }
+    if(el.dataset.b){ go(el.dataset.b); return }
     if(el.dataset.t){
       var target = document.getElementById(el.dataset.t);
       if(target) target.scrollIntoView({ block:"start", behavior:"smooth" });
@@ -63,8 +65,8 @@
     if(el){ e.preventDefault(); activate(el) }
   });
 
-  document.getElementById("backBtn").addEventListener("click", function(){ show(null) });
-  document.getElementById("cmpBack").addEventListener("click", function(){ show(null) });
+  document.getElementById("backBtn").addEventListener("click", function(){ go(null) });
+  document.getElementById("cmpBack").addEventListener("click", function(){ go(null) });
 
   /* Counts written into the copy, so adding a brand never leaves stale prose.
      Brand counts read better spelled out at this scale. */
@@ -78,7 +80,7 @@
 
   /* The logo lockup in the brand and compare headers goes home. */
   document.addEventListener("click", function(e){
-    if(e.target.closest("[data-home]")) show(null);
+    if(e.target.closest("[data-home]")) go(null);
   });
 
   /* --row-h changes at the 620px breakpoint, so both ladders need to be
@@ -92,6 +94,17 @@
     }, 150);
   });
 
-  show(null);
+  /* Changing view pushes a history entry, so Back returns to where you came
+     from rather than leaving the site. Filter changes replace instead —
+     see scripts/router.js. */
+  function go(key){
+    show(key);
+    SBL.viewChanged();
+  }
+
+  SBL.showView = show;
+
+  /* Whatever the address bar says, including nothing at all. */
+  SBL.router.apply();
 
 })(window.SBL);
