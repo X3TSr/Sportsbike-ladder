@@ -113,6 +113,13 @@ tbody tr.historic-row th::after{content:"";position:absolute;left:0;top:8px;bott
 .cards{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
 @media(min-width:760px){.cards{grid-template-columns:1fr 1fr}}
 .card{background:var(--card);padding:var(--card-py) var(--card-px);scroll-margin-top:20px}
+/* Where a search result landed. The jump puts the card at the top of the
+   viewport, which on a page of near-identical cards is not by itself an
+   answer to "which one?" — so it flashes, then fades, because it is a
+   pointer rather than a state worth keeping. */
+@keyframes found{from{box-shadow:0 0 0 3px var(--accent)}
+                 to{box-shadow:0 0 0 3px rgba(0,0,0,0)}}
+.card.found{animation:found 1.8s ease-out}
 
 /* ---- model photo ----
    The figcaption sits underneath and the image covers it. If the file is

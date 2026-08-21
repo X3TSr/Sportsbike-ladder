@@ -349,6 +349,16 @@
       renderPicker();
     },
 
+    /* Clear whichever filters would hide one particular model, before its
+       brand page opens. Someone who typed a bike's name into the search field
+       has asked for that bike; a category chip left over from earlier is not
+       a reason to hand them a page it is filtered out of. The year is only
+       dropped when the model was genuinely not on sale then. */
+    prepareFor: function(bike){
+      pickerCat = null;
+      if(!SBL.specFor(bike, pickerYear)) pickerYear = null;
+    },
+
     /* re-lay the ladder after a resize changes --row-h */
     refresh: function(){
       var active = metricButtons.active();

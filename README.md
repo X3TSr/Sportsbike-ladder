@@ -24,6 +24,42 @@ Three views:
 Both ladders sort by power, 0–100 km/h, top speed, weight or power-to-weight. Rows
 slide to their new positions rather than jumping, so you can see what moved.
 
+### Search
+
+Every header carries a search field — press `/` from anywhere — matching model name,
+engine short label and brand. Picking a model opens its brand page at that card;
+picking a brand opens the brand.
+
+Matching is a normalise-and-substring pass over 130 entries, ranked, rebuilt on each
+keystroke. At this scale that beats an index on every count that matters: no build step,
+no dependency, and the whole thing fits on a screen. Stripping punctuation is what makes
+it forgiving — `GSX-R125` and `gsxr` both come down to `gsxr125` and `gsxr`, so the hyphen
+a reader never types stops mattering.
+
+| rank | match | example |
+| --- | --- | --- |
+| 0 | the whole name | `r7` → R7 |
+| 1 | name starts with it | `gsxr` → GSX-R125 |
+| 2 | a word in the name starts with it | `africa` → CRF1100L Africa Twin |
+| 3 | name contains it | `r7` → XSR700 |
+| 4 | brand and name together | `yamahar7` → R7 |
+| 5 | engine label | `689`, `cp2` → the five CP2 bikes |
+| 6 | brand | `kawa` → the Kawasaki range |
+
+Within a rank that matched the *name*, the shorter name wins — `gsxr` prefixes both the
+GSX-R125 and the GSX-R1000R, and the 125 is the tighter match. Ranks 5 and 6 matched
+something other than the name, where its length says nothing, so those stay alphabetical.
+Either way the order never depends on the order the data happens to be in.
+
+A brand match returns **one** row rather than every bike it sells: `ducati` means take me
+to Ducati, not here are fifteen Ducatis. Two characters is the floor, or a single letter
+would return half the catalogue.
+
+Picking a model clears whichever filters would have hidden it. Someone who typed a bike's
+name has asked for that bike; a category chip left over from earlier is not a reason to
+hand them a page it is filtered out of. The card flashes on arrival, because a jump to
+the top of a page of near-identical cards is not by itself an answer to *which one*.
+
 ### Links
 
 Everything on screen is in the address bar, so any view can be sent to someone else:
@@ -36,7 +72,11 @@ Everything on screen is in the address bar, so any view can be sent to someone e
 ```
 
 Changing view pushes a history entry, so Back returns where you came from; changing a
-filter replaces it, so Back does not step through every chip you touched on the way.
+filter replaces it, so Back does not step through every chip you touched on the way. A
+push fires `hashchange`, and the router ignores the one that comes back from its own
+write — the views are already in that state, and re-reading it would rebuild them and
+throw away anything done afterwards, such as the search field's jump to a card. Back and
+Forward never match it, so they still read normally.
 
 The compare selection is a bitmask over the model list, six bits per character — 130
 checkboxes in 22 characters. The model count rides along as a prefix (`130.…`) because
@@ -127,6 +167,7 @@ scripts/
   ladder.js             the animated bar chart, shared by both ladders
   brand-view.js         picker (chips + brand grid) and the brand page
   compare-view.js       cross-brand selection, filters and ladder
+  search.js             the ranked model search in each header
   router.js             view state <-> the address bar
   app.js                view switching, delegated clicks/keyboard, resize
 ```
@@ -182,7 +223,7 @@ published seat height where a lower seat or lowered version exists; see
 Two steps: write `scripts/data/<brand>.js` calling `SBL.registerBrand()`, and add a
 `<script>` tag for it in `index.html` between `data/index.js` and `data/derive.js`.
 Everything else — picker tile, category chips and their counts, brand page, compare
-column, spec tables, image folder convention — derives from the registry.
+column, spec tables, search index, image folder convention — derives from the registry.
 
 Counts in the page copy are written from the data at runtime via `[data-count]`, so
 prose like "seven manufacturers" and "130 models" updates itself.

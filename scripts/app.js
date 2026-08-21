@@ -104,6 +104,26 @@
 
   SBL.showView = show;
 
+  /* ---------- what the search field needs ----------
+     Everything else on the page navigates to a view; a search result has to
+     reach one card inside one. */
+  SBL.goToBrand = go;
+
+  SBL.goToBike = function(bike){
+    SBL.brandView.prepareFor(bike);
+    go(bike.bkey);
+
+    /* show() has just scrolled to the top, so this is a jump rather than a
+       glide — smoothing it would mean watching the whole page go past. The
+       flash is what tells the eye where it landed. */
+    var card = document.getElementById(bike.id);
+    if(!card) return;
+    card.scrollIntoView({ block: "start", behavior: "instant" });
+    card.classList.remove("found");
+    void card.offsetWidth;                /* restart the animation */
+    card.classList.add("found");
+  };
+
   /* Whatever the address bar says, including nothing at all. */
   SBL.router.apply();
 
