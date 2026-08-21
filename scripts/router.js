@@ -151,10 +151,18 @@
   }
 
   /* ---------- writes ---------- */
+  /* The hash this module set, waiting for its own hashchange to come back.
+     Pushing fires the event, and reading it back would re-apply state the
+     views are already in — a wasted rebuild, and one that throws away
+     anything done to the DOM after the write, such as the search field's
+     jump to a card. Back and Forward never match it, so they still read. */
+  var written = null;
+
   function write(push){
     if(applying) return;
     var hash = buildHash();
     if(hash === location.hash) return;
+    written = hash;
     if(push) location.hash = hash;              /* fires hashchange, pushes */
     else history.replaceState(null, "", hash);  /* silent, no history entry */
   }
@@ -163,7 +171,9 @@
   SBL.viewChanged  = function(){ write(true) };
 
   window.addEventListener("hashchange", function(){
-    if(!applying) applyHash();
+    if(applying) return;
+    if(location.hash === written){ written = null; return }
+    applyHash();
   });
 
   SBL.router = { apply: applyHash };
