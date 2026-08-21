@@ -150,21 +150,37 @@
       return '<div><dt>' + label + '</dt><dd>' + cell(f) + cell(r) + '</dd></div>';
     }
 
-    /* What the speed symbols certify, listed once however many distinct
-       ratings the two ends carry. The letter alone tells a reader nothing. */
+    /* Speed rating keeps its row even when it is empty. Dropping it would say
+       the tyre has no rating, and every road tyre sold in Europe has one
+       moulded on the sidewall — what is missing is the manufacturer's
+       willingness to print it on a spec page. The note below says which. */
+    var speedRow = '<div><dt>Speed rating</dt><dd>' +
+      [f, r].map(function(s){
+        return '<span class="wcol">' + (s.speed || "&mdash;") + '</span>';
+      }).join("") + '</dd></div>';
+
+    /* What the symbols certify, listed once however many distinct ratings the
+       two ends carry. The letter alone tells a reader nothing. */
     var speeds = [f, r].filter(function(s){ return s.speedTo })
       .map(function(s){ return s.speed + " = " + s.speedTo + " km/h" })
       .filter(function(t, i, all){ return all.indexOf(t) === i });
+
+    var note = (f.profile === null || r.profile === null)
+      ? "Racing slicks: no speed rating, and the second number is overall diameter in mm rather than a profile"
+      : (!f.speed || !r.speed)
+        ? current.name + " does not publish it — the tyres themselves carry one"
+        : "";
 
     return '<div class="whead"><dt>Wheels</dt><dd>' +
              '<span class="wcol">front</span><span class="wcol">rear</span></dd></div>' +
            row("Rim", "rim", "in") +
            row("Tyre width", "width", "mm") +
            row("Profile", "profile", "%") +
-           row("Speed rating", "speed", "") +
+           speedRow +
            '<div><dt>Tyres</dt><dd><span class="tyres">' +
              bike.tyreF + '<br>' + bike.tyreR +
              (speeds.length ? '<br>' + speeds.join(" &middot; ") : "") +
+             (note ? '<br>' + note : "") +
            '</span></dd></div>';
   }
 
