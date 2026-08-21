@@ -292,10 +292,19 @@ and nothing can fall out of sync.
 Three details in the parsing:
 
 - **Speed rating comes from two places.** Modern tyres put it in the service description
-  (`73W`); fast and older ones put it as the `Z` ahead of the `R`. The explicit one wins,
-  the prefix is the fallback, and nothing is shown when the manufacturer publishes
-  neither. 99 of the 116 have one — BMW and Ducati publish no service descriptions at all,
-  so their sport bikes get `Z` from the code and the rest get nothing.
+  (`73W`); fast and older ones put it as the `Z` ahead of the `R`. The explicit one wins
+  and the prefix is the fallback, so 99 of the 116 show one.
+
+  **The other 17 are a publishing gap, not a tyre without a rating.** Every road tyre sold
+  in Europe carries a speed symbol moulded on the sidewall — what varies is whether the
+  manufacturer bothers to reprint it. BMW publishes no service descriptions at all, so its
+  sport bikes get `Z` from the code and its eight `R`-coded models get nothing; Ducati is
+  the same, and the rest are small bikes whose pages are terse. The row is therefore shown
+  with an em-dash and a note naming the manufacturer, rather than dropped — an absent row
+  would claim the tyre has no rating, which is untrue for sixteen of the seventeen.
+
+  **The seventeenth is real.** The H2R wears racing slicks, which are not road-legal and
+  carry no speed symbol at all. Its note says so instead.
 - **A profile of exactly 100 is real.** `80/100-18`, the CB125F's front, sits on the
   ceiling of the scale.
 - **Racing slicks reuse the profile slot for overall diameter in mm.** The H2R's
