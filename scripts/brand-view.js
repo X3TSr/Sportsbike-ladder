@@ -18,6 +18,9 @@
   var pickerYear = null;
   var brandCat   = null;
   var brandYear  = null;
+  /* Sort metric from a URL, held until the brand page actually opens —
+     the buttons do not exist as state until then. */
+  var pendingMetric = null;
 
   var ladder = SBL.createLadder(document.getElementById("ladder"), {
     nameCell: function(bike){
@@ -26,19 +29,22 @@
     }
   });
 
-  var metricButtons = SBL.bindMetricButtons(view, function(metricId){ draw(metricId) });
+  var metricButtons = SBL.bindMetricButtons(view, function(metricId){
+    draw(metricId);
+    SBL.stateChanged();
+  });
 
   /* ---------- picker: category chips ---------- */
   var pickerChips = SBL.buildCategoryChips(document.getElementById("pickerCats"), {
     total:      function(){ return SBL.ALL.length },
     count:      function(cat){ return SBL.countIn(SBL.ALL, cat) },
     showCounts: true,
-    onPick:     function(cat){ pickerCat = cat; renderPicker() }
+    onPick:     function(cat){ pickerCat = cat; renderPicker(); SBL.stateChanged() }
   });
 
   var pickerYearChips = SBL.buildYearChips(document.getElementById("pickerYears"), {
     count:  function(y){ return SBL.specsFor(SBL.ALL, y).length },
-    onPick: function(y){ pickerYear = y; renderPicker() }
+    onPick: function(y){ pickerYear = y; renderPicker(); SBL.stateChanged() }
   });
 
   function renderPicker(){
@@ -82,12 +88,12 @@
     total:      function(){ return current ? current.bikes.length : 0 },
     count:      function(cat){ return current ? SBL.countIn(current.bikes, cat) : 0 },
     showCounts: true,
-    onPick:     function(cat){ brandCat = cat; refreshBrandBody() }
+    onPick:     function(cat){ brandCat = cat; refreshBrandBody(); SBL.stateChanged() }
   });
 
   var brandYearChips = SBL.buildYearChips(document.getElementById("brandYears"), {
     count:  function(y){ return current ? SBL.specsFor(current.bikes, y).length : 0 },
-    onPick: function(y){ brandYear = y; refreshBrandBody() }
+    onPick: function(y){ brandYear = y; refreshBrandBody(); SBL.stateChanged() }
   });
 
   /* Bikes for the current category, resolved to the selected model year. */
@@ -112,7 +118,8 @@
 
     ladder.build(brand.bikes);
     renderNotes(brand);
-    metricButtons.reset("power");
+    metricButtons.reset(pendingMetric || "power");
+    pendingMetric = null;
     refreshBrandBody();
     return true;
   }
@@ -299,6 +306,30 @@
   SBL.brandView = {
     open: open,
     close: function(){ current = null },
+
+    /* ---------- router ----------
+       The picker and the brand page keep separate category and year
+       filters, but only one of them is ever on screen, so the router sees a
+       single pair and does not need to know which view owns it. */
+    state: function(){
+      return current
+        ? { brand: current.key, cat: brandCat, year: brandYear,
+            metric: metricButtons.active() || "power" }
+        : { brand: null, cat: pickerCat, year: pickerYear, metric: "power" };
+    },
+
+    /* Seeds the filters before the view is shown. Setting the picker's copy
+       too means going back from a brand lands on a picker filtered the same
+       way, which is what a reader who filtered then drilled in expects. */
+    setState: function(s){
+      pickerCat  = s.cat;
+      pickerYear = s.year;
+      /* open() derives the brand page's own filters from the picker's, so
+         seeding the picker is enough; only the metric needs holding. */
+      if(s.brand) pendingMetric = s.metric;
+      renderPicker();
+    },
+
     /* re-lay the ladder after a resize changes --row-h */
     refresh: function(){
       var active = metricButtons.active();

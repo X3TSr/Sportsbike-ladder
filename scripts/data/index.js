@@ -38,6 +38,9 @@ SBL.CATEGORY_ORDER = ["sport","naked","sportTour","adventure","cruiser","retro"]
 /* Brand files push themselves in here. */
 SBL.DATA = {};
 
-SBL.registerBrand = function(key, brand){ SBL.DATA[key] = brand };
+/* The key rides along on the brand object as well as being its slot in
+   DATA, so anything holding a brand — the router, in particular — can name
+   it without a reverse lookup. */
+SBL.registerBrand = function(key, brand){ brand.key = key; SBL.DATA[key] = brand };
 
 window.SBL = SBL;
