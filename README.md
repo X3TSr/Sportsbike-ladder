@@ -21,8 +21,8 @@ Three views:
 | **Brand** | One manufacturer, filterable by category and year, with a re-sortable ladder, a card per model and a full spec table. |
 | **Compare** | All 130 models on one ladder, coloured by brand, with per-model checkboxes plus year, category, licence and seat-height filters. |
 
-Both ladders sort by power, 0–100 km/h, top speed, weight or power-to-weight. Rows
-slide to their new positions rather than jumping, so you can see what moved.
+Both ladders sort by power, 0–100 km/h, top speed, weight, power-to-weight, price or
+£ per PS. Rows slide to their new positions rather than jumping, so you can see what moved.
 
 ### Search
 
@@ -327,6 +327,66 @@ capacity at 0.75 kg per litre. That puts the numbers 9–17 kg above Ducati's ow
 the point — otherwise the brand would look artificially light against the other six. They
 are the only figures on the site that are arithmetic rather than quotation, so expect a
 1–2 kg margin on Ducati and nowhere else.
+
+### Prices
+
+**UK list prices, checked August 2026**, read off each manufacturer's own UK site. Both
+ladders gain two metrics for them — `price` and `pricePerPs`, both cheapest first — and
+every card and both spec tables carry the figure.
+
+`£ per PS` is the ladder worth building this for. It spreads from **£60/PS** on a
+CB1000 Hornet to **£592/PS** on a Superleggera V4, and the order it produces is nothing
+like the order power produces. It is not a measure of value — a 125 and a superbike are
+not competing for the same money, and the 125s sit at the expensive end of it precisely
+because they are sold on something other than output — but it does show which machines
+charge a premium for their power.
+
+#### Two honest catches
+
+**It is pounds, not euros, and the issue asked for euros.** The UK is the only market all
+the reachable manufacturer sites publish in a single currency. Mixing markets, or
+converting one to another at today's rate, would produce a number that is neither
+manufacturer-published nor stable — worse than a clearly-labelled figure from one market.
+So the market is named everywhere the figure appears, and the page says why it is in
+pounds on a site otherwise about the EU.
+
+**Price is the only field here that is a fact about a market rather than a machine.** It
+is true of one country on one date and will be wrong later through nobody's fault, unlike
+power and weight. So `SBL.PRICE_BASIS` is written once and printed under every price on
+the site, and the metric's own note says the same thing again.
+
+What each figure includes differs by manufacturer — Suzuki and Kawasaki quote on-the-road,
+Yamaha quotes from its own product feed — so the basis says *list price* and leaves the
+detail to the manufacturer's page, which every card links to anyway.
+
+#### Coverage: 91 of 130
+
+| brand | priced | why not |
+| --- | --- | --- |
+| Yamaha | 18/18 | |
+| Honda | 22/22 | |
+| Ducati | 15/15 | |
+| Kawasaki | 21/25 | the W800, Meguro S1 and Ninja H2 are not in the UK range |
+| Suzuki | 15/18 | the SV650, SV650X and V-Strom 650 are not in the UK range |
+| BMW | 0/23 | prices render in a configurator, not in the page |
+| Aprilia | 0/9 | the site cannot be read at all — same reason its specs are unverified |
+
+Absent rather than guessed. `price` is simply missing on those, and `pricePerPs` with it,
+so a ladder sorted on either **drops them and says how many it dropped** rather than
+ranking them as free:
+
+```
+91 of 130 models shown · 39 without a published price
+```
+
+That is what `sparse` marks on a metric, and what `SBL.withMetric()` does with it. It is
+the first metric on the site not published for every model, so the two ladders and the
+brand page's metric note all had to learn to say so.
+
+**Archived model years drop the price.** It is today's, for the machine on sale today;
+printing it beside a 2021 specification would be a straightforwardly false claim, and no
+archived prices exist to put there instead. `asGeneration()` deletes it, and the card says
+*not recorded for this model year* rather than leaving a gap.
 
 ### Where a bike sits in its class
 

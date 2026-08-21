@@ -82,6 +82,9 @@
 
     brand.bikes.forEach(function(bike, i){
       bike.ptw   = bike.p / bike.w;
+      /* Only where a price exists. Left undefined rather than zeroed, so a
+         ladder sorted on it can drop the bike instead of ranking it as free. */
+      if(bike.price) bike.pricePerPs = bike.price / bike.p;
       bike.bkey  = brandKey;
       bike.id    = bike.n.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + i;
       bike.uid   = brandKey + "__" + bike.id;
@@ -365,6 +368,11 @@
   SBL.asGeneration = function(bike, gen){
     var spec = Object.assign({}, bike, gen);
     if(gen.p !== undefined && gen.kw === undefined) delete spec.kw;
+    /* Price is today's, for the machine on sale today. Showing it beside a
+       2021 specification would be a straightforwardly false claim, and no
+       archived prices exist to put there instead. */
+    delete spec.price;
+    delete spec.pricePerPs;
     spec.ptw        = spec.p / spec.w;
     spec.isHistoric = true;
     spec.genFrom    = gen.from;
@@ -399,6 +407,19 @@
     return bikes.map(function(b){ return SBL.specFor(b, year) })
                 .filter(Boolean);
   };
+
+  /* ---------- prices ----------
+     Written once, printed under every price on the site. Price is the only
+     field here that is a fact about a market rather than about a machine: it
+     is true of one country on one date, and it will be wrong later through
+     nobody's fault. Everything that shows a price shows this with it.
+
+     The market is the UK because that is the only one all five reachable
+     manufacturer sites publish in a single currency. What each figure
+     includes differs — Suzuki and Kawasaki quote on-the-road, Yamaha quotes
+     from its own product feed — so the basis says list price and leaves the
+     detail to the manufacturer's own page, linked from every card. */
+  SBL.PRICE_BASIS = "UK list price, August 2026";
 
   /* Small counts read better spelled out in prose. */
   var WORDS = ["zero","one","two","three","four","five","six","seven","eight","nine","ten"];

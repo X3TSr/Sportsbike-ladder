@@ -9,9 +9,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/base.css?v=202608211818">
-<link rel="stylesheet" href="styles/components.css?v=202608211818">
-<link rel="stylesheet" href="styles/responsive.css?v=202608211818">
+<link rel="stylesheet" href="styles/base.css?v=202608211838">
+<link rel="stylesheet" href="styles/components.css?v=202608211838">
+<link rel="stylesheet" href="styles/responsive.css?v=202608211838">
 </head>
 <body>
 
@@ -91,6 +91,10 @@
           <p>Manufacturers publish power, torque, weight and seat height for nearly everything, but rarely 0&ndash;100 km/h or top speed outside the sport class. Where a figure is derived from power-to-weight rather than published, it is <span class="est-demo">underlined like this</span>. Treat those as a ranking, not a stopwatch.</p>
         </div>
         <div>
+          <h4>Prices are a snapshot, and only of one market</h4>
+          <p><strong>UK list prices, checked August 2026</strong>, taken from each manufacturer's own UK site &mdash; the only market all of them publish in one currency, which is why this column is in pounds on a page otherwise about the EU. Every other figure here is a property of the machine and stays put; this one describes a market on a date and will be wrong later through nobody's fault. 91 of the 130 have one. BMW renders its prices in a configurator this site cannot read and Aprilia's site cannot be read at all, so those cards say so rather than carrying a guess, and the two price ladders leave them out and count them off.</p>
+        </div>
+        <div>
           <h4>Ranks, not percentiles</h4>
           <p>&ldquo;230 kg&rdquo; says nothing on its own &mdash; it is light for an adventure bike and enormous for a supersport &mdash; so each card places its power, weight and power-to-weight against every machine of the same kind. A rank of a stated total rather than a percentile, because one category holds eight bikes and a percentile out of eight claims a precision it does not have. The set is the whole category across all seven brands, at whichever model year is on screen, and never only the models a filter has left showing.</p>
         </div>
@@ -150,6 +154,8 @@
         <button class="metric" data-m="top" aria-pressed="false">Top speed</button>
         <button class="metric" data-m="weight" aria-pressed="false">Weight</button>
         <button class="metric" data-m="ptw" aria-pressed="false">PS per kg</button>
+        <button class="metric" data-m="price" aria-pressed="false">Price</button>
+        <button class="metric" data-m="pricePerPs" aria-pressed="false">&pound; per PS</button>
       </div>
       <div class="ladder" id="ladder"></div>
     </div>
@@ -175,7 +181,7 @@
         <table>
           <thead><tr>
             <th>Model</th><th>Category</th><th>Engine</th><th>Power</th><th>Torque</th><th>Wet</th>
-            <th>PS/kg</th><th>0&ndash;100</th><th>Top</th><th>Seat</th><th>Rim f/r</th><th>Licence</th>
+            <th>PS/kg</th><th>0&ndash;100</th><th>Top</th><th>Seat</th><th>Rim f/r</th><th>Price</th><th>Licence</th>
           </tr></thead>
           <tbody id="tbody"></tbody>
         </table>
@@ -255,6 +261,8 @@
         <button class="metric cm" data-m="top" aria-pressed="false">Top speed</button>
         <button class="metric cm" data-m="weight" aria-pressed="false">Weight</button>
         <button class="metric cm" data-m="ptw" aria-pressed="false">PS per kg</button>
+        <button class="metric cm" data-m="price" aria-pressed="false">Price</button>
+        <button class="metric cm" data-m="pricePerPs" aria-pressed="false">&pound; per PS</button>
       </div>
       <p class="count" id="cmpCount"></p>
       <div class="ladder" id="cmpLadder"></div>
@@ -272,7 +280,7 @@
         <table>
           <thead><tr>
             <th>Model</th><th>Brand</th><th>Category</th><th>Engine</th><th>Power</th><th>Torque</th><th>Wet</th>
-            <th>PS/kg</th><th>0&ndash;100</th><th>Top</th><th>Seat</th><th>Rim f/r</th><th>Licence</th>
+            <th>PS/kg</th><th>0&ndash;100</th><th>Top</th><th>Seat</th><th>Rim f/r</th><th>Price</th><th>Licence</th>
           </tr></thead>
           <tbody id="cmpBody"></tbody>
         </table>
@@ -295,23 +303,23 @@
   </div>
 </div>
 
-<script src="scripts/data/index.js?v=202608211818"></script>
-<script src="scripts/data/yamaha.js?v=202608211818"></script>
-<script src="scripts/data/kawasaki.js?v=202608211818"></script>
-<script src="scripts/data/honda.js?v=202608211818"></script>
-<script src="scripts/data/aprilia.js?v=202608211818"></script>
-<script src="scripts/data/ducati.js?v=202608211818"></script>
-<script src="scripts/data/suzuki.js?v=202608211818"></script>
-<script src="scripts/data/bmw.js?v=202608211818"></script>
-<script src="scripts/data/years.js?v=202608211818"></script>
-<script src="scripts/data/derive.js?v=202608211818"></script>
-<script src="scripts/metrics.js?v=202608211818"></script>
-<script src="scripts/categories.js?v=202608211818"></script>
-<script src="scripts/ladder.js?v=202608211818"></script>
-<script src="scripts/brand-view.js?v=202608211818"></script>
-<script src="scripts/compare-view.js?v=202608211818"></script>
-<script src="scripts/search.js?v=202608211818"></script>
-<script src="scripts/router.js?v=202608211818"></script>
-<script src="scripts/app.js?v=202608211818"></script>
+<script src="scripts/data/index.js?v=202608211838"></script>
+<script src="scripts/data/yamaha.js?v=202608211838"></script>
+<script src="scripts/data/kawasaki.js?v=202608211838"></script>
+<script src="scripts/data/honda.js?v=202608211838"></script>
+<script src="scripts/data/aprilia.js?v=202608211838"></script>
+<script src="scripts/data/ducati.js?v=202608211838"></script>
+<script src="scripts/data/suzuki.js?v=202608211838"></script>
+<script src="scripts/data/bmw.js?v=202608211838"></script>
+<script src="scripts/data/years.js?v=202608211838"></script>
+<script src="scripts/data/derive.js?v=202608211838"></script>
+<script src="scripts/metrics.js?v=202608211838"></script>
+<script src="scripts/categories.js?v=202608211838"></script>
+<script src="scripts/ladder.js?v=202608211838"></script>
+<script src="scripts/brand-view.js?v=202608211838"></script>
+<script src="scripts/compare-view.js?v=202608211838"></script>
+<script src="scripts/search.js?v=202608211838"></script>
+<script src="scripts/router.js?v=202608211838"></script>
+<script src="scripts/app.js?v=202608211838"></script>
 </body>
 </html>

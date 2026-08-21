@@ -207,6 +207,25 @@
         licence.why + '</span></dd></div>';
   }
 
+  /* Price, and the two things that stop it being read as a quote: which
+     market it is from, and how long ago it was true. Every other figure here
+     is a property of the machine and stays put; this one is a snapshot of a
+     market, and it is the only field on the card that will be wrong through
+     nobody's fault in six months. */
+  function priceBlock(bike){
+    if(!bike.price){
+      return '<div><dt>Price</dt><dd><span class="unknown">' +
+        (bike.isHistoric
+          ? "not recorded for this model year"
+          : "not published where this site can read it") +
+        '</span></dd></div>';
+    }
+    return '<div><dt>Price</dt><dd>&pound;' + bike.price.toLocaleString("en-GB") +
+      '<span class="rank">' + SBL.PRICE_BASIS + '</span>' +
+      '<span class="rank">&pound;' + Math.round(bike.pricePerPs) + ' per PS</span>' +
+      '</dd></div>';
+  }
+
   /* A figure and where it places among every machine of the same kind. */
   function ranked(bike, field, peers, value){
     var place = SBL.rankIn(bike, field, peers);
@@ -258,6 +277,7 @@
           '<div><dt>0–100 km/h</dt><dd>' + cell(bike, "a", "~" + bike.a + " s") + '</dd></div>' +
           '<div><dt>Top speed</dt><dd>' + cell(bike, "ts", "~" + bike.ts + " km/h") + '</dd></div>' +
           '<div><dt>Seat height</dt><dd>' + bike.s + ' mm</dd></div>' +
+          priceBlock(bike) +
           wheelBlock(bike) +
           licenceBlock(bike) +
           /* Which generation these figures belong to. Without this, two years
@@ -310,6 +330,10 @@
       : text;
   }
 
+  function priceCell(bike){
+    return bike.price ? "&pound;" + bike.price.toLocaleString("en-GB") : "&mdash;";
+  }
+
   function renderTable(bikes){
     var byPower = bikes.slice().sort(function(a, b){ return b.p - a.p });
     document.getElementById("tbody").innerHTML = byPower.map(function(bike){
@@ -320,6 +344,7 @@
         '<td>' + cell(bike, "ts", "~" + bike.ts) + '</td>' +
         '<td>' + bike.s + ' mm</td>' +
         '<td>' + (SBL.tyrePair(bike, "rim", "in") || "&mdash;") + '</td>' +
+        '<td>' + priceCell(bike) + '</td>' +
         '<td>' + SBL.licenceLabel(bike) + '</td></tr>';
     }).join("");
   }
@@ -330,10 +355,21 @@
     }).join("");
   }
 
+  /* A price-sorted ladder can only hold the models that have one. Dropping
+     them silently would make the ladder look like the whole range, so the
+     note under it says how many are missing and why. */
   function draw(metricId){
     if(!current) return;
-    ladder.render(metricId, visibleBikes());
-    document.getElementById("metricNote").textContent = SBL.METRICS[metricId].note;
+    var all   = visibleBikes();
+    var shown = SBL.withMetric(all, metricId);
+    ladder.render(metricId, shown);
+
+    var missing = all.length - shown.length;
+    document.getElementById("metricNote").textContent =
+      SBL.METRICS[metricId].note +
+      (missing ? " " + missing + " of " + current.name + "'s " + all.length +
+                 " here " + (missing === 1 ? "has" : "have") +
+                 " no published price and so cannot be ranked on it." : "");
   }
 
   renderPicker();
