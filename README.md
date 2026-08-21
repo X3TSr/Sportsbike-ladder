@@ -120,7 +120,7 @@ scripts/
     index.js            category definitions + the registry brands fill
     yamaha.js …         one file per brand (7 brands), 9–25 model lines each
     years.js            launch years for all models, prior generations for 49
-    derive.js           ptw, id, uid, tyre parsing, estimates, licences, years
+    derive.js           ptw, id, uid, tyre parsing, estimates, licence rule, years
   metrics.js            the five sort metrics; metric-button wiring
   categories.js         the category and year chip components, shared by all views
   ladder.js             the animated bar chart, shared by both ladders
@@ -170,7 +170,9 @@ estimate set are derived at load, and the chips, ladders, cards, spec tables and
 checkboxes all build themselves from that array — nothing else needs touching.
 `tyreF`/`tyreR` are optional: give them the manufacturer's tyre designation exactly as
 published and the wheel rows follow, or leave them off and the card says *not published*
-rather than showing a gap.
+rather than showing a gap. There is no licence field — the class is computed; give it
+`kw` and `a2` if the manufacturer publishes them, and `track:1` if it is not road-registered
+here. See [Licence classes](#licence-classes).
 
 ### Adding a brand
 
@@ -190,8 +192,8 @@ to read — so BMW uses its M dark blue at ΔE 31 instead.
 ## About the numbers
 
 Power figures are manufacturer claims measured at the crank; expect roughly 10–15%
-less at the rear wheel. Licence classes are European: A1 covers 125cc and 11 kW, A2
-caps at 35 kW with a power-to-weight limit, A is unrestricted.
+less at the rear wheel. Licence classes are European and are **worked out from each
+bike's own figures** rather than stored — see [Licence classes](#licence-classes).
 
 ### Where the figures come from
 
@@ -281,6 +283,76 @@ capacity at 0.75 kg per litre. That puts the numbers 9–17 kg above Ducati's ow
 the point — otherwise the brand would look artificially light against the other six. They
 are the only figures on the site that are arithmetic rather than quotation, so expect a
 1–2 kg margin on Ducati and nowhere else.
+
+### Licence classes
+
+A1 and A2 are rules, not labels, and the site holds both numbers each rule needs. So
+`SBL.licence()` applies the rule — Directive 2006/126/EC, Article 4 — instead of reading
+a class out of the data:
+
+| class | conditions, all of which must hold |
+| --- | --- |
+| **A1** | ≤ 125 cc, ≤ 11 kW, ≤ 0.1 kW/kg |
+| **A2** | ≤ 35 kW, ≤ 0.2 kW/kg, and not derived from a machine of more than double its power |
+| **A** | everything else |
+
+Every card carries a **Licence** row showing the working: the two figures, the limit they
+were measured against, and — when a bike misses — which limit and by how much. `A` on its
+own is a conclusion; `111 kW and 0.55 kW/kg — over the 35 kW ceiling and the 0.2 kW/kg
+limit` is something a reader can check.
+
+**The ceiling is not always 35 kW.** Both A2 limits apply at once, so below 175 kg the
+ratio bites first: a 160 kg machine may make 32 kW, not 35. The row says so wherever that
+happens, or a bike restricted to 32 kW reads as a mistake.
+
+**The double-power clause is implemented, and it is the interesting one.** It is why a
+54 kW twin can be restricted and a 77 kW one cannot, and it is invisible in a licence
+label. A restriction may only take a machine down to the cap if the full-power bike is
+within twice that cap — 70 kW for most, 64 kW for the Hypermotard 698 Mono. Manufacturers
+build to it: Honda's 650s are exactly 70 kW, and BMW answers 77 kW models with a separate
+70 kW A2 variant rather than a kit.
+
+#### The two fields a calculation cannot reach
+
+```js
+kw:35            // rated output as the manufacturer publishes it
+a2:"kit"         // the manufacturer restricts this machine itself
+a2:"version"     // a separate reduced-power model is sold instead
+```
+
+**`kw` exists because the limits are written in kW and the power column is in PS.** Half a
+PS is 0.37 kW, which is enough to move a bike across a limit: converting the Honda NX500's
+published `48 PS` back gives 35.3 kW and fails a machine Honda sells as 35.0 kW. Eight
+bikes flipped on that rounding alone. 93 of the 130 now carry a published kW, taken from
+the same manufacturer pages their `src` already cites; Suzuki and Aprilia publish PS only,
+which is most of the rest.
+
+Where `kw` is absent the class is still computed, from a converted figure that carries the
+rounding it inherited. The comparison allows for that slack, and when the slack is what
+decided the call the row says so and points at the PS figure it came from, so a reader can
+see the overshoot is arithmetic rather than the machine. Six bikes land there: the Suzuki
+and Aprilia 125s against the 11 kW A1 ceiling, and the RS 457 and Tuono 457 against 35 kW.
+
+**Weight gets no such allowance**, deliberately. The site's wet weights carry a stated
+±1–2 kg, but the rule is applied to the kerb figure the manufacturer publishes, which is
+the same figure type approval uses — real-world scatter is a different question from
+which side of the line the paperwork falls on.
+
+**`a2` is a fact about what is on sale**, which no arithmetic will yield: a bike can be
+perfectly restrictable and have no kit behind the parts counter. The Kawasaki ZX-4RR is
+one — 57 kW at 189 kg, low enough that a restriction would be legal, and none is offered.
+The rule decides whether an offered restriction is *legal*; `a2` says whether one *exists*.
+A `kit` the figures could not support is a contradiction, so `licence()` warns in the
+console rather than printing it, in the same spirit as the unreachable-generation check.
+
+Computing the class rather than copying it found seven errors in the data it replaced:
+the Vulcan S is 44.7 kW and needs the kit rather than being A2 as it stands, and BMW
+publishes A2 pathways for the F 900 R, F 900 XR, R 12, R 12 nineT and R 12 S that the
+labels had as plain `A`. The R9's Yamaha spec sheet lists a 35 kW limited-power version.
+
+**This is guidance for narrowing a shortlist, not a legal determination**, and the page
+says so — in the caveats, and again on any card where a converted figure decided a close
+call. Confirm with the dealer before buying.
 
 ### Wheels and tyres
 

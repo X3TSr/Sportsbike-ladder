@@ -9,6 +9,9 @@
    Wheel sizes are deliberately not stored. tyreSpec() splits them out of the
    published tyre string at the point of use, so a generation that overrides
    the tyres needs no other bookkeeping and nothing can fall out of sync.
+
+   Licence class is not stored either, for the same reason — licence() works
+   it out from power, weight and capacity. See the block above SBL.licence().
    ========================================================================== */
 
 (function(SBL){
@@ -125,20 +128,199 @@
     return bike.estOf ? bike.estOf.has(metricKey) : false;
   };
 
+  /* ==========================================================================
+     LICENCE — a rule applied to the figures, not a label typed into the data.
+
+     Directive 2006/126/EC, Article 4. A1 and A2 are each three conditions at
+     once, and the interesting one is the last:
+
+       A1   ≤ 125 cc, ≤ 11 kW, ≤ 0.1 kW/kg
+       A2   ≤ 35 kW, ≤ 0.2 kW/kg, and not derived from a machine of more
+            than double its own power
+       A    everything else
+
+     That third A2 condition is why a restriction kit works on a 54 kW twin
+     and not on a 77 kW one, and it is invisible in a licence label. The site
+     holds both numbers it needs, so it computes the answer instead.
+
+     Two data fields feed the parts a calculation cannot reach:
+
+       kw    rated output as the manufacturer publishes it. The licence
+             limits are written in kW; this site's power column is in PS, and
+             converting a rounded PS figure back costs enough precision to
+             move a bike across a limit. 93 of the 130 have a published kW.
+       a2    "kit"     the manufacturer restricts this machine itself
+             "version" a separate reduced-power model is sold
+             absent    no A2 machine is offered
+
+     A2 availability is a fact about what is on sale, which no amount of
+     arithmetic will yield: a bike can be perfectly restrictable on paper and
+     have no kit behind the parts counter. The rule decides whether an offered
+     restriction is legal; `a2` says whether one exists.
+     ========================================================================== */
+
+  var PS_PER_KW = 1.35962;
+  var A1_KW = 11, A1_RATIO = 0.1, A1_CC = 125;
+  var A2_KW = 35, A2_RATIO = 0.2;
+  var EPS = 1e-9;                 /* 0.2 * 167 is not exactly 33.4 in binary */
+
+  SBL.powerKw = function(bike){
+    return bike.kw !== undefined ? bike.kw : bike.p / PS_PER_KW;
+  };
+
+  /* Engine capacity, off the front of the short engine label — "689 CP2". */
+  function capacityOf(bike){ return parseInt(bike.es, 10) }
+
+  /* The most power an A2-legal version of a machine this heavy may make.
+     Both limits apply at once, and the lighter the bike the sooner the ratio
+     bites: at 175 kg it may have the full 35 kW, at 160 kg only 32. */
+  function a2Cap(bike){ return Math.min(A2_KW, A2_RATIO * bike.w) }
+
+  function round1(n){ return Math.round(n * 10) / 10 }
+  function round2(n){ return Math.round(n * 100) / 100 }
+
+  /* The licence class a bike's own figures put it in.
+
+       cls      A1 | A2 | A | track — what the filters and the ranking use
+       label    how it reads on a card: "A", "A / A2 kit", "Track only"
+       kw       the figure the test was run on
+       ratio    kW per kilogram of kerb weight
+       exact    false when kw was converted from PS rather than published
+       onLimit  true when that conversion straddles the limit being tested
+       why      one sentence saying how it got there                        */
+  SBL.licence = function(bike){
+    var exact = bike.kw !== undefined;
+    var kw    = SBL.powerKw(bike);
+    var ratio = kw / bike.w;
+    var cap   = a2Cap(bike);
+
+    /* A PS figure rounded to a whole number carries half a PS of slack, and
+       half a PS is 0.37 kW — enough to push a genuine 35.0 kW machine over a
+       limit written in kW. Weight gets no such allowance: the rule is applied
+       to the kerb figure the manufacturer publishes, whatever a real bike
+       with a full tank and a topbox weighs. */
+    var slack = exact ? 0 : 0.5 / PS_PER_KW;
+
+    var straddled = false;
+    function within(value, limit){
+      if(value <= limit + EPS) return true;
+      if(value - slack <= limit + EPS){ straddled = true; return true }
+      return false;
+    }
+
+    function out(cls, label, why){
+      return { cls: cls, label: label, kw: round1(kw), ratio: round2(ratio),
+               exact: exact, onLimit: straddled, why: why };
+    }
+
+    var figures   = round1(kw) + " kW and " + round2(ratio) + " kW/kg";
+    var asSold    = round1(kw) + " kW as sold";
+    var capText   = round1(cap) + " kW";
+    var doubled   = round1(2 * cap) + " kW";
+
+    /* Below 175 kg the ratio limit sets the ceiling before the flat 35 kW
+       does. Worth a sentence wherever that ceiling is quoted, or a bike
+       restricted to 32 kW reads as an error. */
+    var capNote = cap < A2_KW - EPS
+      ? " At " + bike.w + " kg the " + A2_RATIO + " kW/kg limit bites first, so " +
+        capText + " is the ceiling rather than the flat " + A2_KW + " kW."
+      : "";
+
+    /* Said whenever a converted figure decided a close call. Naming the PS
+       figure it came from is the point: it lets a reader see for themselves
+       that the overshoot is a rounding artefact rather than the machine. */
+    function hedged(text){
+      return text + " That comes from converting " + bike.p + " PS, which is " +
+        "rounded, so the margin here is smaller than the arithmetic error — " +
+        "guidance for a shortlist, not a determination. Confirm with the dealer.";
+    }
+    function maybe(text){ return straddled ? hedged(text) : text }
+    /* "inside" would be a plain overstatement on a figure that only clears
+       the limit once its rounding error is allowed for. */
+    function inside(){ return straddled ? "level with" : "inside" }
+
+    if(bike.track){
+      return out("track", "Track only",
+        "Not road-registered in Europe, so no licence class applies.");
+    }
+
+    if(capacityOf(bike) <= A1_CC && within(kw, A1_KW) && within(ratio, A1_RATIO)){
+      return out("A1", "A1", maybe(capacityOf(bike) + " cc, " + figures +
+        " — " + inside() + " all three A1 limits of " + A1_CC + " cc, " +
+        A1_KW + " kW and " + A1_RATIO + " kW/kg."));
+    }
+
+    if(within(kw, cap)){
+      return out("A2", "A2", maybe(figures + " — " + inside() +
+        " the A2 limits of " + A2_KW + " kW and " + A2_RATIO + " kW/kg."));
+    }
+
+    /* Over the line as it stands. Whether that is the end of it depends on
+       what the manufacturer sells, and on the double-power clause. */
+    if(bike.a2 === "kit"){
+      if(within(kw, 2 * cap)){
+        return out("A2", "A / A2 kit", maybe(asSold + ", over the " + capText +
+          " an A2 machine may make, and a restriction to that figure is offered. " +
+          "Legal because the full-power bike stays within " + doubled + " — an A2 " +
+          "machine may not be derived from one of more than double its power.") +
+          capNote);
+      }
+      console.warn("A2 kit listed for " + bike.bkey + "|" + bike.n + " but " +
+        round1(kw) + " kW is more than double the " + capText +
+        " cap — such a restriction could not be type-approved.");
+    }
+
+    /* A reduced-power model rather than a restriction of this one. Sometimes
+       that is forced — past double the cap, no restriction of this machine
+       could be approved — and sometimes it is simply how the manufacturer
+       chose to sell it. Worth telling apart: only the first is a rule. */
+    if(bike.a2 === "version" || bike.a2 === "kit"){
+      return out("A2", "A / A2 version", asSold + ", over the " + capText +
+        " an A2 machine may make. " +
+        (kw > 2 * cap + EPS
+          ? "Past " + doubled + " too, so no restriction of this bike could be " +
+            "approved — an A2 machine may not be derived from one of more than " +
+            "double its power. "
+          : "") +
+        "A separate reduced-power model is sold instead, so the figures above " +
+        "are the full-power bike's rather than the one an A2 licence reaches." +
+        capNote);
+    }
+
+    /* Plain A. Say which of the two limits it misses, and whether the only
+       thing standing between it and A2 is that nobody sells the parts. */
+    var misses = [];
+    if(kw > cap + EPS)          misses.push("the " + capText + " ceiling");
+    if(ratio > A2_RATIO + EPS)  misses.push("the " + A2_RATIO + " kW/kg limit");
+
+    return out("A", "A", figures + " — over " + misses.join(" and ") + ". " +
+      (kw <= 2 * cap + EPS
+        ? "Low enough that a restriction to " + capText + " would be legal, but " +
+          "none is offered."
+        : "More than double " + capText + ", so no restriction of this machine " +
+          "could be A2-legal either.") + capNote);
+  };
+
   /* Licence classes ranked by how easy they are to hold, not alphabetically —
      "A" sorts before "A1" as a string but is the harder licence to get. */
-  function licenceRank(l){
-    if(/track/i.test(l)) return 3;
-    if(/^A1\b/.test(l))  return 0;
-    if(/A2/.test(l))     return 1;
-    return 2;
-  }
+  var LICENCE_RANK = { A1:0, A2:1, A:2, track:3 };
 
   /* The most accessible licence class in a set of bikes. */
   SBL.entryLicence = function(bikes){
-    return bikes.slice().sort(function(a, b){
-      return licenceRank(a.l) - licenceRank(b.l);
-    })[0].l.split(" ")[0];
+    return bikes.map(function(bike){ return SBL.licence(bike).cls })
+      .sort(function(a, b){ return LICENCE_RANK[a] - LICENCE_RANK[b] })[0];
+  };
+
+  /* How the class reads on a card or in a spec table. A model no longer sold
+     new here keeps its class — the licence rule has not changed — but says so,
+     because "A2" on its own reads as something you can walk in and buy.
+
+     Not on an archived generation, though: every one of those is out of
+     production by definition, so the note would be on almost every row and
+     would stop meaning anything on the few where it matters. */
+  SBL.licenceLabel = function(bike){
+    return SBL.licence(bike).label +
+      (bike.to !== null && !bike.isHistoric ? " (EU: discontinued)" : "");
   };
 
   /* ---------- model years ----------
@@ -173,9 +355,16 @@
   /* Merge a generation's overrides onto the bike. Fields the generation does
      not mention fall through, so an entry that only changed weight lists only
      weight. ptw is recomputed because p or w may have moved; wheel sizes
-     need nothing, since they are read from tyreF/tyreR at the point of use. */
+     need nothing, since they are read from tyreF/tyreR at the point of use.
+
+     kw is the exception that has to be dropped rather than inherited. It is a
+     published figure for the current bike, and a generation that moved the
+     power moved it too — carrying it over would run the licence test on one
+     generation's kW and another's weight. Without it the class falls back to
+     converting the generation's own PS, which is what is actually known. */
   SBL.asGeneration = function(bike, gen){
     var spec = Object.assign({}, bike, gen);
+    if(gen.p !== undefined && gen.kw === undefined) delete spec.kw;
     spec.ptw        = spec.p / spec.w;
     spec.isHistoric = true;
     spec.genFrom    = gen.from;

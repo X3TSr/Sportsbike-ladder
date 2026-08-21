@@ -10,6 +10,11 @@
            the fields that differed; everything else falls through to the
            current entry. `why` is shown on the card when that year is picked.
 
+   A generation that changed `p` drops the current entry's published `kw`
+   rather than inheriting it — see asGeneration() in derive.js. `track:0` on a
+   generation marks the years a machine now sold for track use was still
+   road-registered here, which the licence rule reads.
+
    Coverage is deliberately uneven and that is visible in the UI:
 
    - `from` is set for all 130 models. These are launch/redesign years for the
@@ -44,9 +49,9 @@ SBL.YEARS = {
 "yamaha|R9":{from:2025},
 "yamaha|R6 Race":{from:2023,
  gens:[{from:2021,to:2022,w:190,why:"The first track-only R6, still carrying the road bike's weight before the last of that equipment came off."},
-       {from:2017,to:2020,l:"A",w:190,why:"Road-legal R6. Euro 5 ended registration in 2020; it continues as the track-only R6 Race."}]},
+       {from:2017,to:2020,track:0,w:190,why:"Road-legal R6. Euro 5 ended registration in 2020; it continues as the track-only R6 Race."}]},
 "yamaha|R1":{from:2025,
- gens:[{from:2020,to:2024,l:"A",why:"Road-legal in the EU until Euro 5+. From 2025 the R1 is sold here as a track-only machine."}]},
+ gens:[{from:2020,to:2024,track:0,why:"Road-legal in the EU until Euro 5+. From 2025 the R1 is sold here as a track-only machine."}]},
 "yamaha|MT-125":{from:2021,
  gens:[{from:2019,to:2020,w:140,why:"The pre-VVA MT-125, two kilos lighter and peaking at 9,000 rpm."}]},
 "yamaha|MT-03":{from:2024,

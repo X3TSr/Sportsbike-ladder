@@ -39,9 +39,9 @@
     }
   };
 
-  /* A bike is track-only when its licence string says so — "Track only",
-     "Track only (EU)". Used for the card badge and the compare filters. */
-  SBL.isTrackOnly = function(bike){ return /track/i.test(bike.l) };
+  /* Track-only machines are not road-registered here, so no licence class
+     applies to them at all. Used for the card badge and the compare filters. */
+  SBL.isTrackOnly = function(bike){ return !!bike.track };
 
   /* Format a bike's value for a metric, wrapping it if the figure is derived
      rather than published so the reader can tell the two apart. */
