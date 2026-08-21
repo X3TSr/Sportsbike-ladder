@@ -148,11 +148,12 @@ tbody tr.historic-row th::after{content:"";position:absolute;left:0;top:8px;bott
 .kv dt{color:var(--steel);font-family:"IBM Plex Mono",monospace;font-size:11px;
   letter-spacing:.06em;text-transform:uppercase}
 .kv dd{font-family:"IBM Plex Mono",monospace;text-align:right}
-/* Rim sizes and the published tyre codes close the wheel block: they are
-   where the centimetre figures above them came from, and what you actually
-   read off a sidewall. Allowed to wrap — on a phone they will. */
-.kv .tyres{display:block;font-size:10px;color:var(--steel);letter-spacing:.02em;
-  margin-top:3px;line-height:1.45}
+/* The full designations close the wheel block — the code the rows above are
+   split out of, and what you read off a sidewall when buying tyres. */
+.kv .tyres{display:block;font-size:11px;color:var(--steel);letter-spacing:.02em;
+  line-height:1.5}
+/* What a speed symbol certifies. The letter alone means nothing. */
+.kv .upto{color:var(--steel);font-size:11px}
 .kv .unknown{color:var(--steel);font-style:italic}
 .variant{margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;
   line-height:1.5;color:var(--steel);border-left:2px solid var(--rule);padding-left:10px}

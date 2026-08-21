@@ -6,7 +6,7 @@
    uid : unique across all brands — the row key both ladders are built on
    estOf : Set of metric keys that are estimated for this bike
 
-   Wheel sizes are deliberately not stored. tyreSpec() unpacks them from the
+   Wheel sizes are deliberately not stored. tyreSpec() splits them out of the
    published tyre string at the point of use, so a generation that overrides
    the tyres needs no other bookkeeping and nothing can fall out of sync.
    ========================================================================== */
@@ -14,54 +14,74 @@
 (function(SBL){
   "use strict";
 
-  /* Tyre notation packs three unrelated measurements into one string and
-     none of them is the number a reader pictures. "190/55 ZR17" is a 190 mm
-     section width, a sidewall 55% of that width, and a 17-inch rim — so the
-     wheel you actually look at is 64 cm across, not 17 of anything. Unpack it
-     into millimetres and let the page show real sizes.
+  /* Speed symbol, moulded into every road tyre's sidewall. Meaningless as a
+     letter on its own, so the page prints what it stands for next to it. */
+  var SPEED = { J:100, K:110, L:120, M:130, N:140, P:150, Q:160, R:170, S:180,
+                T:190, U:200, H:210, V:240, W:270, Y:300, Z:"240+" };
 
-       width         section width, straight out of the first number
-       rim           bead seat diameter, the inch figure everyone quotes
-       diameter      rim + a sidewall at each end: the whole round thing
-       circumference how far it travels in one revolution
+  /* Split a tyre designation into the things actually printed on the tyre —
+     nothing is computed from them. "190/55 ZR17 73W" is a 190 mm section
+     width, a sidewall 55% of that width, a Z-rated radial, a 17-inch rim and
+     a load index of 73.
 
-     Returns null for the fourteen models whose manufacturer publishes no
-     tyre size at all. */
+       width   section width in mm, the first number
+       profile aspect ratio as a percentage, the second number
+       rim     rim diameter in inches, the number everyone quotes
+       speed   speed symbol, from the service description or the ZR prefix
+       load    load index, where the manufacturer publishes one
+
+     Returns null for the fourteen models whose manufacturer publishes no tyre
+     size at all. */
   SBL.tyreSpec = function(tyre){
     if(!tyre) return null;
-    var m = String(tyre).match(/(\d{2,3})\s*\/\s*(\d{2,3})[^\d]*(\d{2})\s*$/);
+    var m = String(tyre).match(
+      /^(\d{2,3})\/(\d{2,3})\s*(?:([A-Z]{0,2}R|B)|-)(\d{2})(?:\s+(\d{2,3})([A-Z]))?$/);
     if(!m) return null;
 
-    var width = Number(m[1]), second = Number(m[2]), rimIn = Number(m[3]);
-    var rim = rimIn * 25.4;
+    var second = Number(m[2]), code = m[3] || "";
 
     /* An aspect ratio is a percentage and never exceeds 100 — 80/100-18 is a
-       real size and sits right on the ceiling. Racing slicks put the overall
-       diameter in millimetres in that slot instead, which is the only thing
-       telling the two notations apart. Reading the H2R's 120/600 R17 as a
-       600% sidewall would give it a two-metre wheel. */
-    var diameter = second > 100 ? second : rim + 2 * width * second / 100;
+       real size sitting on the ceiling of the scale. Racing slicks put the
+       overall diameter in millimetres in that slot instead, which is the only
+       thing telling the two notations apart. The H2R is the only one here. */
+    var slick = second > 100;
 
-    return { width: width, rim: rim, rimIn: rimIn,
-             diameter: diameter, circumference: Math.PI * diameter };
+    /* Modern tyres carry the speed symbol in the service description; older
+       and very fast ones carry it as the Z ahead of the R. Prefer the
+       explicit one, fall back to the prefix, and say nothing when the
+       manufacturer publishes neither. */
+    var speed = m[6] || (/^Z/.test(code) ? "Z" : null);
+
+    return {
+      width:   Number(m[1]),
+      profile: slick ? null : second,
+      rim:     Number(m[4]),
+      speed:   speed,
+      speedTo: speed && SPEED[speed] ? SPEED[speed] : null,
+      load:    m[5] ? Number(m[5]) : null
+    };
   };
 
-  /* One measurement for both ends, in centimetres. Collapsed to a single
-     figure when the two match, because repeating a number reads like a
-     mistake rather than a fact. */
-  SBL.wheelPair = function(bike, field, dp){
+  /* One field for both ends. Collapsed to a single value when the two match,
+     because repeating a number reads like a mistake rather than a fact, and
+     null when neither end publishes it. */
+  SBL.tyrePair = function(bike, field, unit){
     var f = SBL.tyreSpec(bike.tyreF), r = SBL.tyreSpec(bike.tyreR);
     if(!f || !r) return null;
-    var a = (f[field] / 10).toFixed(dp), b = (r[field] / 10).toFixed(dp);
-    return (a === b ? a : a + " / " + b) + " cm";
+    var a = f[field], b = r[field];
+    if(a === null && b === null) return null;
+    var text = (a === b) ? String(a) : (a === null ? "—" : a) + " / " + (b === null ? "—" : b);
+    return unit ? text + " " + unit : text;
   };
 
-  /* The rim sizes still read as "21 / 18 in" — it is the vernacular the
-     model prose uses, so the card keeps it alongside the published codes. */
-  SBL.rimLabel = function(bike){
+  /* The speed symbol with the speed it certifies, since the letter alone
+     tells a reader nothing. Both ends usually carry the same rating. */
+  SBL.speedLabel = function(bike){
+    var letters = SBL.tyrePair(bike, "speed", null);
+    if(!letters) return null;
     var f = SBL.tyreSpec(bike.tyreF), r = SBL.tyreSpec(bike.tyreR);
-    if(!f || !r) return null;
-    return (f.rimIn === r.rimIn ? f.rimIn : f.rimIn + " / " + r.rimIn) + " in";
+    var to = f.speedTo === r.speedTo ? f.speedTo : null;
+    return letters + (to ? ' <span class="upto">to ' + to + ' km/h</span>' : "");
   };
 
   Object.keys(SBL.DATA).forEach(function(brandKey){
