@@ -9,9 +9,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/base.css?v=202608211537">
-<link rel="stylesheet" href="styles/components.css?v=202608211537">
-<link rel="stylesheet" href="styles/responsive.css?v=202608211537">
+<link rel="stylesheet" href="styles/base.css?v=202608211547">
+<link rel="stylesheet" href="styles/components.css?v=202608211547">
+<link rel="stylesheet" href="styles/responsive.css?v=202608211547">
 </head>
 <body>
 
@@ -64,7 +64,7 @@
           <span class="stripe"></span>
           <span class="inner">
             <h3>Compare</h3>
-            <span class="sub">Put all <span data-count="models"></span> models from every brand on one ladder, or pick the handful you actually care about. Filter by category and licence class, sort by any metric.</span>
+            <span class="sub">Put all <span data-count="models"></span> models from every brand on one ladder, or pick the handful you actually care about. Filter by category, licence class and seat height, sort by any metric.</span>
             <span class="go">Open the comparison &rarr;</span>
           </span>
         </div>
@@ -92,6 +92,10 @@
         <div>
           <h4>Licence classes are worked out, not looked up</h4>
           <p>A1 and A2 are rules, so the class on each card is calculated from that bike's own power and weight rather than copied in as a label &mdash; including the clause that stops a restriction kit turning a big machine into an A2 one. Every card shows the figures it was decided on. Treat it as guidance for narrowing a shortlist, not as a legal determination: confirm with the dealer before you buy.</p>
+        </div>
+        <div>
+          <h4>Seat height is a proxy, not a measurement</h4>
+          <p>The compare view filters on it because it decides more about whether a bike is usable than any other number here &mdash; but it is a poor stand-in for reach. A narrow 830 mm seat can be easier to get a foot down on than a wide 810 mm one, and the suspension gives some of it back under your own weight. The figure quoted is always the standard seat; where a lower seat or a lowered version exists, the filter says so rather than counting it.</p>
         </div>
         <div>
           <h4>The year selector is a partial archive</h4>
@@ -196,7 +200,7 @@
       <button class="back" id="cmpBack">&larr; All brands</button>
       <p class="eyebrow">Cross-brand &middot; 2026 &middot; EU market</p>
       <h1 class="display">Compare</h1>
-      <p class="lede">Every road model from all <span data-count="brands"></span> manufacturers on a single ladder — sport, naked, sport-tourer, adventure, cruiser and retro together. Untick anything you do not want to see, or filter by category and licence to show only what you can legally ride.</p>
+      <p class="lede">Every road model from all <span data-count="brands"></span> manufacturers on a single ladder — sport, naked, sport-tourer, adventure, cruiser and retro together. Untick anything you do not want to see, filter by category and licence to show only what you can legally ride, or set a maximum seat height and see what is left.</p>
     </div>
   </header>
 
@@ -212,6 +216,14 @@
         <button class="cat yr" id="cmpGenToggle" aria-pressed="false">Every generation</button>
       </div>
       <p class="year-note" id="cmpYearNote"></p>
+      <p class="filter-label">Maximum seat height</p>
+      <div class="seat">
+        <input type="range" id="cmpSeat" aria-label="Maximum seat height in millimetres"
+               aria-describedby="cmpSeatNote">
+        <output class="seat-val" id="cmpSeatVal" for="cmpSeat"></output>
+        <button class="qbtn" id="cmpSeatClear" hidden>Clear</button>
+      </div>
+      <p class="year-note" id="cmpSeatNote"></p>
       <p class="filter-label">By category</p>
       <div class="quick" id="cmpCats"></div>
       <p class="filter-label">By licence, or everything at once</p>
@@ -276,22 +288,22 @@
   </div>
 </div>
 
-<script src="scripts/data/index.js?v=202608211537"></script>
-<script src="scripts/data/yamaha.js?v=202608211537"></script>
-<script src="scripts/data/kawasaki.js?v=202608211537"></script>
-<script src="scripts/data/honda.js?v=202608211537"></script>
-<script src="scripts/data/aprilia.js?v=202608211537"></script>
-<script src="scripts/data/ducati.js?v=202608211537"></script>
-<script src="scripts/data/suzuki.js?v=202608211537"></script>
-<script src="scripts/data/bmw.js?v=202608211537"></script>
-<script src="scripts/data/years.js?v=202608211537"></script>
-<script src="scripts/data/derive.js?v=202608211537"></script>
-<script src="scripts/metrics.js?v=202608211537"></script>
-<script src="scripts/categories.js?v=202608211537"></script>
-<script src="scripts/ladder.js?v=202608211537"></script>
-<script src="scripts/brand-view.js?v=202608211537"></script>
-<script src="scripts/compare-view.js?v=202608211537"></script>
-<script src="scripts/router.js?v=202608211537"></script>
-<script src="scripts/app.js?v=202608211537"></script>
+<script src="scripts/data/index.js?v=202608211547"></script>
+<script src="scripts/data/yamaha.js?v=202608211547"></script>
+<script src="scripts/data/kawasaki.js?v=202608211547"></script>
+<script src="scripts/data/honda.js?v=202608211547"></script>
+<script src="scripts/data/aprilia.js?v=202608211547"></script>
+<script src="scripts/data/ducati.js?v=202608211547"></script>
+<script src="scripts/data/suzuki.js?v=202608211547"></script>
+<script src="scripts/data/bmw.js?v=202608211547"></script>
+<script src="scripts/data/years.js?v=202608211547"></script>
+<script src="scripts/data/derive.js?v=202608211547"></script>
+<script src="scripts/metrics.js?v=202608211547"></script>
+<script src="scripts/categories.js?v=202608211547"></script>
+<script src="scripts/ladder.js?v=202608211547"></script>
+<script src="scripts/brand-view.js?v=202608211547"></script>
+<script src="scripts/compare-view.js?v=202608211547"></script>
+<script src="scripts/router.js?v=202608211547"></script>
+<script src="scripts/app.js?v=202608211547"></script>
 </body>
 </html>

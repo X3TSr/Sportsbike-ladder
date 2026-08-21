@@ -409,6 +409,22 @@
   SBL.YEAR_LIST = [];
   for(var y = SBL.YEAR_MAX; y >= SBL.YEAR_MIN; y--) SBL.YEAR_LIST.push(y);
 
+  /* ---------- seat heights ----------
+     The ends of the seat-height slider, taken from the data rather than
+     written down, so adding a taller or lower bike moves the track instead of
+     falling off it. Snapped outward to the slider's own 5 mm step: the top
+     end must clear the tallest bike, or a slider at maximum would silently
+     exclude it and "no limit" would be a lie. */
+  SBL.SEAT_STEP = 5;
+  var seats = SBL.ALL.map(function(bike){ return bike.s });
+  SBL.SEAT_MIN = Math.floor(Math.min.apply(null, seats) / SBL.SEAT_STEP) * SBL.SEAT_STEP;
+  SBL.SEAT_MAX = Math.ceil(Math.max.apply(null, seats) / SBL.SEAT_STEP) * SBL.SEAT_STEP;
+
+  /* The lowest a bike gets, counting a lower seat, a lowering kit or a
+     lowered variant where the manufacturer publishes a figure for one.
+     Deliberately not what the filter matches on — see lowerReach() below. */
+  SBL.lowestSeat = function(bike){ return bike.sLow || bike.s };
+
   /* The line under the year chips. Its job is to stop a reader mistaking a
      model shown at today's figures for one that genuinely did not change:
      archive data exists for some models and not others, and the difference

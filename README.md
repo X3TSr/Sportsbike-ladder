@@ -19,7 +19,7 @@ Three views:
 | --- | --- |
 | **Picker** | Category chips first, then the seven lineups. Each brand tile summarises whichever category is selected. |
 | **Brand** | One manufacturer, filterable by category and year, with a re-sortable ladder, a card per model and a full spec table. |
-| **Compare** | All 130 models on one ladder, coloured by brand, with per-model checkboxes plus year, category and licence filters. |
+| **Compare** | All 130 models on one ladder, coloured by brand, with per-model checkboxes plus year, category, licence and seat-height filters. |
 
 Both ladders sort by power, 0–100 km/h, top speed, weight or power-to-weight. Rows
 slide to their new positions rather than jumping, so you can see what moved.
@@ -32,6 +32,7 @@ Everything on screen is in the address bar, so any view can be sent to someone e
 #/                                 the picker
 #/ducati?cat=sport&m=ptw           a brand page, filtered and sorted
 #/compare?y=2021&m=weight&sel=…    the compare view, in a past model year
+#/compare?seat=810                 everything with a seat at or below 810 mm
 ```
 
 Changing view pushes a history entry, so Back returns where you came from; changing a
@@ -172,7 +173,9 @@ checkboxes all build themselves from that array — nothing else needs touching.
 published and the wheel rows follow, or leave them off and the card says *not published*
 rather than showing a gap. There is no licence field — the class is computed; give it
 `kw` and `a2` if the manufacturer publishes them, and `track:1` if it is not road-registered
-here. See [Licence classes](#licence-classes).
+here. See [Licence classes](#licence-classes). `sLow` is optional and records the lowest
+published seat height where a lower seat or lowered version exists; see
+[Seat height](#seat-height).
 
 ### Adding a brand
 
@@ -283,6 +286,40 @@ capacity at 0.75 kg per litre. That puts the numbers 9–17 kg above Ducati's ow
 the point — otherwise the brand would look artificially light against the other six. They
 are the only figures on the site that are arithmetic rather than quotation, so expect a
 1–2 kg margin on Ducati and nowhere else.
+
+### Seat height
+
+Seat height decides more about whether a bike is usable than any other figure on the
+site, and the spread is wide — 690 mm on a BMW R 18 to 904 mm on a Hypermotard 698 Mono.
+The compare view carries a **maximum seat height** slider for it.
+
+A slider rather than chips, because a chip row would have to pick the thresholds and the
+threshold that matters belongs to the rider. Its ends come from the data, snapped outward
+to its own 5 mm step, so adding a taller bike moves the track instead of falling off it;
+at the top of its travel it means *no limit*, not 905 mm.
+
+It filters **what is drawn, not what is ticked**, so it stacks with the year, category and
+licence filters rather than overwriting the selection the way the quick-select buttons do.
+It runs after the year resolves, so a generation is measured on its own seat. The count
+line reports what it removed: `54 of 130 models shown · 76 over 810 mm hidden`.
+
+**The caveat is not boilerplate**, and it appears whenever a limit is set — which is
+exactly when someone is about to rule a bike out on 10 mm. Seat height is a proxy for
+reach, not a measurement of it: a narrow 830 mm seat can be easier to get a foot down on
+than a wide 810 mm one, and the suspension gives some of it back under the rider's weight.
+
+#### Lowered variants
+
+Twelve models name a lower seat, lowering kit or lowered version with a figure in their
+prose, now recorded as `sLow`. **The filter does not match on it.** A lowered variant is a
+different bike or a different invoice, so letting one through quietly would break the
+promise the slider makes. Dropping it silently would be worse, so those models are named
+underneath the slider when they come within the limit that way — shown as information,
+not as results.
+
+```js
+s:820, sLow:780     // R 1300 RT: standard seat, and the comfort seat low option
+```
 
 ### Licence classes
 
