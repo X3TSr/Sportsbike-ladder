@@ -58,7 +58,7 @@ bikes:[
  v:"26 kg up on the MT-09 for a bike that will cross a country without complaint. <span>The most complete thing Yamaha builds</span>, if not the most exciting."},
 
 /* ---------------- ADVENTURE ---------------- */
-{n:"Ténéré 700",cat:"adventure",e:"689cc CP2 parallel-twin",es:"689 CP2",p:73.4,kw:54,t:68,w:208,a:4.2,ts:190,s:875,tyreF:"90/90-21 54V",tyreR:"150/70 R18 70V",a2:"kit",src:"https://www.yamaha-motor.eu/gb/en/motorcycles/adventure/pdp/t-n-r-700/",est:"a,ts",
+{n:"Ténéré 700",cat:"adventure",e:"689cc CP2 parallel-twin",es:"689 CP2",p:73.4,kw:54,t:68,w:208,a:4.2,ts:190,s:875,sLow:860,tyreF:"90/90-21 54V",tyreR:"150/70 R18 70V",a2:"kit",src:"https://www.yamaha-motor.eu/gb/en/motorcycles/adventure/pdp/t-n-r-700/",est:"a,ts",
  x:"Also sold as Ténéré 700 Rally, World Raid (23-litre twin tanks) and a Lowered version with an 860 mm seat",
  r:"<b>The one that brought back proper rally bikes.</b> A 21-inch front wheel, 210 mm of front travel, a steel double-cradle frame and — deliberately — no electronic rider aids beyond switchable ABS.",
  v:"The 875 mm seat is the barrier, not the weight. <span>The most capable dirt bike here by a wide margin</span>, and the least happy on a motorway."},

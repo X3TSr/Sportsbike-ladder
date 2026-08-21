@@ -18,6 +18,7 @@
   var metric   = "power";
   var year     = null;
   var genMode  = false;
+  var maxSeat  = null;
 
   /* Every generation of every model, flattened. Built once; the ladder is
      rebuilt from this list when generation mode is switched on, because the
@@ -41,6 +42,41 @@
   var yearChips = SBL.buildYearChips(document.getElementById("cmpYears"), {
     count:  function(y){ return SBL.specsFor(SBL.ALL, y).length },
     onPick: function(y){ year = y; draw(); SBL.stateChanged() }
+  });
+
+  /* ---------- seat height ----------
+     Seat height is the one number in the data that decides whether a bike is
+     usable rather than how fast it is, and it sits in a 690–905 mm band that
+     no chip row would divide sensibly — the threshold that matters is the
+     rider's, not one of six the site picked. Hence a slider, at the top of
+     its travel by default, where it means no limit rather than 905 mm. */
+  var seatSlider = document.getElementById("cmpSeat");
+  var seatValue  = document.getElementById("cmpSeatVal");
+  var seatClear  = document.getElementById("cmpSeatClear");
+
+  seatSlider.min   = SBL.SEAT_MIN;
+  seatSlider.max   = SBL.SEAT_MAX;
+  seatSlider.step  = SBL.SEAT_STEP;
+  seatSlider.value = SBL.SEAT_MAX;
+
+  /* null means no limit, so nothing downstream has to know that the top of
+     the slider's travel is a special case. */
+  function readSeat(){
+    var mm = Number(seatSlider.value);
+    return mm >= SBL.SEAT_MAX ? null : mm;
+  }
+
+  seatSlider.addEventListener("input", function(){
+    maxSeat = readSeat();
+    draw();
+    SBL.stateChanged();
+  });
+
+  seatClear.addEventListener("click", function(){
+    maxSeat = null;
+    seatSlider.value = SBL.SEAT_MAX;
+    draw();
+    SBL.stateChanged();
   });
 
   /* ---------- generation mode ----------
@@ -116,14 +152,25 @@
       : SBL.specsFor(
           SBL.ALL.filter(function(bike){ return selected.has(bike.uid) }), year);
 
+    /* Seat height narrows what is drawn rather than what is ticked, so it
+       stacks with the year, category and licence filters instead of
+       overwriting the selection the way the quick buttons do. Applied after
+       the year resolves, so a generation is measured on its own seat. */
+    var tooTall = maxSeat
+      ? list.filter(function(spec){ return spec.s > maxSeat }) : [];
+    if(maxSeat) list = list.filter(function(spec){ return spec.s <= maxSeat });
+    renderSeat(tooTall);
+
     emptyState.classList.toggle("hidden", list.length > 0);
     ladderEl.classList.toggle("hidden", list.length === 0);
     var models = genMode
       ? new Set(list.map(function(g){ return g.baseUid })).size : 0;
-    document.getElementById("cmpCount").textContent = genMode
+    var hidden = tooTall.length
+      ? " · " + tooTall.length + " over " + maxSeat + " mm hidden" : "";
+    document.getElementById("cmpCount").textContent = (genMode
       ? plural(list.length, "generation") + " across " + plural(models, "model")
       : list.length + " of " + SBL.ALL.length + " models shown" +
-        (year === null ? "" : " · " + year + " model year");
+        (year === null ? "" : " · " + year + " model year")) + hidden;
     document.getElementById("cmpNote").textContent = SBL.METRICS[metric].note;
 
     var sorted = ladder.render(metric, list);
@@ -144,6 +191,57 @@
   }
 
   function plural(n, word){ return n + " " + word + (n === 1 ? "" : "s") }
+
+  /* The slider's own readout and caveat.
+
+     The caveat is not boilerplate: seat height is the only figure here that
+     people treat as a measurement of themselves, and it is a poor one. It
+     appears whenever a limit is set, because that is exactly when someone is
+     about to rule a bike out on 10 mm.
+
+     The filter matches the standard seat and nothing else. A lowered variant
+     or a low-seat accessory is a different bike or a different invoice, so
+     quietly letting one through would break the promise the slider makes —
+     but silently dropping it would be worse, so the models that come within
+     reach that way are named underneath. */
+  function renderSeat(tooTall){
+    seatValue.textContent = maxSeat ? maxSeat + " mm" : "no limit";
+    seatValue.classList.toggle("off", !maxSeat);
+    seatClear.hidden = !maxSeat;
+
+    if(!maxSeat){
+      document.getElementById("cmpSeatNote").innerHTML = "";
+      return;
+    }
+
+    /* By model, not by row: generation mode puts a bike on the ladder several
+       times over, and naming it once per generation would read as several
+       different machines. */
+    var reachable = [];
+    tooTall.forEach(function(spec){
+      if(!spec.sLow || spec.sLow > maxSeat) return;
+      if(reachable.some(function(seen){ return seen.n === spec.n })) return;
+      reachable.push(spec);
+    });
+
+    var note = "Showing bikes with a standard seat at or below <b>" + maxSeat +
+      " mm</b>. Seat height is a proxy for reach rather than a measurement of " +
+      "it: a narrow 830 mm seat can be easier to get a foot down on than a wide " +
+      "810 mm one, and the suspension gives some of it back under your own " +
+      "weight. Treat it as a way to shorten a list, then go and sit on them.";
+
+    if(reachable.length){
+      note += " " + reachable.length + " of the hidden " +
+        (reachable.length === 1 ? "models comes" : "models come") +
+        " down to this height with a lower seat or a lowered version: " +
+        reachable.map(function(spec){
+          return spec.brand + " " + spec.n + " (" + spec.sLow + " mm)";
+        }).join(", ") + ". Those are not shown, because the standard bike is " +
+        "the one the figures describe.";
+    }
+
+    document.getElementById("cmpSeatNote").innerHTML = note;
+  }
 
   function cell(bike, key, text){
     return SBL.isEstimated(bike, key)
@@ -217,7 +315,8 @@
 
     /* ---------- router ---------- */
     state: function(){
-      return { metric: metric, year: year, gen: genMode, selected: selected };
+      return { metric: metric, year: year, gen: genMode,
+               maxSeat: maxSeat, selected: selected };
     },
 
     /* A selection of null means the URL carried none, which is the common
@@ -226,6 +325,15 @@
       metric  = s.metric;
       year    = s.year;
       genMode = s.gen;
+
+      /* A seat limit outside the slider's own travel is no limit at all — the
+         hash is user-editable, and a value below the shortest bike would leave
+         an empty ladder under a control that looks untouched. Snapped to the
+         step as well, so the number in the URL and the number under the slider
+         cannot disagree. */
+      seatSlider.value = s.maxSeat || SBL.SEAT_MAX;
+      maxSeat = (s.maxSeat >= SBL.SEAT_MIN) ? readSeat() : null;
+      if(!maxSeat) seatSlider.value = SBL.SEAT_MAX;
 
       if(s.selected){
         selected = s.selected;
