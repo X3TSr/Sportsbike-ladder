@@ -487,4 +487,67 @@
     return cat ? list.filter(function(b){ return b.cat === cat }) : list.slice();
   };
 
+  /* ---------- where a bike sits in its own class ----------
+     "230 kg" says nothing on its own: it is light for an adventure bike and
+     enormous for a supersport. The ladder supplies that frame, but only for
+     the metric currently selected and only while you are looking at it. This
+     puts it on the card, in words.
+
+     A rank of a stated total, never a percentile. Two of the six categories
+     hold fewer than twenty machines and one holds eight, where a percentile
+     claims a precision the set cannot carry — "in the 87th percentile of
+     cruisers" is seven bikes wearing a lab coat. A rank that names its field
+     is honest at any size, and the reader can see the size.
+
+     Ties are ranked jointly, the way a results table does it: three bikes on
+     218 PS are all first and nothing is second. */
+  var RANK_WORDS = {
+    p:   { high:true,  first:"most powerful",        last:"least powerful",
+           nth:"most powerful" },
+    w:   { high:false, first:"lightest",             last:"heaviest",
+           nth:"lightest" },
+    ptw: { high:true,  first:"best power-to-weight", last:"lowest power-to-weight",
+           nth:"best power-to-weight" }
+  };
+
+  function ordinal(n){
+    var teens = n % 100;
+    if(teens >= 11 && teens <= 13) return n + "th";
+    return n + (["th","st","nd","rd"][n % 10] || "th");
+  }
+
+  /* field   one of the RANK_WORDS keys
+     peers   every model already resolved to the year on screen, so a 2021
+             card is ranked against the 2021 field rather than today's
+     Returns null when there is nothing to say — a category of one. */
+  SBL.rankIn = function(bike, field, peers){
+    var words = RANK_WORDS[field];
+    if(!words) return null;
+
+    var mine  = bike[field];
+    var total = 0, better = 0, level = 0;
+
+    peers.forEach(function(spec){
+      if(spec.cat !== bike.cat) return;
+      total++;
+      if(spec.uid === bike.uid) return;
+      if(spec[field] === mine) level++;
+      else if(words.high ? spec[field] > mine : spec[field] < mine) better++;
+    });
+
+    if(total < 2) return null;
+
+    var place = better + 1;
+    var end   = place === 1 || place + level === total;   /* nothing above or below */
+    var text  = place === 1     ? words.first
+              : end             ? words.last
+              : ordinal(place) + " " + words.nth;
+
+    /* "the lightest" when it stands alone, "joint lightest" when it does
+       not. An ordinal carries its own article, so only the superlatives
+       take one. */
+    return (level ? "joint " : end ? "the " : "") + text +
+      " of " + total + " " + SBL.CATEGORIES[bike.cat].plural;
+  };
+
 })(window.SBL);

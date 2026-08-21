@@ -328,6 +328,44 @@ the point — otherwise the brand would look artificially light against the othe
 are the only figures on the site that are arithmetic rather than quotation, so expect a
 1–2 kg margin on Ducati and nowhere else.
 
+### Where a bike sits in its class
+
+`230 kg` says nothing on its own: it is light for an adventure bike and enormous for a
+supersport. The ladder supplies that frame, but only for the metric currently selected and
+only while you are looking at it. Each model card now carries it in words, under power,
+weight and power-to-weight:
+
+```
+POWER              116 PS · 85 kW
+                   4th most powerful of 18 retros
+WET WEIGHT                  216 kg
+                   14th lightest of 18 retros
+POWER TO WEIGHT           0.54 PS/kg
+                   4th best power-to-weight of 18 retros
+```
+
+**A rank of a stated total, never a percentile.** Two of the six categories hold fewer than
+twenty machines and one holds eight, where a percentile claims a precision the set cannot
+carry — *in the 87th percentile of cruisers* is seven bikes wearing a lab coat. A rank that
+names its field is honest at any size, and the reader can see the size.
+
+**Ties are ranked jointly**, the way a results table does it: three bikes on 218 PS are all
+first and nothing is second. Ties are not rare — 37 models share a power figure with
+someone in their category and 42 share a weight — so `joint 5th most powerful of 32 sport
+bikes` earns its word. The superlatives take an article when they stand alone and lose it
+when they do not: *the lightest*, but *joint lightest*.
+
+**The comparison set is the whole category across all seven brands**, resolved to the model
+year on screen — so a card viewed at 2021 is ranked against the 2021 field, not today's.
+That is most of what makes it worth doing: the MT-09 is 14th most powerful of 36 nakeds
+now and was 4th of 15 in 2020, and the bike did not change. A category filter narrows what
+is *shown* and never what a rank is measured against; `renderCards` is handed the resolved
+field once per render rather than the filtered one.
+
+Power-to-weight comes to the card with this. The spec table has carried it all along and
+the card never has, which left the figure that best predicts how a bike feels visible only
+in a table nobody scrolls to.
+
 ### Seat height
 
 Seat height decides more about whether a bike is usable than any other figure on the
