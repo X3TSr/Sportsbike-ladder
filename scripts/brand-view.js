@@ -162,17 +162,20 @@
           '<div><dt>0–100 km/h</dt><dd>' + cell(bike, "a", "~" + bike.a + " s") + '</dd></div>' +
           '<div><dt>Top speed</dt><dd>' + cell(bike, "ts", "~" + bike.ts + " km/h") + '</dd></div>' +
           '<div><dt>Seat height</dt><dd>' + bike.s + ' mm</dd></div>' +
-          /* Wheels, front / rear, as measurements rather than tyre code. The
-             published code is kept underneath: it is where these come from,
-             and it is what you read off the sidewall when buying tyres. */
-          (SBL.wheelPair(bike, "diameter", 1)
-            ? '<div><dt>Wheel Ø</dt><dd>' + SBL.wheelPair(bike, "diameter", 1) + '</dd></div>' +
-              '<div><dt>Tyre width</dt><dd>' + SBL.wheelPair(bike, "width", 1) + '</dd></div>' +
-              '<div><dt>Circumference</dt><dd>' +
-                SBL.wheelPair(bike, "circumference", 0) +
-                '<span class="tyres">Rims ' + SBL.rimLabel(bike) + ' &middot; ' +
-                  bike.tyreF + ' &middot; ' + bike.tyreR + '</span>' +
-              '</dd></div>'
+          /* The tyre designation split into the things printed on the tyre,
+             front / rear — nothing derived from them. The full code stays
+             underneath: it is what you read off a sidewall when buying. */
+          (SBL.tyrePair(bike, "rim", "in")
+            ? '<div><dt>Rim</dt><dd>' + SBL.tyrePair(bike, "rim", "in") + '</dd></div>' +
+              '<div><dt>Tyre width</dt><dd>' + SBL.tyrePair(bike, "width", "mm") + '</dd></div>' +
+              (SBL.tyrePair(bike, "profile", "%")
+                ? '<div><dt>Profile</dt><dd>' + SBL.tyrePair(bike, "profile", "%") + '</dd></div>'
+                : "") +
+              (SBL.speedLabel(bike)
+                ? '<div><dt>Speed rating</dt><dd>' + SBL.speedLabel(bike) + '</dd></div>'
+                : "") +
+              '<div><dt>Tyres</dt><dd><span class="tyres">' +
+                bike.tyreF + '<br>' + bike.tyreR + '</span></dd></div>'
             : '<div><dt>Wheels</dt><dd><span class="unknown">not published</span></dd></div>') +
           /* Which generation these figures belong to. Without this, two years
              showing identical specs looks like the year filter is broken,
@@ -233,7 +236,7 @@
         '<td>' + cell(bike, "a", "~" + bike.a + " s") + '</td>' +
         '<td>' + cell(bike, "ts", "~" + bike.ts) + '</td>' +
         '<td>' + bike.s + ' mm</td>' +
-        '<td>' + (SBL.wheelPair(bike, "diameter", 1) || "&mdash;") + '</td>' +
+        '<td>' + (SBL.tyrePair(bike, "rim", "in") || "&mdash;") + '</td>' +
         '<td>' + bike.l + '</td></tr>';
     }).join("");
   }

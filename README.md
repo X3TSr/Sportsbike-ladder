@@ -101,7 +101,7 @@ scripts/
     index.js            category definitions + the registry brands fill
     yamaha.js …         one file per brand (7 brands), 9–25 model lines each
     years.js            launch years for all models, prior generations for 49
-    derive.js           ptw, id, uid, wheel maths, estimates, licences, years
+    derive.js           ptw, id, uid, tyre parsing, estimates, licences, years
   metrics.js            the five sort metrics; metric-button wiring
   categories.js         the category and year chip components, shared by all views
   ladder.js             the animated bar chart, shared by both ladders
@@ -147,9 +147,9 @@ Add an entry to the relevant `bikes` array in `scripts/data/<brand>.js`, includi
 `scripts/data/years.js` giving at least its `from` year. `ptw`, `id`, `uid` and the
 estimate set are derived at load, and the chips, ladders, cards, spec tables and compare
 checkboxes all build themselves from that array — nothing else needs touching.
-`tyreF`/`tyreR` are optional: give them the manufacturer's tyre string and the wheel
-measurements follow, or leave them off and the card says *not published* rather than
-showing a gap.
+`tyreF`/`tyreR` are optional: give them the manufacturer's tyre designation exactly as
+published and the wheel rows follow, or leave them off and the card says *not published*
+rather than showing a gap.
 
 ### Adding a brand
 
@@ -261,45 +261,46 @@ the point — otherwise the brand would look artificially light against the othe
 are the only figures on the site that are arithmetic rather than quotation, so expect a
 1–2 kg margin on Ducati and nowhere else.
 
-### Wheels
+### Wheels and tyres
 
-Model cards carry three front/rear measurements in centimetres — **wheel diameter, tyre
-width and circumference** — and both spec tables carry the diameter.
+**Nothing here is calculated.** A tyre designation is a compressed list of separate facts,
+so the card splits it back out and labels each one, in the unit that fact is conventionally
+given in:
 
-Nothing is stored but the manufacturer's own tyre string, in `tyreF` and `tyreR`. Every
-measurement is unpacked from it by `tyreSpec()` in `derive.js` at the point of use, so a
-generation that overrides the tyres needs no other bookkeeping and nothing can fall out
-of sync.
+| row | from | unit |
+| --- | --- | --- |
+| Rim | last number | inches — the language everyone uses for wheel size |
+| Tyre width | first number | mm |
+| Profile | second number | % of the width |
+| Speed rating | the letter | plus what it certifies, in km/h |
+| Tyres | the whole thing | as published |
 
-**Tyre notation packs three unrelated things into one code, and none of them is the number
-a reader pictures.** `190/55 ZR17` is a 190 mm section width, a sidewall 55% of that width,
-and a 17-inch rim — which makes the wheel you actually look at 64 cm across, not 17 of
-anything:
+`180/55 ZR17 73W` is a 180 mm section width, a sidewall 55% of that width, a Z-rated
+radial, a 17-inch rim and a load index of 73. Every one of those is moulded into the
+sidewall. Both spec tables carry the rim alone.
 
-```
-diameter      = rim × 25.4 + 2 × (width × aspect / 100)
-circumference = π × diameter
-```
+Only the manufacturer's own string is stored, in `tyreF` and `tyreR`. `tyreSpec()` splits it
+at the point of use, so a generation that overrides the tyres needs no other bookkeeping
+and nothing can fall out of sync.
 
-Two cases break the pattern, and both are in the data:
+Three details in the parsing:
 
-- **Aspect ratio exactly 100.** `80/100-18`, the CB125F's front, is a real size sitting on
-  the ceiling of the scale — so the ratio test has to be `> 100`, not `>= 100`.
-- **Racing slicks.** The H2R's `120/600 R17` puts the *overall diameter in millimetres*
-  where an aspect ratio normally goes. Reading 600 as a percentage gives it a two-metre
-  wheel. A second number above 100 is the only thing separating the two notations.
+- **Speed rating comes from two places.** Modern tyres put it in the service description
+  (`73W`); fast and older ones put it as the `Z` ahead of the `R`. The explicit one wins,
+  the prefix is the fallback, and nothing is shown when the manufacturer publishes
+  neither. 99 of the 116 have one — BMW and Ducati publish no service descriptions at all,
+  so their sport bikes get `Z` from the code and the rest get nothing.
+- **A profile of exactly 100 is real.** `80/100-18`, the CB125F's front, sits on the
+  ceiling of the scale.
+- **Racing slicks reuse the profile slot for overall diameter in mm.** The H2R's
+  `120/600 R17` is a 600 mm tyre, not a 600% sidewall. That row is left off for slicks
+  rather than printed as a percentage it is not; the full code is on the card regardless.
 
-The rim inches and the published codes stay on the card underneath, since that is where the
-figures come from and what you read off a sidewall when buying tyres.
+The spread that matters is **width**: 80 mm on a CB125F to 240 mm on a Diavel V4. Rims
+barely move — 87 of the 116 run 17 inches at both ends, and the column only changes in
+adventure (19/17, 21/18), cruiser (18/16, 19/16) and retro.
 
-Two things worth knowing about the spread: **87 of the 116 sourced models run 17-inch rims
-at both ends**, so the diameter column is near-constant through sport, naked and
-sport-tourer and only moves in adventure (19/17, 21/18), cruiser (18/16, 19/16) and retro.
-And the *overall* diameters barely vary at all — 576 to 695 mm across every bike here —
-because a taller rim is usually wrapped in a lower-profile tyre. It is tyre **width** that
-separates a 125 from a Diavel: 80 mm to 240 mm, a threefold spread.
-
-**14 models have no wheel data** and show *not published* on the card and an em-dash in
+**14 models have no tyre data** and show *not published* on the card and an em-dash in
 the tables — the same nine Aprilias whose site cannot be read at all, plus the five whose
 manufacturers no longer publish a spec page for them: the Ninja H2 and Versys-X 300, the
 G 310 GS, and Ducati's Panigale V4 and Superleggera V4.
