@@ -9,9 +9,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/base.css?v=202608211838">
-<link rel="stylesheet" href="styles/components.css?v=202608211838">
-<link rel="stylesheet" href="styles/responsive.css?v=202608211838">
+<link rel="stylesheet" href="styles/base.css?v=202608221016">
+<link rel="stylesheet" href="styles/components.css?v=202608221016">
+<link rel="stylesheet" href="styles/responsive.css?v=202608221016">
 </head>
 <body>
 
@@ -67,6 +67,14 @@
             <h3>Compare</h3>
             <span class="sub">Put all <span data-count="models"></span> models from every brand on one ladder, or pick the handful you actually care about. Filter by category, licence class and seat height, sort by any metric.</span>
             <span class="go">Open the comparison &rarr;</span>
+          </span>
+        </div>
+        <div class="cmp-tile" role="button" tabindex="0" data-vsopen="1">
+          <span class="stripe"></span>
+          <span class="inner">
+            <h3>Head to head</h3>
+            <span class="sub">Two bikes, every figure paired, with the gap between them worked out. Across brands, and across generations &mdash; a Panigale V2 can face the 955cc one it replaced.</span>
+            <span class="go">Put two bikes up &rarr;</span>
           </span>
         </div>
       </div>
@@ -265,6 +273,7 @@
         <button class="metric cm" data-m="pricePerPs" aria-pressed="false">&pound; per PS</button>
       </div>
       <p class="count" id="cmpCount"></p>
+      <div class="quick" id="cmpPair"></div>
       <div class="ladder" id="cmpLadder"></div>
       <div class="empty hidden" id="cmpEmpty">Nothing selected &mdash; tick a few bikes above to build the ladder.</div>
     </div>
@@ -303,23 +312,73 @@
   </div>
 </div>
 
-<script src="scripts/data/index.js?v=202608211838"></script>
-<script src="scripts/data/yamaha.js?v=202608211838"></script>
-<script src="scripts/data/kawasaki.js?v=202608211838"></script>
-<script src="scripts/data/honda.js?v=202608211838"></script>
-<script src="scripts/data/aprilia.js?v=202608211838"></script>
-<script src="scripts/data/ducati.js?v=202608211838"></script>
-<script src="scripts/data/suzuki.js?v=202608211838"></script>
-<script src="scripts/data/bmw.js?v=202608211838"></script>
-<script src="scripts/data/years.js?v=202608211838"></script>
-<script src="scripts/data/derive.js?v=202608211838"></script>
-<script src="scripts/metrics.js?v=202608211838"></script>
-<script src="scripts/categories.js?v=202608211838"></script>
-<script src="scripts/ladder.js?v=202608211838"></script>
-<script src="scripts/brand-view.js?v=202608211838"></script>
-<script src="scripts/compare-view.js?v=202608211838"></script>
-<script src="scripts/search.js?v=202608211838"></script>
-<script src="scripts/router.js?v=202608211838"></script>
-<script src="scripts/app.js?v=202608211838"></script>
+<!-- ===================== HEAD TO HEAD ===================== -->
+<div id="vsView" class="hidden">
+  <header>
+    <div class="head-inner">
+      <div class="masthead">
+        <button class="home" data-home="1">
+          <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#ladder-mark"/></svg>
+          <span class="wordmark">The Ladder</span>
+        </button>
+      </div>
+      <button class="back" id="vsBack">&larr; All brands</button>
+      <p class="eyebrow">Head to head &middot; 2026 &middot; EU market</p>
+      <h1 class="display">Two bikes</h1>
+      <p class="lede">A ladder shows spread &mdash; how a whole class distributes across one number. It is deliberately bad at the other question: <strong>these two specifically, how do they differ across everything at once</strong>. Pick two, from any brand, and from any generation on record.</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="wrap">
+      <div class="vs-pick">
+        <div class="vs-slot">
+          <p class="filter-label">First bike</p>
+          <div class="search" data-vs="a"></div>
+          <div class="vs-chosen" id="vsChosenA"></div>
+        </div>
+        <div class="vs-slot">
+          <p class="filter-label">Second bike</p>
+          <div class="search" data-vs="b"></div>
+          <div class="vs-chosen" id="vsChosenB"></div>
+        </div>
+      </div>
+      <div id="vsBody"></div>
+    </div>
+  </section>
+
+  <div class="notes">
+    <div class="wrap">
+      <p class="eyebrow" style="color:#8D96A2">Reading a head-to-head</p>
+      <h2 class="display">Caveats</h2>
+      <div class="grid">
+        <div><h4>A marked side is not a verdict</h4><p>The arrow points at the larger figure only where larger is unambiguously the thing people want &mdash; more power, less weight, a quicker 0&ndash;100. Seat height, price and pounds-per-PS carry no arrow, because there is no version of those where one direction is simply better. Nor does the count of arrows add up to a winner: a bike can lose every row here and still be the one to buy.</p></div>
+        <div><h4>Two estimates make a soft delta</h4><p>0&ndash;100 and top speed are derived from power-to-weight for most models. Where both sides are derived, the difference between them is mostly an artefact of that derivation rather than a fact about the bikes, so the delta is greyed and no side is marked. Both figures keep their <span class="est-demo">underline</span> either way.</p></div>
+        <div><h4>Generations are compared at their own figures</h4><p>Putting a bike beside its own earlier self uses the archived specification for that generation, not today's. Price is the exception: it is only recorded for the current machine, so an archived generation shows none rather than borrowing one.</p></div>
+      </div>
+      <footer>Compiled August 2026 &middot; EU specifications &middot; figures are manufacturer claims unless noted</footer>
+    </div>
+  </div>
+</div>
+
+<script src="scripts/data/index.js?v=202608221016"></script>
+<script src="scripts/data/yamaha.js?v=202608221016"></script>
+<script src="scripts/data/kawasaki.js?v=202608221016"></script>
+<script src="scripts/data/honda.js?v=202608221016"></script>
+<script src="scripts/data/aprilia.js?v=202608221016"></script>
+<script src="scripts/data/ducati.js?v=202608221016"></script>
+<script src="scripts/data/suzuki.js?v=202608221016"></script>
+<script src="scripts/data/bmw.js?v=202608221016"></script>
+<script src="scripts/data/years.js?v=202608221016"></script>
+<script src="scripts/data/derive.js?v=202608221016"></script>
+<script src="scripts/metrics.js?v=202608221016"></script>
+<script src="scripts/categories.js?v=202608221016"></script>
+<script src="scripts/ladder.js?v=202608221016"></script>
+<script src="scripts/brand-view.js?v=202608221016"></script>
+<script src="scripts/compare-view.js?v=202608221016"></script>
+<script src="scripts/search.js?v=202608221016"></script>
+<script src="scripts/vs-view.js?v=202608221016"></script>
+<script src="scripts/router.js?v=202608221016"></script>
+<script src="scripts/app.js?v=202608221016"></script>
 </body>
 </html>

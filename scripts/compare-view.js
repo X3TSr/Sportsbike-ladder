@@ -180,6 +180,7 @@
       : list.length + " of " + SBL.ALL.length + " models shown" +
         (year === null ? "" : " · " + year + " model year")) + hidden;
     document.getElementById("cmpNote").textContent = SBL.METRICS[metric].note;
+    renderPairLink(list);
 
     var sorted = ladder.render(metric, list);
     document.getElementById("cmpBody").innerHTML = sorted.map(function(bike){
@@ -200,6 +201,24 @@
   }
 
   function plural(n, word){ return n + " " + word + (n === 1 ? "" : "s") }
+
+  /* Exactly two on the ladder is already most of the way to asking a
+     different question — how do these two differ across everything at once —
+     which a ladder is built to be bad at. Offered only at exactly two,
+     because the head-to-head view holds no more than that. */
+  function renderPairLink(list){
+    var el = document.getElementById("cmpPair");
+    if(list.length !== 2){ el.innerHTML = ""; return }
+    el.innerHTML = '<button class="qbtn" data-pair="' +
+      list[0].uid + '|' + list[1].uid + '">Put these two head to head &rarr;</button>';
+  }
+
+  document.getElementById("cmpPair").addEventListener("click", function(e){
+    var button = e.target.closest("[data-pair]");
+    if(!button) return;
+    var pair = button.dataset.pair.split("|");
+    SBL.goToVs(pair[0], pair[1]);
+  });
 
   /* The slider's own readout and caveat.
 

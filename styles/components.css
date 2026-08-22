@@ -240,6 +240,65 @@ tbody th{font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 108,"wg
    rather than reading as a value the rider chose. */
 .seat-val.off{color:var(--steel)}
 
+/* ---- head to head ----
+   Two columns of figures with the label between them, so the eye compares
+   across a row rather than down a column. On a phone the columns narrow but
+   never stack: a head-to-head that puts one bike above the other is a spec
+   sheet, which is the thing this view exists not to be. */
+.vs-pick{display:grid;gap:22px;margin-bottom:26px}
+@media(min-width:760px){.vs-pick{grid-template-columns:1fr 1fr;gap:30px}}
+.vs-slot .search{margin-top:8px;max-width:none}
+.vs-chosen{margin-top:12px}
+.vs-name{display:flex;align-items:center;gap:9px;font-size:15px}
+.vs-name b{font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 110,"wght" 800;
+  text-transform:uppercase;letter-spacing:.01em}
+.vs-clear{margin-left:auto;width:26px;height:26px;flex:none;border:1px solid var(--rule);
+  background:transparent;color:var(--ink-soft);cursor:pointer;font-size:15px;line-height:1;
+  border-radius:2px}
+.vs-clear:hover{border-color:var(--ink);color:var(--ink)}
+.vs-gens{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+
+/* Three columns rather than thirteen, so unlike the spec tables it genuinely
+   fits a phone and needs no horizontal scroller — but only with a fixed
+   layout, or a long engine string sets the column width and pushes the whole
+   thing past the viewport. Fixed widths let the text wrap instead. */
+.vstable{width:100%;min-width:0;table-layout:fixed;border-collapse:collapse;
+  background:var(--card);border:0}
+/* The spec tables always scroll sideways on a phone; this one is sized to
+   fit, and the scroller is only there to catch the odd cell that will not
+   break — so the page itself never scrolls sideways because of it. */
+.vs-scroller{border:1px solid var(--rule)}
+.vstable thead th{padding:14px 12px;border-bottom:1px solid var(--rule);font-size:14px;
+  text-align:center;font-family:"Archivo",sans-serif;
+  font-variation-settings:"wdth" 108,"wght" 700}
+.vstable thead th .s-dot{display:inline-block;margin-right:7px;vertical-align:middle}
+/* The spec tables set white-space:nowrap on every cell and scroll sideways
+   instead; this table is sized to fit, so its cells have to wrap. Fixed
+   columns hold their width, and overflow-wrap breaks the odd token that is
+   still wider than a column barely bigger than "0.03 PS/kg". */
+.vstable td,.vstable th{white-space:normal;overflow-wrap:anywhere}
+.vstable td,.vstable tbody th{padding:11px 12px;border-bottom:1px solid #EBEEF1;
+  font-size:13px;vertical-align:middle}
+.vstable tr:last-child td,.vstable tr:last-child th{border-bottom:0}
+.vsv{width:37%;text-align:center;font-family:"IBM Plex Mono",monospace;
+  color:var(--ink-soft);overflow-wrap:anywhere}
+/* The larger figure, where larger is unambiguously the thing wanted. The
+   arrow in the middle carries the same information without relying on
+   weight or colour to do it. */
+.vsv.win{color:var(--ink);font-weight:600}
+.vstable .vsmid{text-align:center;font-family:"IBM Plex Mono",monospace;font-size:10px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--steel);font-weight:400}
+.vsdelta{display:block;margin-top:4px;font-size:12px;letter-spacing:.02em;
+  text-transform:none;color:var(--ink-soft)}
+/* Both sides derived from power to weight: the gap between them is an
+   artefact of the derivation, not a finding about the bikes. */
+.vsdelta.soft{color:var(--rule);font-style:italic}
+@media(max-width:520px){
+  .vstable td,.vstable tbody th{padding:10px 6px;font-size:12px}
+  .vstable thead th{padding:12px 6px;font-size:13px}
+  .vstable .vsmid{font-size:9px;letter-spacing:.06em}
+}
+
 .picker-grid{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
   margin-bottom:26px}
 @media(min-width:700px){.picker-grid{grid-template-columns:1fr 1fr}}

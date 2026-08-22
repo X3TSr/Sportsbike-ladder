@@ -13,13 +13,14 @@ Open `index.html` in a browser. No build step, no dependencies, no server needed
 it is plain HTML, CSS and JavaScript, and works straight off the filesystem or from
 any static host.
 
-Three views:
+Four views:
 
 | View | What it does |
 | --- | --- |
 | **Picker** | Category chips first, then the seven lineups. Each brand tile summarises whichever category is selected. |
 | **Brand** | One manufacturer, filterable by category and year, with a re-sortable ladder, a card per model and a full spec table. |
 | **Compare** | All 130 models on one ladder, coloured by brand, with per-model checkboxes plus year, category, licence and seat-height filters. |
+| **Head to head** | Two machines, every figure paired, with the gap between them worked out. Across brands and across generations. |
 
 Both ladders sort by power, 0–100 km/h, top speed, weight, power-to-weight, price or
 £ per PS. Rows slide to their new positions rather than jumping, so you can see what moved.
@@ -69,6 +70,7 @@ Everything on screen is in the address bar, so any view can be sent to someone e
 #/ducati?cat=sport&m=ptw           a brand page, filtered and sorted
 #/compare?y=2021&m=weight&sel=…    the compare view, in a past model year
 #/compare?seat=810                 everything with a seat at or below 810 mm
+#/vs?a=yamaha__mt-09-9&b=…         two machines, head to head
 ```
 
 Changing view pushes a history entry, so Back returns where you came from; changing a
@@ -167,6 +169,7 @@ scripts/
   ladder.js             the animated bar chart, shared by both ladders
   brand-view.js         picker (chips + brand grid) and the brand page
   compare-view.js       cross-brand selection, filters and ladder
+  vs-view.js            two machines paired, with the deltas between them
   search.js             the ranked model search in each header
   router.js             view state <-> the address bar
   app.js                view switching, delegated clicks/keyboard, resize
@@ -327,6 +330,40 @@ capacity at 0.75 kg per litre. That puts the numbers 9–17 kg above Ducati's ow
 the point — otherwise the brand would look artificially light against the other six. They
 are the only figures on the site that are arithmetic rather than quotation, so expect a
 1–2 kg margin on Ducati and nowhere else.
+
+### Head to head
+
+A ladder shows **spread** — how a class distributes across one number — and is
+deliberately bad at the other question people ask: *these two specifically, how do they
+differ across everything at once*. Answering that used to mean ticking two boxes on the
+compare view and reading a thirteen-column table sideways.
+
+`#/vs` pairs two machines: one column each, the label between them, and the gap
+underneath. Either side can be a current model or **any generation on record**, so a
+Panigale V2 can face the 955cc one it replaced — the slot travels in the hash as
+`uid@year`, the same shape `SBL.generationsOf()` gives a generation's own uid.
+
+**The arrow only appears where a direction is not an opinion.** More power, more torque,
+less weight, better power-to-weight, a quicker 0–100: nobody argues about those. Seat
+height, price and pounds-per-PS get no arrow, because there is no version of those where
+one end is simply the good end and drawing one would invent a view the data does not
+hold. Nor does the count of arrows add up to a winner, and the caveats say so: a bike can
+lose every row and still be the one to buy.
+
+**Two estimates make a soft delta.** 0–100 and top speed are derived from power-to-weight
+for most models. Where *both* sides are derived, their difference is mostly an artefact of
+the derivation rather than a fact about the bikes, so the delta is greyed and italicised
+and no side is marked. Both figures keep their dotted underline either way — the marking
+of a figure and the confidence in a delta are separate claims.
+
+Reached from a tile on the picker, from `/` and the search field, or from the compare
+view, which offers a shortcut at **exactly two** models on the ladder — two ticked boxes
+are already most of the way to asking this question.
+
+Unlike the spec tables, which are thirteen columns and scroll sideways on a phone, this
+one is three and sized to fit. That takes `table-layout:fixed`, and it takes undoing the
+`white-space:nowrap` those tables set — otherwise the cells hold their content in one
+line and push it straight past the viewport.
 
 ### Prices
 
