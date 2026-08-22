@@ -1,7 +1,7 @@
 /* ==========================================================================
    ROUTER — the view state, in the address bar.
 
-   Everything the three views hold — which brand is open, the category and
+   Everything the four views hold — which brand is open, the category and
    year filters, the sort metric, generation mode, the compare selection —
    used to live only in JavaScript variables, so a reload lost it and a link
    could point no deeper than the homepage. This mirrors it into the hash.
@@ -9,6 +9,7 @@
      #/                          the picker
      #/ducati?cat=sport&m=ptw    a brand page, filtered and sorted
      #/compare?y=2021&sel=…      the compare view, in a past model year
+     #/vs?a=…&b=…                two machines, head to head
 
    Two kinds of write, because they want different history behaviour:
 
@@ -25,6 +26,7 @@
   "use strict";
 
   var COMPARE = "compare";
+  var VS       = "vs";
   var applying = false;   /* guards the write → hashchange → read loop */
 
   /* ---------- compare selection ----------
@@ -71,7 +73,12 @@
     var params = [];
     var path;
 
-    if(SBL.compareView.isOpen()){
+    if(SBL.vsView.isOpen()){
+      var v = SBL.vsView.state();
+      path = "/" + VS;
+      if(v.a) params.push("a=" + v.a);
+      if(v.b) params.push("b=" + v.b);
+    }else if(SBL.compareView.isOpen()){
       var c = SBL.compareView.state();
       path = "/" + COMPARE;
       if(c.gen) params.push("gen=1");
@@ -127,7 +134,10 @@
     var route = parseHash();
     var p = route.params;
 
-    if(route.path === COMPARE){
+    if(route.path === VS){
+      SBL.vsView.setState({ a: p.a, b: p.b });
+      SBL.showView(VS);
+    }else if(route.path === COMPARE){
       SBL.compareView.setState({
         metric:   readMetric(p.m),
         year:     p.gen === "1" ? null : readYear(p.y),

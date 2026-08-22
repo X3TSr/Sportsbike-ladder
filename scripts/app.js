@@ -1,5 +1,5 @@
 /* ==========================================================================
-   APP — swaps between the three views and handles page-level interaction.
+   APP — swaps between the four views and handles page-level interaction.
    ========================================================================== */
 
 (function(SBL){
@@ -8,24 +8,28 @@
   var pickerView = document.getElementById("pickerView");
   var brandView  = document.getElementById("brandView");
   var cmpView    = document.getElementById("cmpView");
+  var vsView     = document.getElementById("vsView");
 
   var COMPARE = "compare";
+  var VS      = "vs";
   var INK     = "#0E1216";
 
-  /* key: a brand key, COMPARE, or null for the picker.
+  /* key: a brand key, COMPARE, VS, or null for the picker.
      Renders only — the hash is written by the caller, so applying a URL can
      reuse this without writing the hash straight back. */
   function show(key){
-    if(key === COMPARE){
+    if(key === COMPARE || key === VS){
       pickerView.classList.add("hidden");
       brandView.classList.add("hidden");
-      cmpView.classList.remove("hidden");
-      SBL.compareView.draw();
+      cmpView.classList.toggle("hidden", key !== COMPARE);
+      vsView.classList.toggle("hidden", key !== VS);
+      if(key === COMPARE) SBL.compareView.draw(); else SBL.vsView.render();
       window.scrollTo(0, 0);
       return;
     }
 
     cmpView.classList.add("hidden");
+    vsView.classList.add("hidden");
 
     if(key && SBL.brandView.open(key)){
       pickerView.classList.add("hidden");
@@ -43,6 +47,7 @@
      data-cmp opens compare, data-b opens a brand, data-t jumps to a card. */
   function activate(el){
     if(el.dataset.cmp){ go(COMPARE); return }
+    if(el.dataset.vsopen){ go(VS); return }
     if(el.dataset.b){ go(el.dataset.b); return }
     if(el.dataset.t){
       var target = document.getElementById(el.dataset.t);
@@ -50,7 +55,7 @@
     }
   }
 
-  var ACTIVATABLE = "[data-b],[data-t],[data-cmp]";
+  var ACTIVATABLE = "[data-b],[data-t],[data-cmp],[data-vsopen]";
 
   document.addEventListener("click", function(e){
     var el = e.target.closest(ACTIVATABLE);
@@ -67,6 +72,14 @@
 
   document.getElementById("backBtn").addEventListener("click", function(){ go(null) });
   document.getElementById("cmpBack").addEventListener("click", function(){ go(null) });
+  document.getElementById("vsBack").addEventListener("click", function(){ go(null) });
+
+  /* From the compare view, where two ticked boxes are already most of the way
+     to asking this question. */
+  SBL.goToVs = function(uidA, uidB){
+    SBL.vsView.open(uidA, uidB);
+    go(VS);
+  };
 
   /* Counts written into the copy, so adding a brand never leaves stale prose.
      Brand counts read better spelled out at this scale. */

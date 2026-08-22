@@ -86,18 +86,28 @@
 
   /* ---------- the field ----------
      One instance per view header, because only one header is ever on screen
-     and each keeps its own query. They share nothing but the functions above. */
+     and each keeps its own query. They share nothing but the functions above.
+
+     opts.onPick(hit)  what a chosen row does. Defaults to going there, which
+                       is what the header fields want; the head-to-head view
+                       passes its own so a pick fills a slot instead.
+     opts.label        the accessible name and placeholder, since two fields
+                       on one page have to be told apart.
+     opts.brands       false to offer models only — picking a whole brand
+                       makes no sense where one machine is wanted. */
   var built = 0;
 
-  function build(host){
+  function build(host, opts){
+    opts = opts || {};
     var listId = "searchList" + (++built);
+    var label  = opts.label || "Find a model";
     var hits = [], active = -1;
 
     host.innerHTML =
       '<input class="search-in" type="search" autocomplete="off" spellcheck="false"' +
         ' role="combobox" aria-expanded="false" aria-autocomplete="list"' +
-        ' aria-controls="' + listId + '" aria-label="Find a model"' +
-        ' placeholder="Find a model — try “gsxr” or “africa”">' +
+        ' aria-controls="' + listId + '" aria-label="' + label + '"' +
+        ' placeholder="' + label + ' — try “gsxr” or “africa”">' +
       '<ul class="search-out" id="' + listId + '" role="listbox" hidden></ul>';
 
     var input = host.querySelector(".search-in");
@@ -167,12 +177,14 @@
       if(!hit) return;
       input.value = "";
       close();
+      if(opts.onPick){ opts.onPick(hit); return }
       if(hit.kind === "brand") SBL.goToBrand(hit.key);
       else SBL.goToBike(hit.bike);
     }
 
     input.addEventListener("input", function(){
       hits = SBL.search(input.value);
+      if(opts.brands === false) hits = hits.filter(function(h){ return h.kind === "bike" });
       active = -1;
       render();
     });
@@ -204,14 +216,18 @@
     return input;
   }
 
-  var fields = [].map.call(document.querySelectorAll("[data-search]"), build);
+  document.querySelectorAll("[data-search]").forEach(function(host){ build(host) });
+
+  /* Anything else that wants one — the head-to-head view builds two. */
+  SBL.buildSearch = build;
 
   /* "/" is the search key everywhere else on the web, and the only field on
      the page it could collide with is this one. */
   document.addEventListener("keydown", function(e){
     if(e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey) return;
     if(/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) return;
-    var open = fields.find(function(input){ return input.offsetParent !== null });
+    var open = [].find.call(document.querySelectorAll(".search-in"),
+      function(input){ return input.offsetParent !== null });
     if(!open) return;
     e.preventDefault();
     open.focus();
