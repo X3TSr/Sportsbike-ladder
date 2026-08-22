@@ -164,7 +164,8 @@ scripts/
     yamaha.js …         one file per brand (7 brands), 9–25 model lines each
     years.js            launch years for all models, prior generations for 49
     derive.js           ptw, id, uid, tyre parsing, estimates, licence rule, years
-  metrics.js            the five sort metrics; metric-button wiring
+  theme.js              light / dark / follow-the-system, and the toggle
+  metrics.js            the seven sort metrics; metric-button wiring
   categories.js         the category and year chip components, shared by all views
   ladder.js             the animated bar chart, shared by both ladders
   brand-view.js         picker (chips + brand grid) and the brand page
@@ -180,6 +181,64 @@ must come after `data/index.js` and before `data/derive.js`, `router.js` needs b
 views to exist, and `app.js` runs last.
 The stylesheets must stay in the order above, since `responsive.css` overrides the
 component defaults.
+
+### Light and dark
+
+Three states, not two: **an explicit choice, or follow the operating system**. A two-way
+switch has no position that means *go back to following the system*, and following it is
+the right default but only the default — a phone in a dark garage and the same phone in
+daylight are different situations from whatever the OS was told last week. The toggle
+cycles auto → light → dark and sits beside the logo in every header.
+
+The whole palette lives in `:root` in `styles/base.css` and **nothing outside it names a
+colour**. That is what made a second theme a redefinition rather than a rewrite: the token
+block is repeated twice below, once under `prefers-color-scheme: dark` guarded by
+`:root:not([data-theme="light"])`, once under `:root[data-theme="dark"]`, so the system
+setting and an explicit choice both land on the same values and either can win.
+
+Six tokens existed already; five more came out of the hard-coded colours this work
+flushed out — `--rule-soft`, `--hover`, `--track`, `--placeholder`, `--shadow` — plus
+`--on-fill` for text sitting on a filled `--accent` or `--ink` block, which has to invert
+the *other* way, and `--invert-*` for the caveat panels.
+
+A choice is stamped on `<html>` by a four-line snippet in `<head>`, before the stylesheet
+applies, so a dark-mode reader never gets a white flash on load. `scripts/theme.js` does
+everything else and touches `localStorage` only inside `try`, since some privacy modes
+throw rather than returning null.
+
+#### The caveat panels invert the other way
+
+In light mode they are near-black on a light page. In dark they cannot be darker still, so
+they **lift** to a raised panel instead. The contrast with the page is what carries the
+meaning, not the direction.
+
+#### Brand accents come in pairs
+
+Seven accents picked for contrast against white, two of which — Yamaha `#1039A8` and BMW
+`#0C2C68` — are dark blues that vanish on a dark ground. Each brand now carries an
+`accentDark`, and **CSS picks between them**: every place a brand colour is painted sets
+`--bc-light`/`--bc-dark` (or `--bar-light`/`--bar-dark`, or `--accent-light`/`--accent-dark`
+on `:root`) and the theme blocks resolve which applies. Nothing re-renders on a toggle.
+
+| brand | light | dark |
+| --- | --- | --- |
+| Yamaha | `#1039A8` | `#5B8DF0` |
+| Kawasaki | `#5FB030` | `#79C943` |
+| Honda | `#E4002B` | `#FF5566` |
+| Aprilia | `#A50034` | `#F0559A` |
+| Ducati | `#C21807` | `#FF6B45` |
+| Suzuki | `#0079C1` | `#33B7EC` |
+| BMW | `#0C2C68` | `#A9BEDE` |
+
+The dark set is **better separated than the light one**: its closest pair is Honda/Ducati
+at ΔE 24.5, against ΔE 15.7 for the same pair in light. Every dark accent also clears 5:1
+against both dark surfaces, where light-mode Kawasaki green manages only 2.7 against white.
+
+BMW is the interesting one. Three blues have to stay apart, and in light mode BMW solved
+that by going very dark — which is not available on a dark ground. It goes the other way
+instead, to a pale desaturated blue that separates from Yamaha's saturated mid-blue and
+Suzuki's cyan by lightness and chroma rather than hue. It reads quieter than the other
+six, which is the price of fitting a third blue in.
 
 ### Deploying: bump the asset version
 

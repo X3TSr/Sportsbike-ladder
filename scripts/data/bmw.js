@@ -1,5 +1,5 @@
 SBL.registerBrand("bmw", {
-name:"BMW", series:"Full range", accent:"#0C2C68",
+name:"BMW", series:"Full range", accent:"#0C2C68", accentDark:"#A9BEDE",
 lede:"The only brand here that fills every category with a different engine layout — a boxer twin, an inline-four, an inline-six, a parallel twin and a single. Nothing else on this page spans a 313cc commuter and a 1,802cc cruiser.",
 bikes:[
 

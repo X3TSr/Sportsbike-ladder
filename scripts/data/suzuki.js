@@ -1,5 +1,5 @@
 SBL.registerBrand("suzuki", {
-name:"Suzuki", series:"Full range", accent:"#0079C1",
+name:"Suzuki", series:"Full range", accent:"#0079C1", accentDark:"#33B7EC",
 lede:"A range built on two long-lived engines and one new one. The 776cc twin introduced in 2023 now underpins five bikes, the 645cc V-twin four more, and the GSX-R1000R came back for the line's fortieth anniversary after three years away.",
 bikes:[
 

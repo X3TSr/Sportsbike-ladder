@@ -9,9 +9,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles/base.css?v=202608221016">
-<link rel="stylesheet" href="styles/components.css?v=202608221016">
-<link rel="stylesheet" href="styles/responsive.css?v=202608221016">
+<!-- Stamped before the first paint so a dark-mode reader never sees a white
+     flash. The rest of the logic is in scripts/theme.js; this is only the part
+     that has to happen before the stylesheet is applied. -->
+<script>try{var t=localStorage.getItem("sbl-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="stylesheet" href="styles/base.css?v=202608221044">
+<link rel="stylesheet" href="styles/components.css?v=202608221044">
+<link rel="stylesheet" href="styles/responsive.css?v=202608221044">
 </head>
 <body>
 
@@ -35,7 +39,7 @@
     <div class="head-inner">
       <div class="masthead">
         <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#ladder-mark"/></svg>
-      </div>
+      <span data-theme-toggle></span></div>
       <p class="eyebrow"><span data-count="brands"></span> manufacturers &middot; 2026 &middot; EU market</p>
       <h1 class="display">The <em>Ladder</em></h1>
       <p class="lede">Every manufacturer sells a staircase: a learner bike at the bottom, a flagship at the top, and a set of compromises in between. <strong>Pick a category, then a brand, to see how the rungs are spaced</strong> — and which ones your licence actually reaches.</p>
@@ -137,7 +141,7 @@
           <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#ladder-mark"/></svg>
           <span class="wordmark">The Ladder</span>
         </button>
-      </div>
+      <span data-theme-toggle></span></div>
       <button class="back" id="backBtn">&larr; All brands</button>
       <p class="eyebrow" id="bEyebrow"></p>
       <h1 class="display" id="bTitle"></h1>
@@ -216,7 +220,7 @@
           <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#ladder-mark"/></svg>
           <span class="wordmark">The Ladder</span>
         </button>
-      </div>
+      <span data-theme-toggle></span></div>
       <button class="back" id="cmpBack">&larr; All brands</button>
       <p class="eyebrow">Cross-brand &middot; 2026 &middot; EU market</p>
       <h1 class="display">Compare</h1>
@@ -321,7 +325,7 @@
           <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#ladder-mark"/></svg>
           <span class="wordmark">The Ladder</span>
         </button>
-      </div>
+      <span data-theme-toggle></span></div>
       <button class="back" id="vsBack">&larr; All brands</button>
       <p class="eyebrow">Head to head &middot; 2026 &middot; EU market</p>
       <h1 class="display">Two bikes</h1>
@@ -361,24 +365,25 @@
   </div>
 </div>
 
-<script src="scripts/data/index.js?v=202608221016"></script>
-<script src="scripts/data/yamaha.js?v=202608221016"></script>
-<script src="scripts/data/kawasaki.js?v=202608221016"></script>
-<script src="scripts/data/honda.js?v=202608221016"></script>
-<script src="scripts/data/aprilia.js?v=202608221016"></script>
-<script src="scripts/data/ducati.js?v=202608221016"></script>
-<script src="scripts/data/suzuki.js?v=202608221016"></script>
-<script src="scripts/data/bmw.js?v=202608221016"></script>
-<script src="scripts/data/years.js?v=202608221016"></script>
-<script src="scripts/data/derive.js?v=202608221016"></script>
-<script src="scripts/metrics.js?v=202608221016"></script>
-<script src="scripts/categories.js?v=202608221016"></script>
-<script src="scripts/ladder.js?v=202608221016"></script>
-<script src="scripts/brand-view.js?v=202608221016"></script>
-<script src="scripts/compare-view.js?v=202608221016"></script>
-<script src="scripts/search.js?v=202608221016"></script>
-<script src="scripts/vs-view.js?v=202608221016"></script>
-<script src="scripts/router.js?v=202608221016"></script>
-<script src="scripts/app.js?v=202608221016"></script>
+<script src="scripts/theme.js?v=202608221044"></script>
+<script src="scripts/data/index.js?v=202608221044"></script>
+<script src="scripts/data/yamaha.js?v=202608221044"></script>
+<script src="scripts/data/kawasaki.js?v=202608221044"></script>
+<script src="scripts/data/honda.js?v=202608221044"></script>
+<script src="scripts/data/aprilia.js?v=202608221044"></script>
+<script src="scripts/data/ducati.js?v=202608221044"></script>
+<script src="scripts/data/suzuki.js?v=202608221044"></script>
+<script src="scripts/data/bmw.js?v=202608221044"></script>
+<script src="scripts/data/years.js?v=202608221044"></script>
+<script src="scripts/data/derive.js?v=202608221044"></script>
+<script src="scripts/metrics.js?v=202608221044"></script>
+<script src="scripts/categories.js?v=202608221044"></script>
+<script src="scripts/ladder.js?v=202608221044"></script>
+<script src="scripts/brand-view.js?v=202608221044"></script>
+<script src="scripts/compare-view.js?v=202608221044"></script>
+<script src="scripts/search.js?v=202608221044"></script>
+<script src="scripts/vs-view.js?v=202608221044"></script>
+<script src="scripts/router.js?v=202608221044"></script>
+<script src="scripts/app.js?v=202608221044"></script>
 </body>
 </html>

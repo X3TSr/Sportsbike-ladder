@@ -120,9 +120,10 @@
     var brand = SBL.DATA[brandKey];
     brand.bikes.forEach(function(bike){
       SBL.ALL.push(Object.assign({}, bike, {
-        brand:  brand.name,
-        bkey:   brandKey,
-        accent: brand.accent
+        brand:      brand.name,
+        bkey:       brandKey,
+        accent:     brand.accent,
+        accentDark: brand.accentDark
       }));
     });
   });

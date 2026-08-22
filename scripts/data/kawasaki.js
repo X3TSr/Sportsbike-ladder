@@ -1,5 +1,5 @@
 SBL.registerBrand("kawasaki", {
-name:"Kawasaki", series:"Full range", accent:"#5FB030",
+name:"Kawasaki", series:"Full range", accent:"#5FB030", accentDark:"#79C943",
 lede:"The widest range here by a distance, and the only one that fills every category on this page. Six sport rungs with no gaps, a supercharger in three different bikes, and a retro line that now reaches back to a 233cc single.",
 bikes:[
 

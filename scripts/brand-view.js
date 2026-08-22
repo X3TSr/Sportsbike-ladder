@@ -67,7 +67,7 @@
       var label = pickerCat ? SBL.CATEGORIES[pickerCat].name : brand.cats.length + " categories";
 
       return '<div class="brand" role="button" tabindex="0" data-b="' + key + '"' +
-        ' style="--bc:' + brand.accent + '">' +
+        ' style="--bc-light:' + brand.accent + ';--bc-dark:' + brand.accentDark + '">' +
         '<span class="stripe"></span>' +
         '<span class="inner">' +
           '<h3>' + brand.name + '</h3>' +
@@ -111,7 +111,10 @@
     brandCat  = (pickerCat && SBL.countIn(brand.bikes, pickerCat)) ? pickerCat : null;
     brandYear = pickerYear;
 
-    document.documentElement.style.setProperty("--accent", brand.accent);
+    /* Both halves of the pair, so a theme change is a CSS resolution rather
+       than a re-render — see the token block at the top of base.css. */
+    document.documentElement.style.setProperty("--accent-light", brand.accent);
+    document.documentElement.style.setProperty("--accent-dark", brand.accentDark);
     document.getElementById("bEyebrow").textContent = brand.series + " · 2026 · EU market";
     document.getElementById("bTitle").textContent   = brand.name;
     document.getElementById("bLede").textContent    = brand.lede;

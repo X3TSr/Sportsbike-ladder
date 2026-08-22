@@ -1,20 +1,75 @@
 /* ==========================================================================
    BASE — design tokens, reset, page furniture
-   Loaded first. Everything here is shared by all three views.
-   ========================================================================== */
+   Loaded first. Everything here is shared by all four views.
 
+   The palette lives here and nowhere else. Every colour in the stylesheets
+   is one of these tokens, which is what makes a second theme a redefinition
+   rather than a rewrite.
+
+   Three states, not two: an explicit choice stamps data-theme on <html>, and
+   the default follows the operating system. A phone in a dark garage and a
+   phone in daylight are different situations from whatever the OS was told
+   last week, so the choice has to be available — and reversible back to
+   "follow the system", which a two-way toggle cannot express.
+   ========================================================================== */
 :root{
   --paper:#E9ECF0; --card:#FFFFFF; --ink:#0E1216; --ink-soft:#59616C;
   --rule:#C6CCD4; --steel:#8D96A2;
 
-  /* Repainted per brand by the router; reset to ink on the picker view. */
-  --accent:#0E1216;
+  --rule-soft:#EBEEF1;      /* hairlines inside a card, quieter than --rule */
+  --hover:#F6F8FA;          /* a surface under the pointer */
+  --track:#DADEE4;          /* the ladder's unfilled bar */
+  --placeholder:#EDF0F4;    /* where a photo would be */
+  --shadow:rgba(14,18,22,.16);
+
+  /* Text sitting ON a filled --accent or --ink block. Both fills inverse
+     with the theme, so the text on them has to inverse the other way. */
+  --on-fill:#FFFFFF;
+
+  /* The caveat panels, which run in the opposite register to the page. In
+     light mode that means near-black on a light page; in dark it cannot mean
+     darker still, so it lifts instead — the contrast with the page is what
+     carries the meaning, not the direction. */
+  --invert-bg:#0E1216; --invert-ink:#FFFFFF; --invert-soft:#C8CDD5;
+
+  /* Brand accent, set per brand as a light/dark pair by brand-view.js so the
+     theme resolves it in CSS and nothing has to be re-rendered on a toggle.
+     Defaults to ink, which is what the picker view uses. */
+  --accent-light:#0E1216; --accent-dark:#E6EBF1;
+  --accent:var(--accent-light);
 
   --row-h:64px; --wrap:1120px;
 
   /* Card padding is a variable because .shot bleeds to the card edge with
      negative margins and the two must not drift apart. */
   --card-py:28px; --card-px:26px;
+
+  color-scheme:light;
+}
+
+/* Every token that moves, written once. The two selectors below apply it:
+   one for the system setting, one for an explicit choice. */
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1317; --card:#1A2028; --ink:#E6EBF1; --ink-soft:#A3AEBC;
+    --rule:#333C48; --steel:#828D9C;
+    --rule-soft:#252C36; --hover:#222933; --track:#2E3742;
+    --placeholder:#1F262F; --shadow:rgba(0,0,0,.55);
+    --on-fill:#0F1317;
+    --invert-bg:#232B35; --invert-ink:#E6EBF1; --invert-soft:#B4BECB;
+    --accent:var(--accent-dark);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1317; --card:#1A2028; --ink:#E6EBF1; --ink-soft:#A3AEBC;
+  --rule:#333C48; --steel:#828D9C;
+  --rule-soft:#252C36; --hover:#222933; --track:#2E3742;
+  --placeholder:#1F262F; --shadow:rgba(0,0,0,.55);
+  --on-fill:#0F1317;
+  --invert-bg:#232B35; --invert-ink:#E6EBF1; --invert-soft:#B4BECB;
+  --accent:var(--accent-dark);
+  color-scheme:dark;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
@@ -32,7 +87,7 @@ body{background:var(--paper);color:var(--ink);
 
 /* kerbstone band — the circuit-kerb motif, recoloured per brand */
 .kerb{height:22px;width:100%;
-  background:repeating-linear-gradient(115deg,var(--accent) 0 26px,#FFFFFF 26px 52px);
+  background:repeating-linear-gradient(115deg,var(--accent) 0 26px,var(--card) 26px 52px);
   transition:background .4s}
 
 header{background:var(--card);border-bottom:1px solid var(--rule)}
@@ -43,7 +98,15 @@ h1 em{font-style:normal;color:var(--accent);transition:color .4s}
 .lede strong{color:var(--ink);font-weight:600}
 
 /* ---- logo ---- */
-.masthead{margin-bottom:22px}
+.masthead{margin-bottom:22px;display:flex;align-items:center;
+  justify-content:space-between;gap:16px}
+/* Level with the logo in every header, so it is in the same place whichever
+   view you are on and never competes with the page's own controls. */
+.theme-toggle{width:38px;height:38px;flex:none;display:grid;place-items:center;
+  border:1px solid var(--rule);background:transparent;color:var(--ink-soft);
+  cursor:pointer;border-radius:2px;font-size:18px;line-height:1;padding:0}
+.theme-toggle:hover{border-color:var(--ink);color:var(--ink)}
+.theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .mark{width:42px;height:42px;display:block;color:var(--ink)}
 .home{display:inline-flex;align-items:center;gap:11px;background:none;border:0;padding:0;
   cursor:pointer;color:var(--ink)}
@@ -71,12 +134,18 @@ h1 em{font-style:normal;color:var(--accent);transition:color .4s}
 .search-in:focus{outline:2px solid var(--accent);outline-offset:2px;background:var(--card)}
 .search-out{position:absolute;z-index:20;top:calc(100% + 6px);left:0;right:0;
   list-style:none;background:var(--card);border:1px solid var(--rule);
-  max-height:330px;overflow-y:auto;box-shadow:0 14px 30px rgba(14,18,22,.16)}
+  max-height:330px;overflow-y:auto;box-shadow:0 14px 30px var(--shadow)}
 .search-out li{display:flex;align-items:center;gap:10px;padding:9px 13px;
   border-bottom:1px solid var(--rule);font-size:13px;cursor:pointer}
 .search-out li:last-child{border-bottom:0}
 .search-out li.on,.search-out li:hover{background:var(--paper)}
-.s-dot{width:8px;height:8px;border-radius:50%;flex:none}
+/* Brand swatches and ladder bars carry both accents as custom properties and
+   let CSS pick, so a theme change repaints them without any JS re-render. */
+.s-dot{width:8px;height:8px;border-radius:50%;flex:none;background:var(--bc-light)}
+:root[data-theme="dark"] .s-dot{background:var(--bc-dark)}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .s-dot{background:var(--bc-dark)}
+}
 .s-name{font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 108,"wght" 700;
   text-transform:uppercase;letter-spacing:.01em}
 .s-meta{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;
@@ -93,12 +162,12 @@ h2{font-size:clamp(26px,4.6vw,40px);margin-top:6px}
 .sec-note{margin-top:10px;color:var(--ink-soft);font-size:15px;max-width:62ch}
 
 /* ---- notes / footer ---- */
-.notes{background:var(--ink);color:#C8CDD5;padding:50px 0 56px}
-.notes h2{color:#fff}
+.notes{background:var(--invert-bg);color:var(--invert-soft);padding:50px 0 56px}
+.notes h2{color:var(--invert-ink)}
 .notes .grid{display:grid;gap:24px;margin-top:24px}
 @media(min-width:760px){.notes .grid{grid-template-columns:1fr 1fr}}
 .notes h4{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
-  text-transform:uppercase;color:#fff;margin-bottom:8px;
+  text-transform:uppercase;color:var(--invert-ink);margin-bottom:8px;
   border-left:3px solid var(--accent);padding-left:9px;transition:border-color .4s}
 .notes p{font-size:14px;line-height:1.65}
 footer{padding:24px 0;font-size:12px;color:var(--ink-soft);

@@ -119,13 +119,15 @@
       if(hit.kind === "brand"){
         return '<li role="option" id="' + id + '" data-i="' + i + '"' +
           ' aria-selected="' + selected + '"' + (selected ? ' class="on"' : "") + '>' +
-          '<span class="s-dot" style="background:' + hit.brand.accent + '"></span>' +
+          '<span class="s-dot" style="--bc-light:' + hit.brand.accent +
+            ';--bc-dark:' + hit.brand.accentDark + '"></span>' +
           '<span class="s-name">' + hit.brand.name + '</span>' +
           '<span class="s-meta">' + hit.brand.bikes.length + ' models</span></li>';
       }
       return '<li role="option" id="' + id + '" data-i="' + i + '"' +
         ' aria-selected="' + selected + '"' + (selected ? ' class="on"' : "") + '>' +
-        '<span class="s-dot" style="background:' + hit.bike.accent + '"></span>' +
+        '<span class="s-dot" style="--bc-light:' + hit.bike.accent +
+          ';--bc-dark:' + hit.bike.accentDark + '"></span>' +
         '<span class="s-name">' + hit.bike.n + '</span>' +
         '<span class="s-meta">' + hit.bike.brand + ' &middot; ' + hit.bike.es + '</span></li>';
     }

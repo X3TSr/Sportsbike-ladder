@@ -1,5 +1,5 @@
 SBL.registerBrand("ducati", {
-name:"Ducati", series:"Full range", accent:"#C21807",
+name:"Ducati", series:"Full range", accent:"#C21807", accentDark:"#FF6B45",
 lede:"No entry rung anywhere — the cheapest Ducati here still makes 73 PS, and most of the range starts above 110. The 890cc V2 introduced in 2025 has now taken over six different models, which is the single biggest change to this lineup in a decade.",
 bikes:[
 
