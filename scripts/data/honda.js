@@ -1,5 +1,5 @@
 SBL.registerBrand("honda", {
-name:"Honda", series:"Full range", accent:"#E4002B",
+name:"Honda", series:"Full range", accent:"#E4002B", accentDark:"#FF5566",
 lede:"The broadest engineering spread here — a 124cc single at one end, a 1,833cc flat-six at the other, and a habit of putting the same parallel twin into four different bikes. The sport ladder is short; everything else is not.",
 bikes:[
 

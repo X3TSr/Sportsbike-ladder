@@ -34,7 +34,9 @@
         (bike.gLabel ? ' <span class="gyr">' + bike.gLabel + '</span>' : "") +
         '<span class="tag">' + bike.es + '</span></div>';
     },
-    barStyle: function(bike){ return "background:" + bike.accent }
+    barStyle: function(bike){
+      return "--bar-light:" + bike.accent + ";--bar-dark:" + bike.accentDark;
+    }
   });
   ladder.build(SBL.ALL);
 
@@ -99,6 +101,12 @@
       ' <span class="cat-n">' + SBL.countIn(SBL.ALL, cat) + '</span></button>';
   }).join("");
 
+  /* A brand swatch, in both themes. CSS picks which one applies, so nothing
+     here has to be redrawn when the theme changes. */
+  function dotStyle(brand){
+    return "--bc-light:" + brand.accent + ";--bc-dark:" + (brand.accentDark || brand.accent);
+  }
+
   /* ---------- checkbox grid, grouped by category within each brand ---------- */
   pickerGrid.innerHTML = Object.keys(SBL.DATA).map(function(key){
     var brand = SBL.DATA[key];
@@ -115,7 +123,7 @@
     /* <details> so narrow screens can collapse 125 checkboxes into seven
        headings. Opened on wide screens below, where the space exists. */
     return '<details class="pcol" data-brand="' + key + '">' +
-      '<summary><span class="dot" style="background:' + brand.accent + '"></span>' +
+      '<summary><span class="dot" style="' + dotStyle(brand) + '"></span>' +
         brand.name + '<span class="pcount">' + brand.bikes.length + '</span></summary>' +
       '<button class="all" data-allb="' + key + '">toggle all</button>' +
       groups +

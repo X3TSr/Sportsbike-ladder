@@ -115,8 +115,8 @@
       }).join("") + '</div>';
 
     el.innerHTML =
-      '<p class="vs-name"><span class="s-dot" style="background:' + slot.bike.accent +
-        '"></span>' + slot.bike.brand + ' <b>' + slot.bike.n + '</b>' +
+      '<p class="vs-name"><span class="s-dot" style="--bc-light:' + slot.bike.accent +
+        ';--bc-dark:' + slot.bike.accentDark + '"></span>' + slot.bike.brand + ' <b>' + slot.bike.n + '</b>' +
         '<button class="vs-clear" data-vsclear="' + side + '" aria-label="Clear this bike">' +
         '&times;</button></p>' + chips;
   }
@@ -196,7 +196,8 @@
   }
 
   function head(spec, slot){
-    return '<span class="s-dot" style="background:' + spec.accent + '"></span>' +
+    return '<span class="s-dot" style="--bc-light:' + spec.accent +
+      ';--bc-dark:' + spec.accentDark + '"></span>' +
       spec.brand + ' ' + spec.n +
       (slot.gen ? ' <span class="gyr">' + spec.gLabel + '</span>' : "");
   }

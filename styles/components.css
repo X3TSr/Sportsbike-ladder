@@ -9,6 +9,11 @@
 .brand{background:var(--card);display:block;text-decoration:none;color:inherit;
   position:relative;overflow:hidden;cursor:pointer}
 .brand:focus-visible{outline:3px solid var(--ink);outline-offset:-3px}
+.brand{--bc:var(--bc-light)}
+:root[data-theme="dark"] .brand{--bc:var(--bc-dark)}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .brand{--bc:var(--bc-dark)}
+}
 .brand .stripe{display:block;height:7px;background:var(--bc)}
 .brand .inner{display:block;padding:26px 24px 24px;transition:background .15s}
 .brand h3{font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 118,"wght" 900;
@@ -21,7 +26,7 @@
 .brand dd{font-size:15px;font-weight:500}
 .brand .go{display:block;margin-top:16px;font-family:"IBM Plex Mono",monospace;
   font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--bc)}
-.brand:hover .inner{background:#F6F8FA}
+.brand:hover .inner{background:var(--hover)}
 .brand:hover .go{text-decoration:underline}
 
 /* ---- category chips (the higher selector) ---- */
@@ -33,7 +38,7 @@
   color:var(--ink-soft);cursor:pointer;border-radius:2px;
   transition:background .15s,color .15s,border-color .15s}
 .cat:hover{border-color:var(--ink);color:var(--ink)}
-.cat[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.cat[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-fill)}
 .cat:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .cat-n{font-family:"IBM Plex Mono",monospace;font-size:11px;font-variation-settings:normal;
   font-weight:400;letter-spacing:0;opacity:.65}
@@ -57,7 +62,7 @@ tbody th .gyr{font-size:10px;margin-left:5px}
 
 /* A spec that came from an archived generation rather than today's data. */
 .hist-badge{display:inline-block;margin-left:6px;padding:2px 6px;
-  background:var(--accent);color:#fff;font-size:9px;letter-spacing:.1em;
+  background:var(--accent);color:var(--on-fill);font-size:9px;letter-spacing:.1em;
   transition:background .4s}
 .card.historic .shot::before{opacity:.2}
 .gen-note{margin-top:12px;font-size:13px;line-height:1.55;color:var(--ink-soft);
@@ -73,7 +78,7 @@ tbody tr.historic-row th::after{content:"";position:absolute;left:0;top:8px;bott
    A derived number, not a manufacturer claim. Underlined rather than
    coloured so it survives the per-brand accent repaint. */
 .est{border-bottom:1px dotted currentColor;cursor:help}
-.est-demo{border-bottom:1px dotted currentColor;color:#fff}
+.est-demo{border-bottom:1px dotted currentColor;color:var(--invert-ink)}
 
 .filter-label{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--steel);margin-bottom:8px}
@@ -85,7 +90,7 @@ tbody tr.historic-row th::after{content:"";position:absolute;left:0;top:8px;bott
   background:transparent;color:var(--ink-soft);cursor:pointer;border-radius:2px;
   transition:background .15s,color .15s,border-color .15s}
 .metric:hover{border-color:var(--ink);color:var(--ink)}
-.metric[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.metric[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--on-fill)}
 .metric:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 /* ---- ladder ----
@@ -102,9 +107,15 @@ tbody tr.historic-row th::after{content:"";position:absolute;left:0;top:8px;bott
 .lname:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .lname .tag{display:block;font-family:"IBM Plex Mono",monospace;font-size:10px;
   letter-spacing:.08em;color:var(--steel);font-variation-settings:normal;margin-top:2px}
-.track{height:15px;background:#DADEE4;position:relative;overflow:hidden}
-.bar{height:100%;width:0;background:var(--accent);
+.track{height:15px;background:var(--track);position:relative;overflow:hidden}
+/* The brand ladder's bars take the live --accent; the compare ladder's carry
+   their own pair, since every row is a different manufacturer. */
+.bar{height:100%;width:0;background:var(--bar-light,var(--accent));
   transition:width .55s cubic-bezier(.22,.7,.3,1),background .4s}
+:root[data-theme="dark"] .bar{background:var(--bar-dark,var(--accent))}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .bar{background:var(--bar-dark,var(--accent))}
+}
 .lval{font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:500;
   text-align:right;white-space:nowrap}
 .lval em{font-style:normal;color:var(--steel);font-size:11px}
@@ -118,7 +129,7 @@ tbody tr.historic-row th::after{content:"";position:absolute;left:0;top:8px;bott
    answer to "which one?" — so it flashes, then fades, because it is a
    pointer rather than a state worth keeping. */
 @keyframes found{from{box-shadow:0 0 0 3px var(--accent)}
-                 to{box-shadow:0 0 0 3px rgba(0,0,0,0)}}
+                 to{box-shadow:0 0 0 3px transparent}}
 .card.found{animation:found 1.8s ease-out}
 
 /* ---- model photo ----
@@ -127,7 +138,7 @@ tbody tr.historic-row th::after{content:"";position:absolute;left:0;top:8px;bott
    is a deliberate placeholder rather than a hole in the layout. */
 .shot{position:relative;aspect-ratio:16/9;overflow:hidden;
   margin:calc(var(--card-py) * -1) calc(var(--card-px) * -1) 22px;
-  background:#EDF0F4;border-bottom:1px solid var(--rule)}
+  background:var(--placeholder);border-bottom:1px solid var(--rule)}
 .shot::before{content:"";position:absolute;inset:0;
   background:repeating-linear-gradient(115deg,var(--accent) 0 15px,transparent 15px 30px);
   opacity:.1;transition:background .4s}
@@ -138,7 +149,7 @@ tbody tr.historic-row th::after{content:"";position:absolute;left:0;top:8px;bott
 .shot-meta{display:block;margin-top:5px;font-family:"IBM Plex Mono",monospace;
   font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--steel)}
 .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  display:block;background:#EDF0F4}
+  display:block;background:var(--placeholder)}
 .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .card h3{font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 112,"wght" 900;
   font-size:clamp(24px,3.4vw,32px);text-transform:uppercase;line-height:.92}
@@ -151,7 +162,7 @@ tbody tr.historic-row th::after{content:"";position:absolute;left:0;top:8px;bott
 .role b{color:var(--ink);font-weight:600}
 .kv{margin-top:18px;border-top:1px solid var(--rule)}
 .kv div{display:flex;justify-content:space-between;gap:14px;padding:7px 0;
-  border-bottom:1px solid #EBEEF1;font-size:13px}
+  border-bottom:1px solid var(--rule-soft);font-size:13px}
 .kv dt{color:var(--steel);font-family:"IBM Plex Mono",monospace;font-size:11px;
   letter-spacing:.06em;text-transform:uppercase}
 .kv dd{font-family:"IBM Plex Mono",monospace;text-align:right}
@@ -202,9 +213,9 @@ tbody th{font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 108,"wg
 .cmp-tile{grid-column:1/-1;background:var(--card);display:block;cursor:pointer;
   padding:0;position:relative;overflow:hidden}
 .cmp-tile .stripe{display:block;height:7px;
-  background:repeating-linear-gradient(115deg,var(--ink) 0 18px,#fff 18px 36px)}
+  background:repeating-linear-gradient(115deg,var(--ink) 0 18px,var(--card) 18px 36px)}
 .cmp-tile .inner{display:block;padding:26px 24px 24px;transition:background .15s}
-.cmp-tile:hover .inner{background:#F6F8FA}
+.cmp-tile:hover .inner{background:var(--hover)}
 .cmp-tile:focus-visible{outline:3px solid var(--ink);outline-offset:-3px}
 .cmp-tile h3{font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 118,"wght" 900;
   text-transform:uppercase;font-size:34px;line-height:.9}
@@ -277,7 +288,7 @@ tbody th{font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 108,"wg
    columns hold their width, and overflow-wrap breaks the odd token that is
    still wider than a column barely bigger than "0.03 PS/kg". */
 .vstable td,.vstable th{white-space:normal;overflow-wrap:anywhere}
-.vstable td,.vstable tbody th{padding:11px 12px;border-bottom:1px solid #EBEEF1;
+.vstable td,.vstable tbody th{padding:11px 12px;border-bottom:1px solid var(--rule-soft);
   font-size:13px;vertical-align:middle}
 .vstable tr:last-child td,.vstable tr:last-child th{border-bottom:0}
 .vsv{width:37%;text-align:center;font-family:"IBM Plex Mono",monospace;
@@ -316,10 +327,14 @@ tbody th{font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 108,"wg
 .pcol > summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .pcount{font-family:"IBM Plex Mono",monospace;font-size:11px;font-variation-settings:normal;
   font-weight:400;color:var(--steel)}
-.dot{width:11px;height:11px;flex:0 0 11px;display:inline-block}
+.dot{width:11px;height:11px;flex:0 0 11px;display:inline-block;background:var(--bc-light)}
+:root[data-theme="dark"] .dot{background:var(--bc-dark)}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .dot{background:var(--bc-dark)}
+}
 .pcat{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--steel);margin:12px 0 4px;
-  padding-bottom:3px;border-bottom:1px solid #EBEEF1}
+  padding-bottom:3px;border-bottom:1px solid var(--rule-soft)}
 .pcat:first-of-type{margin-top:4px}
 .pcol label{display:flex;align-items:center;gap:9px;padding:4px 0;font-size:13px;cursor:pointer}
 .pcol label:hover{color:var(--ink)}
@@ -339,7 +354,7 @@ tbody th{font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 108,"wg
    Per-model statement of where the figures came from. Unsourced is the
    louder of the two states on purpose: it is the weaker claim, and the
    whole point of showing this is that the two should not look alike. */
-.prov{margin-top:16px;padding-top:12px;border-top:1px solid #EBEEF1;
+.prov{margin-top:16px;padding-top:12px;border-top:1px solid var(--rule-soft);
   font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.06em;
   color:var(--steel)}
 .prov.sourced{color:var(--ink-soft)}

@@ -1,5 +1,5 @@
 SBL.registerBrand("aprilia", {
-name:"Aprilia", series:"Full range", accent:"#A50034",
+name:"Aprilia", series:"Full range", accent:"#A50034", accentDark:"#F0559A",
 lede:"The narrowest range here and the most internally consistent: three engine platforms, each sold as a faired sportbike and a naked, with one adventure bike on top. Aprilia fits more electronics per euro than anyone else on this page.",
 bikes:[
 

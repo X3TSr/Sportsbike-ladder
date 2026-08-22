@@ -1,5 +1,5 @@
 SBL.registerBrand("yamaha", {
-name:"Yamaha", series:"Full range", accent:"#1039A8",
+name:"Yamaha", series:"Full range", accent:"#1039A8", accentDark:"#5B8DF0",
 lede:"The most complete staircase in motorcycling, and the only one where every rung shares the same design language. Two of the six R models no longer reach European roads, but the CP2 and CP3 engines underneath the rest turn up in four different categories.",
 bikes:[
 

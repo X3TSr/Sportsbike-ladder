@@ -12,7 +12,6 @@
 
   var COMPARE = "compare";
   var VS      = "vs";
-  var INK     = "#0E1216";
 
   /* key: a brand key, COMPARE, VS, or null for the picker.
      Renders only — the hash is written by the caller, so applying a URL can
@@ -39,7 +38,8 @@
       brandView.classList.add("hidden");
       pickerView.classList.remove("hidden");
       SBL.brandView.close();
-      document.documentElement.style.setProperty("--accent", INK);
+      document.documentElement.style.removeProperty("--accent-light");
+      document.documentElement.style.removeProperty("--accent-dark");
     }
   }
 
