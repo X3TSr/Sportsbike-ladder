@@ -206,6 +206,26 @@ applies, so a dark-mode reader never gets a white flash on load. `scripts/theme.
 everything else and touches `localStorage` only inside `try`, since some privacy modes
 throw rather than returning null.
 
+#### Contrast
+
+Every text token clears **4.5:1 against both surfaces of its own theme**, checked with a
+sweep over every rendered text element rather than by eye. The light ramp was moved to get
+there: `--steel` managed only 2.53 against the paper, which covered a lot of small mono
+text — the year notes, the filter labels, card labels, the ladder's brand line — and
+`--ink-soft` came down with it so the three tiers stay distinct.
+
+| tier | light | on paper | dark | on card |
+| --- | --- | --- | --- | --- |
+| `--ink` | `#0E1216` | 15.87 | `#E6EBF1` | 13.67 |
+| `--ink-soft` | `#4E5661` | 6.27 | `#A3AEBC` | 7.29 |
+| `--steel` | `#616974` | 4.69 | `#828D9C` | 4.87 |
+
+One exception is known and not fixed: where the **brand accent is used as text** — the
+category tag, the highlighted phrase in a verdict, the source link — Kawasaki's green
+manages 2.71 on white. Every other brand clears it. Fixing it means either darkening that
+green, which costs brand fidelity and the ΔE separation, or not using the accent for small
+text at all, which is a design decision rather than a defect fix.
+
 #### The caveat panels invert the other way
 
 In light mode they are near-black on a light page. In dark they cannot be darker still, so
