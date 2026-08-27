@@ -13,8 +13,12 @@
    "follow the system", which a two-way toggle cannot express.
    ========================================================================== */
 :root{
-  --paper:#E9ECF0; --card:#FFFFFF; --ink:#0E1216; --ink-soft:#59616C;
-  --rule:#C6CCD4; --steel:#8D96A2;
+  /* Three text tiers, each clearing 4.5:1 against BOTH light surfaces — the
+     paper is the harder one, and --steel sits on it in the year notes, the
+     filter labels and the ladder's brand line. The old #8D96A2 managed 2.53
+     there, which is a lot of small mono text below the line. */
+  --paper:#E9ECF0; --card:#FFFFFF; --ink:#0E1216; --ink-soft:#4E5661;
+  --rule:#C6CCD4; --steel:#616974;
 
   --rule-soft:#EBEEF1;      /* hairlines inside a card, quieter than --rule */
   --hover:#F6F8FA;          /* a surface under the pointer */
