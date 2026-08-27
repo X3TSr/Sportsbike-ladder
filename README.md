@@ -25,6 +25,50 @@ Four views:
 Both ladders sort by power, 0–100 km/h, top speed, weight, power-to-weight, price or
 £ per PS. Rows slide to their new positions rather than jumping, so you can see what moved.
 
+### What can you ride?
+
+The site could already answer *A2 licence, 80 cm inseam, £8,000* — the licence class is
+computed from each machine's own figures, seat height and price are both filterable — but
+only as three separate controls buried in step one of the compare view, with nothing on
+the front page suggesting you could ask. So the picker now asks, above the browse flow,
+because it is the shortcut past it.
+
+```
+LICENCE       [Any] [A1] [A2] [Full (A)]
+SEAT HEIGHT   ────●───────  810 mm
+BUDGET        ──●─────────  £8,000
+
+24 of 130 match, and 11 more are unknown — no price is published
+for them, so a budget cannot include them.
+
+[ SHOW THEM ON THE LADDER → ]
+```
+
+**The live count is the point.** It answers before you navigate, and it is what makes a
+slider worth dragging. It is computed with the compare view's own predicates rather than a
+second implementation, so the number here and the ladder there cannot disagree.
+
+The panel owns no filtering logic. It hands the compare view a starting position through
+`applyFinder()`, because the answer to *what can I ride* is a ladder you carry on adjusting
+— re-sort it by price, tick a bike off, widen the seat — not a separate list that dead-ends.
+The result is an ordinary compare URL and shares like one.
+
+### Budget
+
+The compare view gains a **maximum price** slider alongside the seat one, `max=` in the hash.
+
+Two ways a machine fails a budget, counted apart because they are different answers: *too
+expensive* is a fact about the bike, *no published price* is a gap in this site. A budget
+cannot include a machine whose price is unknown — there is no way to say it fits — so the
+39 unpriced models drop out whenever one is set, and the note says so.
+
+**The track stops at the 95th percentile**, `SBL.PRICE_CAP`, currently £26,000. Half the
+catalogue is under £10,000 and four machines reach £135,000, so a linear slider across the
+whole range would bury ninety per cent of it in the first fifth of the travel. Its last
+position means *no limit* rather than that figure, which is how the four above it stay
+reachable — nobody expresses a £50,000 budget by dragging a slider, they simply do not set
+one.
+
 ### Search
 
 Every header carries a search field — press `/` from anywhere — matching model name,
@@ -70,6 +114,7 @@ Everything on screen is in the address bar, so any view can be sent to someone e
 #/ducati?cat=sport&m=ptw           a brand page, filtered and sorted
 #/compare?y=2021&m=weight&sel=…    the compare view, in a past model year
 #/compare?seat=810                 everything with a seat at or below 810 mm
+#/compare?seat=810&max=8000&sel=…  what an A2 licence reaches on that seat and budget
 #/vs?a=yamaha__mt-09-9&b=…         two machines, head to head
 ```
 
@@ -172,6 +217,7 @@ scripts/
   compare-view.js       cross-brand selection, filters and ladder
   vs-view.js            two machines paired, with the deltas between them
   search.js             the ranked model search in each header
+  finder.js             licence + seat + budget on the picker, into compare
   router.js             view state <-> the address bar
   app.js                view switching, delegated clicks/keyboard, resize
 ```

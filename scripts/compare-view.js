@@ -19,6 +19,7 @@
   var year     = null;
   var genMode  = false;
   var maxSeat  = null;
+  var maxPrice = null;
 
   /* Every generation of every model, flattened. Built once; the ladder is
      rebuilt from this list when generation mode is switched on, because the
@@ -77,6 +78,38 @@
   seatClear.addEventListener("click", function(){
     maxSeat = null;
     seatSlider.value = SBL.SEAT_MAX;
+    draw();
+    SBL.stateChanged();
+  });
+
+  /* ---------- budget ----------
+     Same shape as the seat slider, and the same reason for being a slider
+     rather than chips. The track stops at the 95th percentile because half
+     the catalogue is under £10,000 and a handful reach £135,000 — see
+     PRICE_CAP in derive.js. */
+  var priceSlider = document.getElementById("cmpPrice");
+  var priceValue  = document.getElementById("cmpPriceVal");
+  var priceClear  = document.getElementById("cmpPriceClear");
+
+  priceSlider.min   = SBL.PRICE_MIN;
+  priceSlider.max   = SBL.PRICE_CAP;
+  priceSlider.step  = SBL.PRICE_STEP;
+  priceSlider.value = SBL.PRICE_CAP;
+
+  function readPrice(){
+    var amount = Number(priceSlider.value);
+    return amount >= SBL.PRICE_CAP ? null : amount;
+  }
+
+  priceSlider.addEventListener("input", function(){
+    maxPrice = readPrice();
+    draw();
+    SBL.stateChanged();
+  });
+
+  priceClear.addEventListener("click", function(){
+    maxPrice = null;
+    priceSlider.value = SBL.PRICE_CAP;
     draw();
     SBL.stateChanged();
   });
@@ -169,12 +202,25 @@
     if(maxSeat) list = list.filter(function(spec){ return spec.s <= maxSeat });
     renderSeat(tooTall);
 
+    /* A budget cannot include a machine whose price is unknown — there is no
+       way to say it fits. Those are counted off separately from the ones that
+       are simply too expensive, because the two are different answers. */
+    var tooDear = 0, unpriced = 0;
+    if(maxPrice){
+      list = list.filter(function(spec){
+        if(spec.price === undefined){ unpriced++; return false }
+        if(spec.price > maxPrice){ tooDear++; return false }
+        return true;
+      });
+    }
+    renderPrice(tooDear, unpriced);
+
     /* Price is published for 91 of the 130, so a ladder sorted on it holds
        fewer rows than one sorted on power. Said in the count line rather
        than left to look like the selection lost some bikes. */
-    var unpriced = list.length;
+    var noFigure = list.length;
     list = SBL.withMetric(list, metric);
-    unpriced -= list.length;
+    noFigure -= list.length;
 
     emptyState.classList.toggle("hidden", list.length > 0);
     ladderEl.classList.toggle("hidden", list.length === 0);
@@ -182,7 +228,8 @@
       ? new Set(list.map(function(g){ return g.baseUid })).size : 0;
     var hidden = (tooTall.length
       ? " · " + tooTall.length + " over " + maxSeat + " mm hidden" : "") +
-      (unpriced ? " · " + unpriced + " without a published price" : "");
+      (tooDear ? " · " + tooDear + " over £" + maxPrice.toLocaleString("en-GB") : "") +
+      (noFigure ? " · " + noFigure + " without a published price" : "");
     document.getElementById("cmpCount").textContent = (genMode
       ? plural(list.length, "generation") + " across " + plural(models, "model")
       : list.length + " of " + SBL.ALL.length + " models shown" +
@@ -240,6 +287,32 @@
      quietly letting one through would break the promise the slider makes —
      but silently dropping it would be worse, so the models that come within
      reach that way are named underneath. */
+  /* The budget slider's readout and note. Two ways a machine can fail a
+     budget and they are not the same answer, so they are counted apart:
+     too expensive is a fact about the bike, no published price is a gap in
+     this site. */
+  function renderPrice(tooDear, unpriced){
+    priceValue.textContent = maxPrice
+      ? "£" + maxPrice.toLocaleString("en-GB") : "no limit";
+    priceValue.classList.toggle("off", !maxPrice);
+    priceClear.hidden = !maxPrice;
+
+    var note = document.getElementById("cmpPriceNote");
+    if(!maxPrice){ note.innerHTML = ""; return }
+
+    note.innerHTML = "Showing machines at or below <b>£" +
+      maxPrice.toLocaleString("en-GB") + "</b> — " + SBL.PRICE_BASIS +
+      ". " + (tooDear ? tooDear + " cost more" : "Nothing in this selection costs more") +
+      (unpriced
+        ? ", and " + unpriced + " are out because no price is published for them — " +
+          "a budget cannot include a machine whose price is unknown."
+        : ".") +
+      " The slider stops at £" + SBL.PRICE_CAP.toLocaleString("en-GB") +
+      " because half the catalogue is under £10,000; its last position means no " +
+      "limit rather than that figure, which is how the " + SBL.PRICE_OVER_CAP +
+      " machines above it stay reachable.";
+  }
+
   function renderSeat(tooTall){
     seatValue.textContent = maxSeat ? maxSeat + " mm" : "no limit";
     seatValue.classList.toggle("off", !maxSeat);
@@ -347,12 +420,35 @@
 
   SBL.compareView = {
     draw: draw,
+
+    /* Everything the finder on the picker asks for, applied in one go. It
+       sets a selection the way the licence quick-buttons do, plus the two
+       sliders, so the result is an ordinary compare view the reader can
+       carry on adjusting rather than a separate mode. */
+    applyFinder: function(want){
+      selected.clear();
+      SBL.ALL.filter(SBL.LICENCE_FILTERS[want.licence] || SBL.LICENCE_FILTERS.any)
+        .forEach(function(bike){ selected.add(bike.uid) });
+
+      maxSeat  = want.maxSeat  || null;
+      maxPrice = want.maxPrice || null;
+      seatSlider.value  = maxSeat  || SBL.SEAT_MAX;
+      priceSlider.value = maxPrice || SBL.PRICE_CAP;
+
+      year = null;
+      genMode = false;
+      genToggle.setAttribute("aria-pressed", "false");
+      document.getElementById("cmpYears").classList.remove("hidden");
+
+      syncBoxes();
+      draw();
+    },
     isOpen: function(){ return !view.classList.contains("hidden") },
 
     /* ---------- router ---------- */
     state: function(){
       return { metric: metric, year: year, gen: genMode,
-               maxSeat: maxSeat, selected: selected };
+               maxSeat: maxSeat, maxPrice: maxPrice, selected: selected };
     },
 
     /* A selection of null means the URL carried none, which is the common
@@ -370,6 +466,10 @@
       seatSlider.value = s.maxSeat || SBL.SEAT_MAX;
       maxSeat = (s.maxSeat >= SBL.SEAT_MIN) ? readSeat() : null;
       if(!maxSeat) seatSlider.value = SBL.SEAT_MAX;
+
+      priceSlider.value = s.maxPrice || SBL.PRICE_CAP;
+      maxPrice = (s.maxPrice >= SBL.PRICE_MIN) ? readPrice() : null;
+      if(!maxPrice) priceSlider.value = SBL.PRICE_CAP;
 
       if(s.selected){
         selected = s.selected;

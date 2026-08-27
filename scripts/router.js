@@ -85,6 +85,7 @@
       else if(c.year !== null) params.push("y=" + c.year);
       if(c.metric !== "power") params.push("m=" + c.metric);
       if(c.maxSeat) params.push("seat=" + c.maxSeat);
+      if(c.maxPrice) params.push("max=" + c.maxPrice);
       var sel = packSelection(c.selected);
       if(sel) params.push("sel=" + sel);
     }else{
@@ -143,6 +144,7 @@
         year:     p.gen === "1" ? null : readYear(p.y),
         gen:      p.gen === "1",
         maxSeat:  Number(p.seat) || null,
+        maxPrice: Number(p.max) || null,
         selected: unpackSelection(p.sel)
       });
       SBL.showView(COMPARE);
