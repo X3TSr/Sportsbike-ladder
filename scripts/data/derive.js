@@ -447,6 +447,38 @@
      Deliberately not what the filter matches on — see lowerReach() below. */
   SBL.lowestSeat = function(bike){ return bike.sLow || bike.s };
 
+  /* ---------- budgets ----------
+     Half the catalogue sits under £10,000 and five machines stretch to
+     £135,000, so a linear slider across the whole range would bury ninety
+     per cent of it in the first fifth of the travel. The track therefore
+     stops at the 95th percentile, rounded up, and its last position means
+     no limit rather than that number — nobody expresses a £50,000 budget by
+     dragging a slider, they simply do not set one. */
+  SBL.PRICE_STEP = 500;
+  var priced = SBL.ALL.filter(function(bike){ return bike.price })
+                      .map(function(bike){ return bike.price })
+                      .sort(function(a, b){ return a - b });
+  function roundTo(n, step, up){
+    return (up ? Math.ceil(n / step) : Math.floor(n / step)) * step;
+  }
+  SBL.PRICE_MIN = roundTo(priced[0], SBL.PRICE_STEP, false);
+  SBL.PRICE_CAP = roundTo(priced[Math.floor(priced.length * 0.95)], 1000, true);
+  SBL.PRICE_OVER_CAP = priced.filter(function(p){ return p > SBL.PRICE_CAP }).length;
+
+  /* ---------- licence filters ----------
+     Shared, because two places ask the same question: the compare view's
+     quick buttons and the finder on the picker. "A2" means everything an A2
+     licence reaches, which includes the A1 machines — that is the whole
+     point of computing the class rather than matching a label. */
+  SBL.LICENCE_FILTERS = {
+    any:  function(){ return true },
+    A1:   function(bike){ return SBL.licence(bike).cls === "A1" },
+    A2:   function(bike){ var c = SBL.licence(bike).cls; return c === "A1" || c === "A2" },
+    /* `track` rather than isTrackOnly(), which lives in metrics.js and loads
+       after this file — same test, no ordering dependency. */
+    A:    function(bike){ return !bike.track }
+  };
+
   /* The line under the year chips. Its job is to stop a reader mistaking a
      model shown at today's figures for one that genuinely did not change:
      archive data exists for some models and not others, and the difference

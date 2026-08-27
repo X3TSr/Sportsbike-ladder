@@ -13,9 +13,9 @@
      flash. The rest of the logic is in scripts/theme.js; this is only the part
      that has to happen before the stylesheet is applied. -->
 <script>try{var t=localStorage.getItem("sbl-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<link rel="stylesheet" href="styles/base.css?v=202608271353">
-<link rel="stylesheet" href="styles/components.css?v=202608271353">
-<link rel="stylesheet" href="styles/responsive.css?v=202608271353">
+<link rel="stylesheet" href="styles/base.css?v=202608271409">
+<link rel="stylesheet" href="styles/components.css?v=202608271409">
+<link rel="stylesheet" href="styles/responsive.css?v=202608271409">
 </head>
 <body>
 
@@ -47,10 +47,21 @@
     </div>
   </header>
 
+  <section style="padding-bottom:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Start here</p>
+        <h2 class="display">What can you ride?</h2>
+        <p class="sec-note">Three constraints decide most of it. The licence class is worked out from each machine's own power and weight, seat height is the standard seat, and the budget is a UK list price checked in August 2026 &mdash; so treat all three as a way to shorten a list rather than as the last word.</p>
+      </div>
+      <div class="finder" id="finder"></div>
+    </div>
+  </section>
+
   <section>
     <div class="wrap">
       <div class="sec-head">
-        <p class="eyebrow">Step one</p>
+        <p class="eyebrow">Or browse</p>
         <h2 class="display">Choose a category</h2>
         <p class="sec-note" id="catNote"></p>
       </div>
@@ -60,7 +71,7 @@
       <p class="year-note" id="pickerYearNote"></p>
 
       <div class="sec-head" style="margin-top:40px">
-        <p class="eyebrow">Step two</p>
+        <p class="eyebrow">Then a lineup</p>
         <h2 class="display">Choose a lineup</h2>
       </div>
       <div class="brands" id="brandGrid"></div>
@@ -249,6 +260,14 @@
         <button class="qbtn" id="cmpSeatClear" hidden>Clear</button>
       </div>
       <p class="year-note" id="cmpSeatNote"></p>
+      <p class="filter-label">Budget</p>
+      <div class="seat">
+        <input type="range" id="cmpPrice" aria-label="Maximum price in pounds"
+               aria-describedby="cmpPriceNote">
+        <output class="seat-val" id="cmpPriceVal" for="cmpPrice"></output>
+        <button class="qbtn" id="cmpPriceClear" hidden>Clear</button>
+      </div>
+      <p class="year-note" id="cmpPriceNote"></p>
       <p class="filter-label">By category</p>
       <div class="quick" id="cmpCats"></div>
       <p class="filter-label">By licence, or everything at once</p>
@@ -365,25 +384,26 @@
   </div>
 </div>
 
-<script src="scripts/theme.js?v=202608271353"></script>
-<script src="scripts/data/index.js?v=202608271353"></script>
-<script src="scripts/data/yamaha.js?v=202608271353"></script>
-<script src="scripts/data/kawasaki.js?v=202608271353"></script>
-<script src="scripts/data/honda.js?v=202608271353"></script>
-<script src="scripts/data/aprilia.js?v=202608271353"></script>
-<script src="scripts/data/ducati.js?v=202608271353"></script>
-<script src="scripts/data/suzuki.js?v=202608271353"></script>
-<script src="scripts/data/bmw.js?v=202608271353"></script>
-<script src="scripts/data/years.js?v=202608271353"></script>
-<script src="scripts/data/derive.js?v=202608271353"></script>
-<script src="scripts/metrics.js?v=202608271353"></script>
-<script src="scripts/categories.js?v=202608271353"></script>
-<script src="scripts/ladder.js?v=202608271353"></script>
-<script src="scripts/brand-view.js?v=202608271353"></script>
-<script src="scripts/compare-view.js?v=202608271353"></script>
-<script src="scripts/search.js?v=202608271353"></script>
-<script src="scripts/vs-view.js?v=202608271353"></script>
-<script src="scripts/router.js?v=202608271353"></script>
-<script src="scripts/app.js?v=202608271353"></script>
+<script src="scripts/theme.js?v=202608271409"></script>
+<script src="scripts/data/index.js?v=202608271409"></script>
+<script src="scripts/data/yamaha.js?v=202608271409"></script>
+<script src="scripts/data/kawasaki.js?v=202608271409"></script>
+<script src="scripts/data/honda.js?v=202608271409"></script>
+<script src="scripts/data/aprilia.js?v=202608271409"></script>
+<script src="scripts/data/ducati.js?v=202608271409"></script>
+<script src="scripts/data/suzuki.js?v=202608271409"></script>
+<script src="scripts/data/bmw.js?v=202608271409"></script>
+<script src="scripts/data/years.js?v=202608271409"></script>
+<script src="scripts/data/derive.js?v=202608271409"></script>
+<script src="scripts/metrics.js?v=202608271409"></script>
+<script src="scripts/categories.js?v=202608271409"></script>
+<script src="scripts/ladder.js?v=202608271409"></script>
+<script src="scripts/brand-view.js?v=202608271409"></script>
+<script src="scripts/compare-view.js?v=202608271409"></script>
+<script src="scripts/search.js?v=202608271409"></script>
+<script src="scripts/finder.js?v=202608271409"></script>
+<script src="scripts/vs-view.js?v=202608271409"></script>
+<script src="scripts/router.js?v=202608271409"></script>
+<script src="scripts/app.js?v=202608271409"></script>
 </body>
 </html>

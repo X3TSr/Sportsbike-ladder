@@ -121,6 +121,7 @@
      Everything else on the page navigates to a view; a search result has to
      reach one card inside one. */
   SBL.goToBrand = go;
+  SBL.goToCompare = function(){ go(COMPARE) };
 
   SBL.goToBike = function(bike){
     SBL.brandView.prepareFor(bike);

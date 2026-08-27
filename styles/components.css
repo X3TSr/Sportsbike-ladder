@@ -231,6 +231,26 @@ tbody th{font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 108,"wg
 .qbtn:hover{border-color:var(--ink);color:var(--ink)}
 .qbtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 
+/* ---- finder ----
+   The three constraints a rider starts with, above the browse flow because
+   it is the shortcut past it. A panel rather than a loose row of controls,
+   so it reads as one question with one answer at the bottom. */
+.finder{background:var(--card);border:1px solid var(--rule);padding:22px 24px 24px}
+.find-row{margin-bottom:16px}
+.find-row .cats,.find-row .seat{margin-bottom:0}
+.find-row .seat input[type=range]{max-width:340px}
+.find-count{margin:20px 0 16px;padding-top:16px;border-top:1px solid var(--rule-soft);
+  font-size:15px;color:var(--ink-soft)}
+.find-count b{font-family:"Archivo",sans-serif;
+  font-variation-settings:"wdth" 112,"wght" 800;font-size:19px;color:var(--ink)}
+.find-go{font-size:12px;padding:11px 18px}
+@media(min-width:820px){
+  /* Label and control on one line once there is room, so the three
+     constraints read as a stack of questions rather than six blocks. */
+  .find-row{display:grid;grid-template-columns:120px 1fr;align-items:center;gap:18px}
+  .find-row .filter-label{margin-bottom:0}
+}
+
 /* ---- seat height slider ----
    The one continuous filter on the page. A chip row would have to pick the
    thresholds, and the threshold that matters belongs to the rider. */
